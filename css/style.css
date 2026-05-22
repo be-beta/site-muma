@@ -177,6 +177,7 @@
   input, textarea { cursor: text !important }
   a, button, [role=button], .mod, .case { cursor: pointer !important }
 }
+html{scroll-behavior:smooth}
 html,body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 body{overflow-x:hidden}
 a{color:inherit;text-decoration:none}
@@ -220,6 +221,10 @@ img{max-width:100%;display:block}
 #brandSvg .lp .alt { opacity:0; }
 #brandSvg .lp.swap .orig { opacity:0; }
 #brandSvg .lp.swap .alt  { opacity:1; }
+#brandSvg .lp1 .alt { transform: translateX(-14px); }
+#brandSvg .lp2 .alt { transform: translateX(64px); }
+#brandSvg .lp3 .alt { transform: translateX(18px); }
+#brandSvg .lp4 .alt { transform: translateX(37px); }
 #brandSvg .lp.pop{ animation: lpPop .42s cubic-bezier(.34,1.56,.64,1); }
 @keyframes lpPop{
   0%   { transform: scaleY(1)    skewX(0deg); }
@@ -240,6 +245,33 @@ img{max-width:100%;display:block}
 .nav-links a:hover::after{right:14px}
 .nav.dark .nav-links a:hover{background:rgba(237,236,234,.08)}
 .nav:not(.dark) .nav-links a:hover{background:rgba(12,9,51,.05)}
+.nav-links { position: relative; }
+.nav-indicator {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: calc(100% - 8px);
+  transform: translateY(-50%);
+  border-radius: 999px;
+  transition: left 0.38s cubic-bezier(0.25, 1, 0.5, 1), width 0.38s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.25s ease;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+}
+.nav.dark .nav-indicator {
+  background: rgba(255, 128, 225, 0.15);
+  border: 1px solid rgba(255, 128, 225, 0.25);
+}
+.nav:not(.dark) .nav-indicator {
+  background: rgba(12, 9, 51, 0.08);
+  border: 1px solid rgba(12, 9, 51, 0.15);
+}
+.nav.dark .nav-links a.active {
+  color: var(--pink) !important;
+}
+.nav:not(.dark) .nav-links a.active {
+  color: var(--navy) !important;
+}
 .nav-cta{font-size:13px;border:1px solid currentColor;border-radius:999px;padding:10px 16px;display:inline-flex;align-items:center;gap:8px;transition:.3s cubic-bezier(.25,1,.5,1)}
 .nav-cta:hover{background:var(--green);border-color:var(--green);color:var(--navy)}
 .nav-cta .arr{display:inline-block;transform:rotate(-45deg);transition:.25s}
@@ -459,7 +491,7 @@ img{max-width:100%;display:block}
 .case:hover{transform:translateY(-4px);border-color:var(--pink)}
 
 .case.c1{grid-column:span 8;aspect-ratio: 8 / 5}
-.case.c2{grid-column:span 4;aspect-ratio: 4 / 5}
+.case.c2{grid-column:span 4;height: 100%}
 .case.c3{grid-column:span 4;aspect-ratio: 4 / 5}
 .case.c4{grid-column:span 4;aspect-ratio: 4 / 5}
 .case.c5{grid-column:span 4;aspect-ratio: 4 / 5}
@@ -489,6 +521,31 @@ img{max-width:100%;display:block}
 }
 .client-grid div:hover{background:var(--navy);color:var(--pink)}
 .client-grid div em{font-style:italic}
+.client-grid div img {
+  max-width: 82%;
+  max-height: 48px;
+  object-fit: contain;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  filter: brightness(0) saturate(100%) invert(6%) sepia(31%) saturate(5796%) hue-rotate(224deg) brightness(91%) contrast(105%);
+  opacity: 0.72;
+}
+.client-grid div:hover img {
+  filter: brightness(0) saturate(100%) invert(61%) sepia(55%) saturate(1754%) hue-rotate(296deg) brightness(101%) contrast(101%);
+  opacity: 1;
+  transform: scale(1.05);
+}
+.client-grid div img.logo-trim-medium {
+  transform: scale(1.22);
+}
+.client-grid div:hover img.logo-trim-medium {
+  transform: scale(1.28);
+}
+.client-grid div img.logo-trim-high {
+  transform: scale(1.42);
+}
+.client-grid div:hover img.logo-trim-high {
+  transform: scale(1.48);
+}
 
 /* — CTA — Copy email button + email row — */
 .cta .contact .email-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}

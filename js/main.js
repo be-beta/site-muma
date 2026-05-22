@@ -12,8 +12,59 @@ function checkNav(){
   });
   nav.classList.toggle('dark', dark);
 }
-window.addEventListener('scroll', checkNav, {passive:true});
+// Scroll Spy & Navigation Bubble Indicator
+const navLinks = document.querySelectorAll('.nav-links a');
+const indicator = document.querySelector('.nav-indicator');
+const spySections = Array.from(navLinks).map(link => {
+  const href = link.getAttribute('href');
+  return document.querySelector(href);
+}).filter(Boolean);
+
+function updateScrollSpy() {
+  if (window.innerWidth <= 900) {
+    if (indicator) indicator.style.opacity = '0';
+    return;
+  }
+
+  let activeLink = null;
+  const scrollPos = window.scrollY + 120;
+
+  if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 12) {
+    activeLink = navLinks[navLinks.length - 1];
+  } else {
+    spySections.forEach((section, idx) => {
+      const top = section.offsetTop;
+      const height = section.offsetHeight;
+      if (scrollPos >= top && scrollPos < top + height) {
+        activeLink = navLinks[idx];
+      }
+    });
+  }
+
+  if (activeLink) {
+    navLinks.forEach(link => link.classList.remove('active'));
+    activeLink.classList.add('active');
+    
+    if (indicator) {
+      indicator.style.opacity = '1';
+      indicator.style.left = activeLink.offsetLeft + 'px';
+      indicator.style.width = activeLink.offsetWidth + 'px';
+    }
+  } else {
+    navLinks.forEach(link => link.classList.remove('active'));
+    if (indicator) indicator.style.opacity = '0';
+  }
+}
+
+window.addEventListener('scroll', () => {
+  checkNav();
+  updateScrollSpy();
+}, {passive:true});
+window.addEventListener('resize', updateScrollSpy, {passive:true});
+
 checkNav();
+updateScrollSpy();
+setTimeout(updateScrollSpy, 200);
 
 // Reveal animations
 const io = new IntersectionObserver((entries)=>{
@@ -669,6 +720,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     magnetEl = null;
     if (dot.innerHTML) dot.innerHTML = '';
   }
+  window.resetCustomCursor = resetCursor;
 
   document.addEventListener('mouseover', e => {
     let n = e.target;
@@ -909,6 +961,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
 
   // Open modal
   function openModal() {
+    window.resetCustomCursor && window.resetCustomCursor();
     modal.classList.add('active');
     document.body.classList.add('modal-open');
     formOpenedAt = Date.now();
@@ -931,6 +984,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
 
   // Close modal
   function closeModal() {
+    window.resetCustomCursor && window.resetCustomCursor();
     modal.classList.remove('active');
     document.body.classList.remove('modal-open');
   }
@@ -1256,6 +1310,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
 
   // Setup triggers
   window.openCareerModal = function() {
+    window.resetCustomCursor && window.resetCustomCursor();
     modal.classList.add('active');
     document.body.classList.add('modal-open');
     formOpenedAt = Date.now();
@@ -1296,17 +1351,20 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
   });
 
   closeBtn && closeBtn.addEventListener('click', () => {
+    window.resetCustomCursor && window.resetCustomCursor();
     modal.classList.remove('active');
     document.body.classList.remove('modal-open');
   });
   modal.addEventListener('click', e => {
     if (e.target === modal) {
+      window.resetCustomCursor && window.resetCustomCursor();
       modal.classList.remove('active');
       document.body.classList.remove('modal-open');
     }
   });
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && modal.classList.contains('active')) {
+      window.resetCustomCursor && window.resetCustomCursor();
       modal.classList.remove('active');
       document.body.classList.remove('modal-open');
     }
@@ -1440,9 +1498,23 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
       if (g) g.classList.add('invalid');
       valid = false;
     }
-    if (!fileInputEl.files.length) {
-      const g = fileInputEl.closest('.form-group');
-      if (g) g.classList.add('invalid');
+
+    // Attachment or Link must be present
+    const hasAttachment = fileInputEl && fileInputEl.files && fileInputEl.files.length > 0;
+    const urls = Array.from(form.querySelectorAll('.link-url')).map(el => el.value.trim());
+    const hasAtLeastOneLink = urls.some(url => url.length > 0);
+
+    if (!hasAttachment && !hasAtLeastOneLink) {
+      const fileGroup = fileInputEl.closest('.form-group');
+      if (fileGroup) fileGroup.classList.add('invalid');
+      
+      const linksContainerEl = document.getElementById('linksContainer');
+      if (linksContainerEl) {
+        const linksGroup = linksContainerEl.closest('.form-group');
+        if (linksGroup) linksGroup.classList.add('invalid');
+      }
+      
+      alert("Não precisa ter vergonha de mostrar o seu talento! Por favor, anexe seu currículo/portfólio ou adicione pelo menos um link importante para podermos ver seu trabalho lindão!");
       valid = false;
     }
 

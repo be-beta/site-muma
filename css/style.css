@@ -50,10 +50,6 @@
 html, body, *, *::before, *::after { cursor: none !important; }
 input[type=email], textarea, [contenteditable=true] { cursor: text !important; }
 
-#cursor-goo-wrapper {
-  display: contents;
-}
-
 #cursor {
   position: fixed; left: 0; top: 0; width: 14px; height: 14px; border-radius: 50%;
   background: var(--green);
@@ -61,7 +57,6 @@ input[type=email], textarea, [contenteditable=true] { cursor: text !important; }
   z-index: 99999;
   transform: translate3d(-100px,-100px,0) translate(-50%,-50%);
   display: flex; align-items: center; justify-content: center;
-  will-change: transform, width, height, opacity;
   transition: width .28s cubic-bezier(.4,0,.2,1), height .28s cubic-bezier(.4,0,.2,1), opacity .25s, border-radius .28s, background .3s;
   overflow: hidden;
   mix-blend-mode: difference;
@@ -89,13 +84,12 @@ input[type=email], textarea, [contenteditable=true] { cursor: text !important; }
 
 #cursor-halo {
   position: fixed; left: 0; top: 0; width: 54px; height: 54px; border-radius: 50%;
-  border: 1.5px solid rgba(156,255,151,.85);
+  border: 1.5px solid var(--green);
   background: rgba(156, 255, 151, 0.16); /* soft background for gooey blend */
   pointer-events: none;
   z-index: 99999;
   transform: translate3d(-100px,-100px,0) translate(-50%,-50%);
   transition: width 0.2s cubic-bezier(0.25, 1, 0.3, 1), height 0.2s cubic-bezier(0.25, 1, 0.3, 1), opacity 0.2s, border-color 0.2s, background 0.2s, border-radius 0.2s cubic-bezier(0.25, 1, 0.3, 1);
-  opacity: .85;
   display: flex; align-items: center; justify-content: center;
   mix-blend-mode: difference;
 }
@@ -224,7 +218,7 @@ input[type=email], textarea, [contenteditable=true] { cursor: text !important; }
 @keyframes cursorFadeIn{ to { opacity: 1; } }
 
 @media (pointer:coarse){
-  #cursor-goo-wrapper{ display:none }
+  #cursor, #cursor-halo, #cursor-fx-container { display: none !important }
   html, body, *, *::before, *::after { cursor: auto !important }
   input, textarea { cursor: text !important }
   a, button, [role=button], .mod, .case { cursor: pointer !important }

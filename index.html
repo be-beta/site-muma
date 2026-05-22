@@ -33,14 +33,12 @@
 </head>
 <body>
 
-<!-- Cursor customizado (com wrapper para efeito líquido) -->
-<div id="cursor-goo-wrapper">
-  <div id="cursor"><div class="cursor-core"></div></div>
-  <div id="cursor-halo">
-    <div class="ring-orbit ring-1"></div>
-    <div class="ring-orbit ring-2"></div>
-    <div class="ring-orbit ring-3"></div>
-  </div>
+<!-- Cursor customizado (direto no body para evitar isolamento de stacking context) -->
+<div id="cursor"><div class="cursor-core"></div></div>
+<div id="cursor-halo">
+  <div class="ring-orbit ring-1"></div>
+  <div class="ring-orbit ring-2"></div>
+  <div class="ring-orbit ring-3"></div>
 </div>
 <div id="cursor-fx-container"></div>
 

@@ -323,7 +323,7 @@ function spawnCardume(container, opts){
       const p = ps[i];
 
       if (!scared){
-        p.angle += (p.baseOrbitSpeed + mouseInertia * (p.baseOrbitSpeed > 0 ? 1 : -1)) * dt;
+        p.angle += p.baseOrbitSpeed * dt;
       }
 
       // === posição na ÓRBITA elíptica 3D distribuída em 4 planos (45°, 90°, 135°, 180°) ===
@@ -587,52 +587,9 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
       halo.style.borderRadius = '';
     }
 
-    // dot: se NÃO em estado magnético (escondido), calcula stretch toward CTA mais próximo
+    // dot: se NÃO em estado magnético (escondido), posiciona no mouse
     if (!magnetEl){
-      let nearestDist = Infinity;
-      let nearCx = 0, nearCy = 0;
-      let insideCTA = false;
-      const ctas = document.querySelectorAll(STICKY_SEL);
-      for (const btn of ctas){
-        // Ignora botões magnéticos invisíveis dentro do modal fechado
-        const modalParent = btn.closest('#contactModal');
-        if (modalParent && !modalParent.classList.contains('active')) {
-          continue;
-        }
-        // Y-Guard: ignora os botões fixos da navbar se o mouse já passou dela (y > 80)
-        if (btn.closest('#nav') && y > 80) {
-          continue;
-        }
-        const r = btn.getBoundingClientRect();
-        if (r.width === 0 || r.height === 0) continue;
-
-        // distância do cursor à caixa do botão (0 se dentro)
-        const dxBox = Math.max(r.left - x, 0, x - r.right);
-        const dyBox = Math.max(r.top  - y, 0, y - r.bottom);
-        const dist = Math.hypot(dxBox, dyBox);
-        if (dist < nearestDist){
-          nearestDist = dist;
-          nearCx = r.left + r.width/2;
-          nearCy = r.top  + r.height/2;
-          insideCTA = (dist === 0);
-        }
-      }
-      if (insideCTA){
-        dot.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
-      } else if (nearestDist < STICKY_RANGE){
-        // perto: estica como gota em direção ao centro do botão
-        const angle = Math.atan2(nearCy - y, nearCx - x);
-        const amount = 1 - nearestDist / STICKY_RANGE; // 0..1
-        const sx = 1 + amount * 0.9;
-        const sy = 1 - amount * 0.25;
-        // ao se aproximar muito, "puxa" o cursor levemente na direção do botão (atração)
-        const pull = amount * amount * 8;
-        const ax2 = x + Math.cos(angle) * pull;
-        const ay2 = y + Math.sin(angle) * pull;
-        dot.style.transform = `translate3d(${ax2}px, ${ay2}px, 0) translate(-50%, -50%) rotate(${angle}rad) scale(${sx.toFixed(3)}, ${sy.toFixed(3)}) rotate(${(-angle).toFixed(4)}rad)`;
-      } else {
-        dot.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
-      }
+      dot.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
     }
 
     requestAnimationFrame(loop);
@@ -1050,6 +1007,42 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
   form.addEventListener('submit', async e => {
     e.preventDefault();
 
+    // Custom validations
+    let valid = true;
+    const nameEl = form.querySelector('#contactName');
+    const emailEl = form.querySelector('#contactEmail');
+    const projectEl = form.querySelector('#contactProject');
+    const messageEl = form.querySelector('#contactMessage');
+
+    form.querySelectorAll('.form-group').forEach(g => g.classList.remove('invalid'));
+
+    if (!nameEl.value.trim()) {
+      const g = nameEl.closest('.form-group');
+      if (g) g.classList.add('invalid');
+      valid = false;
+    }
+    if (!emailEl.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim())) {
+      const g = emailEl.closest('.form-group');
+      if (g) g.classList.add('invalid');
+      valid = false;
+    }
+    if (!projectEl.value) {
+      const g = projectEl.closest('.form-group');
+      if (g) g.classList.add('invalid');
+      valid = false;
+    }
+    if (!messageEl.value.trim()) {
+      const g = messageEl.closest('.form-group');
+      if (g) g.classList.add('invalid');
+      valid = false;
+    }
+
+    if (!valid) {
+      const firstInvalid = form.querySelector('.form-group.invalid input, .form-group.invalid select, .form-group.invalid textarea');
+      if (firstInvalid) firstInvalid.focus();
+      return;
+    }
+
     // Anti-spam checks
     // 1. Honeypot
     const hp = form.querySelector('.hp-field');
@@ -1074,10 +1067,10 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     submitBtn.querySelector('.submit-text').style.display = 'none';
     submitBtn.querySelector('.submit-loading').style.display = '';
 
-    const name = form.querySelector('#contactName').value;
-    const email = form.querySelector('#contactEmail').value;
-    const project = form.querySelector('#contactProject').value;
-    const message = form.querySelector('#contactMessage').value;
+    const name = nameEl.value;
+    const email = emailEl.value;
+    const project = projectEl.value;
+    const message = messageEl.value;
 
     try {
       if (isEmailJSConfigured && window.emailjs) {
@@ -1146,6 +1139,15 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
       form.style.display = '';
     }, 5000);
   }
+
+  // Real-time clearance of invalid class
+  form.querySelectorAll('input, select, textarea').forEach(el => {
+    const eventName = el.tagName === 'SELECT' ? 'change' : 'input';
+    el.addEventListener(eventName, () => {
+      const group = el.closest('.form-group');
+      if (group) group.classList.remove('invalid');
+    });
+  });
 })();
 
 // ——————————————————————————————————————————————
@@ -1404,6 +1406,42 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
   form.addEventListener('submit', async e => {
     e.preventDefault();
 
+    // Custom validations
+    let valid = true;
+    const nameEl = form.querySelector('#careerName');
+    const emailEl = form.querySelector('#careerEmail');
+    const professionEl = form.querySelector('#careerProfession');
+    const fileInputEl = form.querySelector('#careerFile');
+
+    form.querySelectorAll('.form-group').forEach(g => g.classList.remove('invalid'));
+
+    if (!nameEl.value.trim()) {
+      const g = nameEl.closest('.form-group');
+      if (g) g.classList.add('invalid');
+      valid = false;
+    }
+    if (!emailEl.value.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value.trim())) {
+      const g = emailEl.closest('.form-group');
+      if (g) g.classList.add('invalid');
+      valid = false;
+    }
+    if (!professionEl.value.trim()) {
+      const g = professionEl.closest('.form-group');
+      if (g) g.classList.add('invalid');
+      valid = false;
+    }
+    if (!fileInputEl.files.length) {
+      const g = fileInputEl.closest('.form-group');
+      if (g) g.classList.add('invalid');
+      valid = false;
+    }
+
+    if (!valid) {
+      const firstInvalid = form.querySelector('.form-group.invalid input, .form-group.invalid textarea');
+      if (firstInvalid) firstInvalid.focus();
+      return;
+    }
+
     const hp = form.querySelector('.hp-field');
     if (hp && hp.value) {
       showSuccess();
@@ -1426,9 +1464,9 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     submitBtn.querySelector('.submit-text').style.display = 'none';
     submitBtn.querySelector('.submit-loading').style.display = '';
 
-    const name = form.querySelector('#careerName').value;
-    const email = form.querySelector('#careerEmail').value;
-    const profession = form.querySelector('#careerProfession').value;
+    const name = nameEl.value;
+    const email = emailEl.value;
+    const profession = professionEl.value;
 
     const platforms = Array.from(form.querySelectorAll('.link-platform')).map(el => el.value);
     const urls = Array.from(form.querySelectorAll('.link-url')).map(el => el.value);
@@ -1499,4 +1537,13 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     submitBtn.querySelector('.submit-text').style.display = '';
     submitBtn.querySelector('.submit-loading').style.display = 'none';
   }
+
+  // Real-time clearance of invalid class
+  form.querySelectorAll('input, select, textarea').forEach(el => {
+    const eventName = (el.tagName === 'SELECT' || el.type === 'file') ? 'change' : 'input';
+    el.addEventListener(eventName, () => {
+      const group = el.closest('.form-group');
+      if (group) group.classList.remove('invalid');
+    });
+  });
 })();

@@ -721,6 +721,23 @@ body.modal-open { overflow: hidden; }
 }
 .form-group textarea { resize: vertical; min-height: 100px; }
 
+/* Validation Styles */
+.form-group.invalid label {
+  color: var(--pink) !important;
+  opacity: 1;
+}
+.form-group.invalid input,
+.form-group.invalid select,
+.form-group.invalid textarea {
+  border-color: var(--pink) !important;
+  background: rgba(255, 128, 225, 0.04) !important;
+}
+.form-group.invalid .drop-zone {
+  border-color: var(--pink) !important;
+  background: rgba(255, 128, 225, 0.04) !important;
+}
+
+
 /* Honeypot — invisible to humans */
 .hp-field {
   position: absolute; left: -9999px; top: -9999px;

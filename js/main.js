@@ -1620,12 +1620,316 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     submitBtn.querySelector('.submit-loading').style.display = 'none';
   }
 
-  // Real-time clearance of invalid class
-  form.querySelectorAll('input, select, textarea').forEach(el => {
-    const eventName = (el.tagName === 'SELECT' || el.type === 'file') ? 'change' : 'input';
-    el.addEventListener(eventName, () => {
-      const group = el.closest('.form-group');
-      if (group) group.classList.remove('invalid');
-    });
   });
 })();
+
+/* =================================================================
+   EASTER EGG: SUPERNOVA NUMEROLOGIA
+   ================================================================= */
+(() => {
+  const trigger = document.getElementById('easterEggTrigger');
+  const overlay = document.getElementById('eeOverlay');
+  const canvas = document.getElementById('eeCanvas');
+  const popup = document.getElementById('eePopup');
+  const closeBtn = document.getElementById('eeClose');
+
+  if (!trigger || !overlay || !canvas || !popup || !closeBtn) return;
+
+  let clicks = 0;
+  let clickTimeout;
+  let animId = null;
+  let ctx = canvas.getContext('2d');
+  
+  // Particle classes/definitions
+  let phase = 'spiral'; // 'spiral', 'implosion', 'explosion', 'drift'
+  let trailParticles = [];
+  let explosionParticles = [];
+  let shockwaves = [];
+  let flashOpacity = 0;
+  let implosionTimer = 0;
+  let center = { x: 0, y: 0 };
+  let spiralRadius = 0;
+  let spiralAngle = 0;
+  let startDistance = 0;
+
+  // Particle Class for clean updates
+  class TrailParticle {
+    constructor(x, y, color) {
+      this.x = x;
+      this.y = y;
+      this.vx = (Math.random() - 0.5) * 1.5;
+      this.vy = (Math.random() - 0.5) * 1.5;
+      this.color = color;
+      this.size = Math.random() * 2.5 + 1;
+      this.life = Math.random() * 30 + 30;
+      this.maxLife = this.life;
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      this.life--;
+    }
+    draw(ctx) {
+      const alpha = Math.max(0, this.life / this.maxLife);
+      ctx.fillStyle = this.color;
+      ctx.globalAlpha = alpha;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  class ExplodeParticle {
+    constructor(x, y, color, speed, angle) {
+      this.x = x;
+      this.y = y;
+      this.vx = Math.cos(angle) * speed;
+      this.vy = Math.sin(angle) * speed;
+      this.color = color;
+      this.size = Math.random() * 3 + 1.2;
+      this.life = Math.random() * 90 + 70;
+      this.maxLife = this.life;
+    }
+    update() {
+      this.x += this.vx;
+      this.y += this.vy;
+      this.vx *= 0.975;
+      this.vy *= 0.975;
+      this.vy -= 0.015; // gentle float upward
+      this.life--;
+    }
+    draw(ctx) {
+      const alpha = Math.max(0, this.life / this.maxLife);
+      ctx.fillStyle = this.color;
+      ctx.globalAlpha = alpha;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    center.x = canvas.width / 2;
+    center.y = canvas.height / 2;
+  }
+
+  function startEasterEgg() {
+    // Prevent background scrolling
+    document.body.classList.add('modal-open');
+    
+    // Reset states
+    phase = 'spiral';
+    trailParticles = [];
+    explosionParticles = [];
+    shockwaves = [];
+    flashOpacity = 0;
+    implosionTimer = 0;
+    
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    startDistance = Math.min(canvas.width, canvas.height) * 0.42;
+    spiralRadius = startDistance;
+    spiralAngle = 0;
+
+    overlay.classList.add('active');
+    popup.classList.remove('active');
+    
+    // Start animation loop
+    if (animId) cancelAnimationFrame(animId);
+    animId = requestAnimationFrame(tick);
+  }
+
+  function closeEasterEgg() {
+    overlay.classList.remove('active');
+    popup.classList.remove('active');
+    document.body.classList.remove('modal-open');
+    if (animId) {
+      cancelAnimationFrame(animId);
+      animId = null;
+    }
+    window.removeEventListener('resize', resizeCanvas);
+    clicks = 0; // reset click counter
+  }
+
+  function tick() {
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.globalCompositeOperation = 'source-over';
+    
+    // Draw space dust background
+    ctx.fillStyle = 'rgba(5, 5, 12, 0.25)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.globalCompositeOperation = 'lighter';
+
+    if (phase === 'spiral') {
+      const progress = 1 - (spiralRadius / startDistance);
+      const angleSpeed = 0.02 + progress * 0.08;
+      spiralAngle += angleSpeed;
+      spiralRadius -= (2.5 + progress * 4); // accelerates as it pulls in
+
+      const x1 = center.x + Math.cos(spiralAngle) * spiralRadius;
+      const y1 = center.y + Math.sin(spiralAngle) * spiralRadius;
+      const x2 = center.x + Math.cos(spiralAngle + Math.PI) * spiralRadius;
+      const y2 = center.y + Math.sin(spiralAngle + Math.PI) * spiralRadius;
+
+      // Spawn trails
+      for (let i = 0; i < 3; i++) {
+        trailParticles.push(new TrailParticle(x1, y1, 'var(--pink)'));
+        trailParticles.push(new TrailParticle(x2, y2, 'var(--green)'));
+      }
+
+      // Update & Draw trails
+      trailParticles = trailParticles.filter(p => {
+        p.update();
+        p.draw(ctx);
+        return p.life > 0;
+      });
+
+      // Draw Main Glowing Orbs
+      drawGlowingOrb(x1, y1, 22, 'rgba(255, 128, 225, 0.8)', 'rgba(255, 128, 225, 0)');
+      drawGlowingOrb(x2, y2, 22, 'rgba(156, 255, 151, 0.8)', 'rgba(156, 255, 151, 0)');
+
+      // Transition to implosion
+      if (spiralRadius <= 5) {
+        phase = 'implosion';
+        implosionTimer = 25;
+      }
+    } 
+    else if (phase === 'implosion') {
+      // Draw remaining trails
+      trailParticles = trailParticles.filter(p => {
+        p.update();
+        p.draw(ctx);
+        return p.life > 0;
+      });
+
+      // Contract into a highly intense single point of fusion
+      const scale = implosionTimer / 25;
+      const radius = 5 + (1 - scale) * 35;
+      
+      // Draw growing core energy
+      drawGlowingOrb(center.x, center.y, radius, '#ffffff', 'rgba(161, 148, 255, 0)');
+      drawGlowingOrb(center.x, center.y, radius * 0.5, 'var(--lavender)', 'rgba(255, 255, 255, 0)');
+
+      implosionTimer--;
+      if (implosionTimer <= 0) {
+        // BOOM! Trigger supernova explosion
+        phase = 'explosion';
+        flashOpacity = 1.0;
+        
+        // Shockwave rings
+        shockwaves.push({ r: 5, vr: 14, color: '#ffffff', maxR: Math.max(canvas.width, canvas.height) * 0.9 });
+        shockwaves.push({ r: 5, vr: 10, color: 'var(--lavender)', maxR: Math.max(canvas.width, canvas.height) * 0.6 });
+
+        // Explosion sparks
+        const colors = ['var(--pink)', 'var(--green)', 'var(--lavender)', '#ffffff', '#ffd700'];
+        for (let i = 0; i < 300; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const speed = Math.random() * 11 + 2.5;
+          const color = colors[Math.floor(Math.random() * colors.length)];
+          explosionParticles.push(new ExplodeParticle(center.x, center.y, color, speed, angle));
+        }
+
+        // Show popup overlay after 1.5s delay
+        setTimeout(() => {
+          if (phase !== 'drift' && phase !== 'explosion') return; // if closed in between
+          popup.classList.add('active');
+        }, 1500);
+      }
+    } 
+    else if (phase === 'explosion' || phase === 'drift') {
+      // Shockwaves
+      shockwaves = shockwaves.filter(s => {
+        s.r += s.vr;
+        s.vr *= 0.98; // decelerate ring speed slightly
+        const alpha = Math.max(0, 1 - (s.r / s.maxR));
+        ctx.strokeStyle = s.color;
+        ctx.lineWidth = 3 * alpha;
+        ctx.globalAlpha = alpha;
+        ctx.beginPath();
+        ctx.arc(center.x, center.y, s.r, 0, Math.PI * 2);
+        ctx.stroke();
+        return s.r < s.maxR && alpha > 0.01;
+      });
+
+      // Explosion Sparks
+      explosionParticles = explosionParticles.filter(p => {
+        p.update();
+        p.draw(ctx);
+        return p.life > 0;
+      });
+
+      // Fade-out supernova initial flash
+      if (flashOpacity > 0.01) {
+        flashOpacity *= 0.88; // fast decay
+        ctx.fillStyle = '#ffffff';
+        ctx.globalAlpha = flashOpacity;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      } else {
+        flashOpacity = 0;
+      }
+
+      if (explosionParticles.length === 0 && shockwaves.length === 0) {
+        phase = 'drift'; // finished explosion, just idle drift state
+      }
+      
+      // If in drift, spawn very sparse subtle rising cosmic dust to keep canvas alive
+      if (phase === 'drift' && Math.random() < 0.12) {
+        const rx = Math.random() * canvas.width;
+        const ry = canvas.height + 10;
+        const speed = Math.random() * 0.8 + 0.4;
+        const angle = -Math.PI / 2 + (Math.random() - 0.5) * 0.2;
+        const colors = ['rgba(255,128,225,0.4)', 'rgba(156,255,151,0.4)', 'rgba(161,148,255,0.4)'];
+        explosionParticles.push(new ExplodeParticle(rx, ry, colors[Math.floor(Math.random() * 3)], speed, angle));
+      }
+    }
+
+    animId = requestAnimationFrame(tick);
+  }
+
+  function drawGlowingOrb(x, y, radius, colorInner, colorOuter) {
+    let grad = ctx.createRadialGradient(x, y, 0, x, y, radius);
+    grad.addColorStop(0, '#ffffff');
+    grad.addColorStop(0.2, colorInner);
+    grad.addColorStop(1, colorOuter);
+    ctx.fillStyle = grad;
+    ctx.globalAlpha = 1.0;
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // Trigger clicks
+  trigger.addEventListener('click', (e) => {
+    // Disable if any other modal is active to prevent overlap
+    if (document.querySelector('.modal-overlay.active')) return;
+    
+    clicks++;
+    
+    // Clear and restart click timeout (resets clicks if user stops tapping)
+    clearTimeout(clickTimeout);
+    clickTimeout = setTimeout(() => {
+      clicks = 0;
+    }, 4000); // 4 seconds to click 10 times
+
+    if (clicks >= 10) {
+      clearTimeout(clickTimeout);
+      startEasterEgg();
+    }
+  });
+
+  // Close triggers
+  closeBtn.addEventListener('click', closeEasterEgg);
+  overlay.addEventListener('click', (e) => {
+    // Only close if clicking the backdrop, not inside the popup itself
+    if (e.target === overlay) {
+      closeEasterEgg();
+    }
+  });
+
+})();
+

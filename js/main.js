@@ -1785,8 +1785,8 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
 
       // Spawn trails
       for (let i = 0; i < 3; i++) {
-        trailParticles.push(new TrailParticle(x1, y1, 'var(--pink)'));
-        trailParticles.push(new TrailParticle(x2, y2, 'var(--green)'));
+        trailParticles.push(new TrailParticle(x1, y1, '#ff80e1'));
+        trailParticles.push(new TrailParticle(x2, y2, '#9cff97'));
       }
 
       // Update & Draw trails
@@ -1820,7 +1820,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
       
       // Draw growing core energy
       drawGlowingOrb(center.x, center.y, radius, '#ffffff', 'rgba(161, 148, 255, 0)');
-      drawGlowingOrb(center.x, center.y, radius * 0.5, 'var(--lavender)', 'rgba(255, 255, 255, 0)');
+      drawGlowingOrb(center.x, center.y, radius * 0.5, '#a194ff', 'rgba(255, 255, 255, 0)');
 
       implosionTimer--;
       if (implosionTimer <= 0) {
@@ -1830,10 +1830,10 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
         
         // Shockwave rings
         shockwaves.push({ r: 5, vr: 14, color: '#ffffff', maxR: Math.max(canvas.width, canvas.height) * 0.9 });
-        shockwaves.push({ r: 5, vr: 10, color: 'var(--lavender)', maxR: Math.max(canvas.width, canvas.height) * 0.6 });
+        shockwaves.push({ r: 5, vr: 10, color: '#a194ff', maxR: Math.max(canvas.width, canvas.height) * 0.6 });
 
         // Explosion sparks
-        const colors = ['var(--pink)', 'var(--green)', 'var(--lavender)', '#ffffff', '#ffd700'];
+        const colors = ['#ff80e1', '#9cff97', '#a194ff', '#ffffff', '#ffd700'];
         for (let i = 0; i < 300; i++) {
           const angle = Math.random() * Math.PI * 2;
           const speed = Math.random() * 11 + 2.5;

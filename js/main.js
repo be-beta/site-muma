@@ -520,7 +520,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
   let activeMagnetEl = null;
 
   // Elementos "atraidores" (geleca): cursor se estica em direção a eles quando próximo
-  const STICKY_SEL = '.nav-links a, .nav-cta, #a11yToggle, #copyEmail, .ghost-btn, .cta .form button, .modal-close, .modal-submit';
+  const STICKY_SEL = '.nav-links a, .nav-cta, #a11yToggle, #copyEmail, .ghost-btn, .cta .form button, .modal-close, .modal-submit, .ee-close';
   const STICKY_RANGE = 70; // px até a borda do botão pra começar a esticar
 
   document.addEventListener('mousemove', e => {
@@ -1652,6 +1652,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
   let trailParticles = [];
   let explosionParticles = [];
   let shockwaves = [];
+  let orbitingStars = [];
   let flashOpacity = 0;
   let implosionTimer = 0;
   let center = { x: 0, y: 0 };
@@ -1725,12 +1726,14 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
   function startEasterEgg() {
     // Prevent background scrolling
     document.body.classList.add('modal-open');
+    document.body.classList.add('ee-active');
     
     // Reset states
     phase = 'spiral';
     trailParticles = [];
     explosionParticles = [];
     shockwaves = [];
+    orbitingStars = [];
     flashOpacity = 0;
     implosionTimer = 0;
     
@@ -1743,6 +1746,23 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
 
     overlay.classList.add('active');
     popup.classList.remove('active');
+
+    // Initialize orbiting stars
+    const px = Math.min(canvas.width, 680) / 2;
+    const py = Math.min(canvas.height * 0.8, 550) / 2;
+    const colors = ['#ff80e1', '#9cff97', '#a194ff', '#ffffff'];
+    for (let i = 0; i < 6; i++) {
+      orbitingStars.push({
+        angle: (i / 6) * Math.PI * 2,
+        speed: 0.006 + Math.random() * 0.004,
+        radiusX: px + 40 + Math.random() * 30,
+        radiusY: py + 40 + Math.random() * 30,
+        color: colors[i % colors.length],
+        size: Math.random() * 2 + 1.5,
+        pulseSpeed: 0.02 + Math.random() * 0.02,
+        pulse: Math.random()
+      });
+    }
     
     // Start animation loop
     if (animId) cancelAnimationFrame(animId);
@@ -1753,12 +1773,14 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     overlay.classList.remove('active');
     popup.classList.remove('active');
     document.body.classList.remove('modal-open');
+    document.body.classList.remove('ee-active');
     if (animId) {
       cancelAnimationFrame(animId);
       animId = null;
     }
     window.removeEventListener('resize', resizeCanvas);
     clicks = 0; // reset click counter
+    if (window.resetCustomCursor) window.resetCustomCursor();
   }
 
   function tick() {
@@ -1892,6 +1914,31 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
         const angle = -Math.PI / 2 + (Math.random() - 0.5) * 0.2;
         const colors = ['rgba(255,128,225,0.4)', 'rgba(156,255,151,0.4)', 'rgba(161,148,255,0.4)'];
         explosionParticles.push(new ExplodeParticle(rx, ry, colors[Math.floor(Math.random() * 3)], speed, angle));
+      }
+
+      // Draw orbiting stars around the popup
+      if (popup.classList.contains('active') && orbitingStars.length > 0) {
+        orbitingStars.forEach(s => {
+          s.angle += s.speed;
+          s.pulse += s.pulseSpeed;
+          
+          const x = center.x + Math.cos(s.angle) * s.radiusX;
+          const y = center.y + Math.sin(s.angle) * s.radiusY;
+          const alpha = 0.45 + Math.sin(s.pulse) * 0.4;
+          
+          ctx.save();
+          ctx.globalAlpha = alpha;
+          ctx.fillStyle = s.color;
+          // Draw a cute star shape (cross star: four points)
+          ctx.beginPath();
+          ctx.moveTo(x, y - s.size * 2);
+          ctx.quadraticCurveTo(x, y, x + s.size * 2, y);
+          ctx.quadraticCurveTo(x, y, x, y + s.size * 2);
+          ctx.quadraticCurveTo(x, y, x - s.size * 2, y);
+          ctx.quadraticCurveTo(x, y, x, y - s.size * 2);
+          ctx.fill();
+          ctx.restore();
+        });
       }
     }
 

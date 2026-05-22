@@ -1620,6 +1620,13 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     submitBtn.querySelector('.submit-loading').style.display = 'none';
   }
 
+  // Real-time clearance of invalid class
+  form.querySelectorAll('input, select, textarea').forEach(el => {
+    const eventName = (el.tagName === 'SELECT' || el.type === 'file') ? 'change' : 'input';
+    el.addEventListener(eventName, () => {
+      const group = el.closest('.form-group');
+      if (group) group.classList.remove('invalid');
+    });
   });
 })();
 

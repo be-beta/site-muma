@@ -222,8 +222,8 @@ img{max-width:100%;display:block}
 #brandSvg .lp.swap .orig { opacity:0; }
 #brandSvg .lp.swap .alt  { opacity:1; }
 #brandSvg .lp1 .alt { transform: translateX(-14px); }
-#brandSvg .lp2 .alt { transform: translateX(64px); }
-#brandSvg .lp3 .alt { transform: translateX(18px); }
+#brandSvg .lp2 .alt { transform: translateX(48px); }
+#brandSvg .lp3 .alt { transform: translateX(32px); }
 #brandSvg .lp4 .alt { transform: translateX(37px); }
 #brandSvg .lp.pop{ animation: lpPop .42s cubic-bezier(.34,1.56,.64,1); }
 @keyframes lpPop{
@@ -549,6 +549,11 @@ img{max-width:100%;display:block}
 .client-grid div:hover img.logo-trim-high {
   transform: scale(1.12);
 }
+/* ajuste individual de tamanho por logo */
+.client-grid div img.logo-size-up-sm { height: 44px; }
+.client-grid div img.logo-size-up-md { height: 50px; }
+.client-grid div img.logo-size-down-md { height: 30px; }
+.client-grid div img.logo-size-down-lg { height: 24px; }
 
 /* — CTA — Copy email button + email row — */
 .cta .contact .email-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
@@ -641,6 +646,7 @@ footer .lockup{font-family:var(--serif);font-size:54px;line-height:1;letter-spac
 footer .lockup i{font-style:italic;color:var(--pink)}
 footer .tag{font-family:var(--serif);font-size:18px;font-style:italic;opacity:.7;margin-top:10px}
 .legal{max-width:1480px;margin:60px auto 0;display:flex;justify-content:space-between;font-size:11px;letter-spacing:.18em;text-transform:uppercase;opacity:.55;border-top:1px solid rgba(237,236,234,.18);padding-top:24px}
+.legal-version{font-family:var(--sans);font-size:9px;letter-spacing:.12em;opacity:.45;text-transform:none}
 
 /* — Fibonacci burst (clique global) — */
 #cursor-fx-container{

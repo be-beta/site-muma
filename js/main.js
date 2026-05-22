@@ -524,7 +524,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     }
   });
 
-  // ——— Idle Atom timer: entering rotating 3D atom state after 5s of mouse idleness ———
+  // ——— Idle Atom timer: entering rotating 3D atom state after 20s of mouse idleness ———
   let idleTimer = null;
   function resetIdleTimer(){
     clearTimeout(idleTimer);
@@ -536,7 +536,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
         dot.classList.add('idle-atom');
         halo.classList.add('idle-atom');
       }
-    }, 5000);
+    }, 20000);
   }
   document.addEventListener('mousemove', resetIdleTimer, {passive:true});
   document.addEventListener('mousedown', resetIdleTimer, {passive:true});
@@ -693,7 +693,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     { sel: '.photo',         cls: 'detail-lens', html: '<span class="cursor-text plus">+</span>' },
     { sel: STICKY_SEL,       cls: 'magnetic',    magnetic: true, html: '' }
   ];
-  const HOVER_FALLBACK = 'a, button, [role=button], summary, label, .mod, .photo, .cardume-p, .marquee, .brand, .copy-email-btn, .client-grid div';
+  const HOVER_FALLBACK = 'a, button, [role=button], summary, label, .mod, .photo, .cardume-p, .marquee, .brand, .copy-email-btn, .client-grid div, select';
 
   function resetCursor(){
     dot.classList.remove('hover','text','case-lens','detail-lens','magnetic','hidden');
@@ -707,9 +707,11 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     let n = e.target;
     while (n && n !== document.body){
       if (textMatch(n)){
-        resetCursor();
-        dot.classList.add('hidden');
-        halo.classList.add('hidden');
+        if (!dot.classList.contains('text')) {
+          resetCursor();
+          dot.classList.add('text');
+          halo.classList.add('hidden');
+        }
         return;
       }
       for (const c of CONTEXTS){
@@ -945,6 +947,8 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     formOpenedAt = Date.now();
     // Reset form state
     form.style.display = '';
+    const header = modal.querySelector('.modal-header');
+    if (header) header.style.display = '';
     successEl.style.display = 'none';
     errorEl.style.display = 'none';
     form.reset();
@@ -1114,9 +1118,14 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     form.style.display = 'none';
     errorEl.style.display = 'none';
     successEl.style.display = 'block';
+    const header = modal.querySelector('.modal-header');
+    if (header) header.style.display = 'none';
     submitBtn.disabled = false;
     submitBtn.querySelector('.submit-text').style.display = '';
     submitBtn.querySelector('.submit-loading').style.display = 'none';
+    setTimeout(() => {
+      closeModal();
+    }, 4000);
   }
 
   function showError() {
@@ -1175,20 +1184,20 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
 // ——————————————————————————————————————————————
 (function foundersEasterEgg() {
   document.querySelectorAll('.founders .photo').forEach(photo => {
+    const overlay = photo.querySelector('.easter-egg-overlay');
     photo.addEventListener('click', e => {
-      // Se o clique foi em um botão interno do overlay, ignora
+      // Se o clique foi dentro do overlay, o tratador do overlay cuida disso
       if (e.target.closest('.easter-egg-overlay')) return;
-      const overlay = photo.querySelector('.easter-egg-overlay');
       if (overlay) overlay.classList.add('active');
     });
 
-    const closeBtn = photo.querySelector('.easter-egg-close');
-    if (closeBtn) {
-      closeBtn.addEventListener('click', e => {
-        e.stopPropagation();
-        e.preventDefault();
-        const overlay = photo.querySelector('.easter-egg-overlay');
-        if (overlay) overlay.classList.remove('active');
+    if (overlay) {
+      overlay.addEventListener('click', e => {
+        // Se clicar em qualquer lugar do overlay exceto no botão de carreiras, fecha
+        if (!e.target.closest('.easter-egg-btn')) {
+          e.stopPropagation();
+          overlay.classList.remove('active');
+        }
       });
     }
 
@@ -1197,8 +1206,17 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
       eggBtn.addEventListener('click', e => {
         e.stopPropagation();
         e.preventDefault();
-        const overlay = photo.querySelector('.easter-egg-overlay');
         if (overlay) overlay.classList.remove('active');
+        if (window.openCareerModal) window.openCareerModal();
+      });
+    }
+  });
+
+  // Fecha overlays ao clicar fora
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.founders .photo')) {
+      document.querySelectorAll('.easter-egg-overlay.active').forEach(overlay => {
+        overlay.classList.remove('active');
       });
     }
   });
@@ -1230,6 +1248,8 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     document.body.classList.add('modal-open');
     formOpenedAt = Date.now();
     form.style.display = '';
+    const header = modal.querySelector('.modal-header');
+    if (header) header.style.display = '';
     successEl.style.display = 'none';
     errorEl.style.display = 'none';
     form.reset();
@@ -1455,9 +1475,15 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     form.style.display = 'none';
     errorEl.style.display = 'none';
     successEl.style.display = 'block';
+    const header = modal.querySelector('.modal-header');
+    if (header) header.style.display = 'none';
     submitBtn.disabled = false;
     submitBtn.querySelector('.submit-text').style.display = '';
     submitBtn.querySelector('.submit-loading').style.display = 'none';
+    setTimeout(() => {
+      modal.classList.remove('active');
+      document.body.classList.remove('modal-open');
+    }, 4000);
   }
 
   function showError() {

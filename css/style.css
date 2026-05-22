@@ -47,14 +47,7 @@
 }
 
 /* — Cursor customizado: ponto magnético com inversão e wrapper gooey — */
-html:not(.a11y-mode), html:not(.a11y-mode) body, html:not(.a11y-mode) *:not(input):not(textarea):not([contenteditable=true]) {
-  cursor: none !important;
-}
-html:not(.a11y-mode) input:not([type=file]):not([type=checkbox]):not([type=radio]),
-html:not(.a11y-mode) textarea,
-html:not(.a11y-mode) [contenteditable=true] {
-  cursor: text !important;
-}
+
 
 #cursor {
   position: fixed; left: 0; top: 0; width: 14px; height: 14px; border-radius: 50%;
@@ -111,35 +104,7 @@ html:not(.a11y-mode) [contenteditable=true] {
   transition: background 0.3s;
 }
 
-/* O elétron que se divide e começa a orbitar no ócio de 5s */
-.cursor-core::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: var(--pink);
-  border-radius: 50%;
-  transform: scale(0);
-  opacity: 0;
-  transition: transform 0.5s cubic-bezier(.34,1.56,.64,1), opacity 0.5s;
-  mix-blend-mode: normal !important;
-}
 
-#cursor.idle-atom {
-  background: var(--pink) !important;
-  mix-blend-mode: normal !important;
-  width: 12px !important;
-  height: 12px !important;
-  box-shadow: 0 0 10px rgba(255, 128, 225, 0.5);
-  animation: cursorCorePulse 1.5s ease-in-out infinite alternate;
-}
-#cursor.idle-atom .cursor-core {
-  display: none !important;
-}
-
-@keyframes cursorCorePulse {
-  0% { transform: translate3d(0,0,0) scale(1); }
-  100% { transform: translate3d(0,0,0) scale(1.25); }
-}
 
 /* Orbit rings inside halo for idle atom */
 #cursor-halo .ring-orbit {
@@ -160,11 +125,12 @@ html:not(.a11y-mode) [contenteditable=true] {
   border-color: var(--green) !important;
   width: 26px !important;
   height: 72px !important;
-  left: 50% !important;
-  top: 50% !important;
+  left: calc(50% - 13px) !important;
+  top: calc(50% - 36px) !important;
   inset: auto !important;
   background: transparent !important;
   transition: none !important;
+  transform-origin: center center !important;
 }
 #cursor-halo.idle-atom .ring-1 {
   animation: rotateRing1 12s linear infinite !important;
@@ -177,16 +143,16 @@ html:not(.a11y-mode) [contenteditable=true] {
 }
 
 @keyframes rotateRing1 {
-  0% { transform: translate(-50%, -50%) rotate(0deg); }
-  100% { transform: translate(-50%, -50%) rotate(360deg); }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 @keyframes rotateRing2 {
-  0% { transform: translate(-50%, -50%) rotate(60deg); }
-  100% { transform: translate(-50%, -50%) rotate(420deg); }
+  0% { transform: rotate(60deg); }
+  100% { transform: rotate(420deg); }
 }
 @keyframes rotateRing3 {
-  0% { transform: translate(-50%, -50%) rotate(120deg); }
-  100% { transform: translate(-50%, -50%) rotate(480deg); }
+  0% { transform: rotate(120deg); }
+  100% { transform: rotate(480deg); }
 }
 
 .cursor-text{
@@ -229,18 +195,18 @@ img{max-width:100%;display:block}
 }
 .nav.dark{background:rgba(12,9,51,.55);border-bottom-color:var(--hair-l);color:var(--paper)}
 .nav-row{display:flex;align-items:center;justify-content:space-between;height:64px;gap:24px;position:relative}
-.nav-left{display:flex;align-items:center;gap:20px;flex:0 0 auto}
+.nav-left{display:flex;align-items:center;gap:24px;flex:0 0 auto}
 .nav-right{flex:0 0 auto}
-.nav-ticker{display:flex;align-items:center;gap:10px;width:300px;position:relative;overflow:hidden;height:24px}
+.nav-ticker{display:flex;align-items:center;gap:10px;width:300px;position:relative;overflow:visible;height:24px}
 .nav-ticker .pulse{
   width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;
   animation:pulse 1.8s ease-in-out infinite;
-  position:absolute;left:0;top:50%;transform:translateY(-50%);
+  position:absolute;left:4px;top:50%;transform:translateY(-50%);
 }
 .nav-ticker .phrase{
   font-family:var(--serif);font-size:17px;font-style:italic;line-height:1;
   transition:opacity .42s cubic-bezier(.4,0,.2,1), transform .42s cubic-bezier(.4,0,.2,1);
-  white-space:nowrap;position:absolute;left:18px;top:50%;transform:translateY(-50%);
+  white-space:nowrap;position:absolute;left:22px;top:50%;transform:translateY(-50%);
 }
 .nav-ticker .phrase em{color:var(--pink);font-style:italic}
 .nav-ticker .phrase.out{opacity:0;transform:translateY(calc(-50% - 6px))}
@@ -1036,21 +1002,7 @@ html.a11y-mode :focus-visible {
   background: var(--green);
   transform: scale(1.05);
 }
-.founders .photo .easter-egg-close {
-  background: none;
-  border: none;
-  color: var(--paper);
-  opacity: 0.6;
-  font-size: 10px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  cursor: pointer;
-  padding: 6px 12px;
-  transition: opacity 0.2s;
-}
-.founders .photo .easter-egg-close:hover {
-  opacity: 1;
-}
+
 
 /* — CAREER MODAL EXTRA DYNAMIC PLATFORMS STYLING — */
 .dynamic-links-container {
@@ -1122,4 +1074,21 @@ html.a11y-mode :focus-visible {
 .btn-add-link:hover {
   border-color: var(--pink);
   background: rgba(255, 128, 225, 0.05);
+}
+
+/* — Global Hide System Cursors (must be at the bottom to override all standard cursors when not in accessibility mode) — */
+html:not(.a11y-mode),
+html:not(.a11y-mode) body,
+html:not(.a11y-mode) *,
+html:not(.a11y-mode) *::before,
+html:not(.a11y-mode) *::after,
+html:not(.a11y-mode) input,
+html:not(.a11y-mode) textarea,
+html:not(.a11y-mode) select,
+html:not(.a11y-mode) button,
+html:not(.a11y-mode) a,
+html:not(.a11y-mode) label,
+html:not(.a11y-mode) .drop-zone,
+html:not(.a11y-mode) .drop-zone * {
+  cursor: none !important;
 }

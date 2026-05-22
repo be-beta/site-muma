@@ -1,0 +1,1769 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Muma Estúdio Criativo — do detalhe ao todo.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+  /* — Fontes oficiais Muma — */
+  @font-face{
+    font-family:'WS Paradose';
+    src:url('assets/fonts/WSParadose.ttf') format('truetype');
+    font-weight:400;font-style:normal;font-display:swap;
+  }
+  /* TWK Lausanne — vários pesos */
+  @font-face{font-family:'TWK Lausanne';src:url('assets/fonts/TWKLausanne-50.ttf') format('truetype');font-weight:100;font-style:normal;font-display:swap}
+  @font-face{font-family:'TWK Lausanne';src:url('assets/fonts/TWKLausanne-100.ttf') format('truetype');font-weight:200;font-style:normal;font-display:swap}
+  @font-face{font-family:'TWK Lausanne';src:url('assets/fonts/TWKLausanne-200.ttf') format('truetype');font-weight:300;font-style:normal;font-display:swap}
+  @font-face{font-family:'TWK Lausanne';src:url('assets/fonts/TWKLausanne-300.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+  @font-face{font-family:'TWK Lausanne';src:url('assets/fonts/TWKLausanne-450.ttf') format('truetype');font-weight:500;font-style:normal;font-display:swap}
+  @font-face{font-family:'TWK Lausanne';src:url('assets/fonts/TWKLausanne-750.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
+</style>
+<style>
+  /* — TOKENS DA MARCA — */
+  :root{
+    --navy:   #0c0933;
+    --pink:   #ff80e1;
+    --purple: #3215ad;
+    --beige:  #edecea;
+    --green:  #9cff97;
+    --lavender:#a194ff;
+    --ink:    #0c0933;
+    --paper:  #edecea;
+    --hair:   rgba(12,9,51,.18);
+    --hair-l: rgba(237,236,234,.22);
+
+    --serif: 'WS Paradose', 'Times New Roman', Times, serif;
+    --sans:  'TWK Lausanne', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  /* — Scrollbar Muma — fina, navy + pink magnético — */
+  ::-webkit-scrollbar{ width:8px; height:8px; background-color: var(--navy); }
+  ::-webkit-scrollbar-track{ background-color: var(--navy); }
+  ::-webkit-scrollbar-thumb{
+    background-color: var(--pink);
+    border-radius: 999px;
+    border: 2px solid var(--navy);
+    transition: background-color .25s;
+  }
+  ::-webkit-scrollbar-thumb:hover{ background-color: var(--green); }
+  ::-webkit-scrollbar-corner{ background-color: var(--navy); }
+  @supports (scrollbar-color: auto){
+    html{ scrollbar-width: thin; scrollbar-color: var(--pink) var(--navy); }
+  }
+
+  /* — Cursor customizado: ponto magnético com inversão — */
+  html, body, *, *::before, *::after { cursor: none !important; }
+  input[type=email], textarea, [contenteditable=true] { cursor: text !important; }
+  #cursor{
+    position:fixed;left:0;top:0;width:14px;height:14px;border-radius:50%;
+    background:#9cff97;
+    pointer-events:none;z-index:99999;
+    transform: translate3d(-100px,-100px,0) translate(-50%,-50%);
+    mix-blend-mode: difference;
+    display:flex;align-items:center;justify-content:center;
+    will-change: transform, width, height, opacity;
+    transition: width .28s cubic-bezier(.4,0,.2,1), height .28s cubic-bezier(.4,0,.2,1), opacity .25s, border-radius .28s, background .3s, mix-blend-mode 0s;
+    overflow:hidden;
+  }
+  #cursor.hover{ width:46px;height:46px; }
+  #cursor.text{ width:3px;height:26px;border-radius:1px; }
+  #cursor.click{ width:8px;height:8px;opacity:.7 }
+
+  /* — Estados mutantes (saem do difference pra mostrar cor sólida) — */
+  #cursor.case-lens{
+    width:64px;height:64px;
+    background:var(--pink);
+    mix-blend-mode: normal;
+  }
+  #cursor.detail-lens{
+    width:50px;height:50px;
+    background:var(--green);
+    mix-blend-mode: normal;
+  }
+  /* CTA: dot pequeno verde sólido com ↗ — sem barriga "ENVIAR" */
+  #cursor.cta-arrow{
+    width:28px;height:28px;
+    background:var(--green);
+    mix-blend-mode: normal;
+    color: var(--navy);
+  }
+  /* Magnético: dot some, halo abraça o botão */
+  #cursor.magnetic{
+    width:0;height:0;opacity:0;
+    transition: width .35s cubic-bezier(.25,1,.5,1), height .35s cubic-bezier(.25,1,.5,1), opacity .25s;
+  }
+  #cursor-halo{
+    transition: width .35s cubic-bezier(.25,1,.5,1), height .35s cubic-bezier(.25,1,.5,1), border-radius .35s cubic-bezier(.25,1,.5,1), opacity .3s, border-color .4s, transform .15s linear;
+  }
+  .cursor-text{
+    font-family: var(--sans);
+    font-size: 11px;font-weight: 700;letter-spacing: .14em;
+    color: var(--navy);
+    text-transform: uppercase;
+    white-space:nowrap;
+    line-height: 1;
+    opacity:0;
+    animation: cursorFadeIn .22s ease forwards;
+    display:inline-flex;align-items:center;gap:6px;
+  }
+  .cursor-text.plus{ font-family: var(--serif); font-size: 28px; font-weight: 400; letter-spacing: 0; line-height: 0.6; }
+  .cursor-text .arr{ font-size: 13px; transform: translateY(-1px); }
+  @keyframes cursorFadeIn{ to { opacity: 1; } }
+
+  /* halo: anel maior que segue com delay — perfeitamente concêntrico — */
+  #cursor-halo{
+    position:fixed;left:0;top:0;width:54px;height:54px;border-radius:50%;
+    border:1px solid rgba(156,255,151,.55);
+    pointer-events:none;z-index:99998;
+    transform: translate3d(-100px,-100px,0) translate(-50%,-50%);
+    mix-blend-mode: difference;
+    transition: width .3s cubic-bezier(.4,0,.2,1), height .3s cubic-bezier(.4,0,.2,1), opacity .3s, border-color .4s;
+    opacity:.85;
+  }
+  #cursor-halo.hover{ width:96px;height:96px;border-color:rgba(255,128,225,.7) }
+  #cursor-halo.hidden, #cursor.hidden{ opacity:0 }
+  @media (pointer:coarse){
+    #cursor, #cursor-halo{ display:none }
+    html, body, *, *::before, *::after { cursor: auto !important }
+    input, textarea { cursor: text !important }
+    a, button, [role=button], .mod, .case { cursor: pointer !important }
+  }
+  html,body{background:var(--paper);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body{overflow-x:hidden}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  ::selection{background:var(--pink);color:var(--navy)}
+
+  .wrap{max-width:1480px;margin:0 auto;padding:0 36px}
+  .hr{height:1px;background:currentColor;opacity:.18}
+
+  /* — NAV — */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    backdrop-filter: blur(14px);
+    background:rgba(237,236,234,.72);
+    border-bottom:1px solid var(--hair);
+  }
+  .nav.dark{background:rgba(12,9,51,.55);border-bottom-color:var(--hair-l);color:var(--paper)}
+  .nav-row{display:flex;align-items:center;justify-content:space-between;height:64px;gap:24px;position:relative}
+  .nav-left{display:flex;align-items:center;gap:20px;flex:0 0 auto}
+  .nav-right{flex:0 0 auto}
+  .nav-ticker{display:flex;align-items:center;gap:10px;width:300px;position:relative;overflow:hidden;height:24px}
+  .nav-ticker .pulse{
+    width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;
+    animation:pulse 1.8s ease-in-out infinite;
+    position:absolute;left:0;top:50%;transform:translateY(-50%);
+  }
+  .nav-ticker .phrase{
+    font-family:var(--serif);font-size:17px;font-style:italic;line-height:1;
+    transition:opacity .42s cubic-bezier(.4,0,.2,1), transform .42s cubic-bezier(.4,0,.2,1);
+    white-space:nowrap;position:absolute;left:18px;top:50%;transform:translateY(-50%);
+  }
+  .nav-ticker .phrase em{color:var(--pink);font-style:italic}
+  .nav-ticker .phrase.out{opacity:0;transform:translateY(calc(-50% - 6px))}
+  @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(156,255,151,.65)}50%{opacity:.5;box-shadow:0 0 0 8px rgba(156,255,151,0)}}
+  @media (max-width: 1180px){ .nav-ticker { display:none } }
+  .brand{display:inline-flex;align-items:center;height:28px;color:var(--pink)}
+  .brand img,.brand svg{height:28px;width:auto;display:block;fill:currentColor}
+  /* Logo mutante: cada letra tem versão "orig" + "alt" — toggle swap */
+  #brandSvg .lp{ transform-box: fill-box; transform-origin: center; transition: transform .42s cubic-bezier(.34,1.56,.64,1); }
+  #brandSvg .lp path{ transition: fill .3s, opacity .25s cubic-bezier(.4,0,.2,1); }
+  #brandSvg .lp .alt { opacity:0; }
+  #brandSvg .lp.swap .orig { opacity:0; }
+  #brandSvg .lp.swap .alt  { opacity:1; }
+  #brandSvg .lp.pop{ animation: lpPop .42s cubic-bezier(.34,1.56,.64,1); }
+  @keyframes lpPop{
+    0%   { transform: scaleY(1)    skewX(0deg); }
+    40%  { transform: scaleY(1.16) skewX(-3deg); }
+    100% { transform: scaleY(1)    skewX(0deg); }
+  }
+  /* Nav links: centralizados absolutamente + hitbox maior */
+  .nav-links{
+    display:flex;gap:4px;font-size:13px;letter-spacing:.02em;
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  }
+  .nav-links a{
+    position:relative;padding:10px 14px;border-radius:999px;
+    transition: background .25s, color .25s;
+  }
+  .nav-links a::after{content:"";position:absolute;left:14px;right:calc(100% - 14px);bottom:6px;height:1px;background:currentColor;transition:right .35s ease;opacity:.7}
+  .nav-links a:hover{background:rgba(237,236,234,.06)}
+  .nav-links a:hover::after{right:14px}
+  .nav.dark .nav-links a:hover{background:rgba(237,236,234,.08)}
+  .nav:not(.dark) .nav-links a:hover{background:rgba(12,9,51,.05)}
+  .nav-cta{font-size:13px;border:1px solid currentColor;border-radius:999px;padding:10px 16px;display:inline-flex;align-items:center;gap:8px;transition:.3s cubic-bezier(.25,1,.5,1)}
+  .nav-cta:hover{background:var(--green);border-color:var(--green);color:var(--navy)}
+  .nav-cta .arr{display:inline-block;transform:rotate(-45deg);transition:.25s}
+  .nav-cta:hover .arr{transform:rotate(0)}
+  @media (max-width: 1180px){
+    .nav-links{position:static;transform:none}
+  }
+
+  /* — HERO — */
+  .hero{
+    position:relative;
+    background:var(--navy);color:var(--paper);
+    min-height: 100svh;
+    min-height: calc(100lvh - 0px);
+    padding:104px 36px 56px;
+    overflow:hidden;
+    display:flex;flex-direction:column;
+  }
+  .hero .grid{
+    max-width:1480px;margin:0 auto;width:100%;
+    display:grid;grid-template-columns:60px 1fr;gap:24px;
+    flex:1;
+  }
+  .hero .grid > .col{
+    display:flex;flex-direction:column;justify-content:space-between;min-height:100%;
+    gap:48px;
+  }
+  .vstrip{
+    writing-mode:vertical-rl;transform:rotate(180deg);
+    font-size:11px;letter-spacing:.32em;text-transform:uppercase;
+    align-self:start;color:var(--paper);opacity:.7;
+    padding-top:12px;
+  }
+  .hero-meta{
+    display:flex;justify-content:space-between;font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.7;
+  }
+  .hero h1{
+    font-family:var(--serif);
+    font-weight:400;
+    font-size: clamp(72px, 14vw, 240px);
+    line-height:.92;
+    letter-spacing:-.02em;
+  }
+  .hero h1 .it{font-style:italic;color:var(--pink)}
+  .hero h1 .stop{color:var(--pink)}
+  .hero h1 .row{display:block}
+  .hero h1 .indent{padding-left:.6em}
+
+  .hero-foot{
+    display:grid;grid-template-columns: 1fr 1fr 1fr;gap:48px;
+    align-items:end;
+  }
+  .hero-foot .col{font-size:14px;line-height:1.55;opacity:.88;max-width:32ch}
+  .hero-foot .label{font-size:11px;letter-spacing:.22em;text-transform:uppercase;opacity:.55;margin-bottom:14px;display:block}
+  .hero-foot .big{font-family:var(--serif);font-size:28px;line-height:1.1;font-style:italic;color:var(--pink);max-width:14ch}
+
+  /* floating school — followers do mouse */
+  .cardume-p{
+    position:absolute;left:0;top:0;
+    pointer-events:none;
+    will-change: transform, color, background;
+    user-select:none;
+    transition: color 1.6s cubic-bezier(.4,0,.2,1), background 1.6s cubic-bezier(.4,0,.2,1), opacity .6s;
+  }
+  .hero{cursor:default}
+
+  /* — MARQUEE — */
+  .marquee{
+    background:var(--pink);color:var(--navy);
+    border-block:1px solid var(--navy);
+    overflow:hidden;white-space:nowrap;
+    padding:18px 0;
+  }
+  .marquee .track{display:inline-flex;gap:48px;animation:scroll 38s linear infinite}
+  .marquee span{font-family:var(--serif);font-size:38px;letter-spacing:-.01em;line-height:1;display:inline-flex;align-items:center;gap:24px}
+  .marquee em{font-style:italic;color:var(--purple)}
+  .marquee .dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--navy);vertical-align:middle;flex-shrink:0}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+  /* — MANIFESTO — */
+  .manifesto{
+    background:var(--paper);color:var(--ink);
+    padding:140px 36px 160px;
+    position:relative;
+    overflow:hidden;
+  }
+  .manifesto .inner{max-width:1480px;margin:0 auto;display:grid;grid-template-columns:1fr 2fr;gap:64px}
+  .section-label{font-size:11px;letter-spacing:.28em;text-transform:uppercase;opacity:.55;display:flex;align-items:center;gap:10px}
+  .section-label::before{content:"";width:32px;height:1px;background:currentColor;display:inline-block}
+  .manifesto .copy h2{
+    font-family:var(--serif);font-weight:400;
+    font-size: clamp(40px,5.6vw,84px);line-height:1.02;letter-spacing:-.015em;
+    margin-bottom:48px;
+  }
+  .manifesto .copy h2 em{font-style:italic;color:var(--purple)}
+  .manifesto .copy h2 .pink{color:var(--pink)}
+  .manifesto .left{display:flex;flex-direction:column;gap:18px}
+  .manifesto .caption{font-size:11px;letter-spacing:.22em;text-transform:uppercase;opacity:.55}
+  .manifesto .visual{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--navy);max-width:440px}
+  .manifesto .visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .manifesto .visual .corner{position:absolute;left:-20px;bottom:-30px;width:180px;height:auto;pointer-events:none;color:var(--pink);opacity:.95;transform: rotate(180deg);mix-blend-mode:screen}
+  .manifesto .visual .tag{position:absolute;right:14px;top:14px;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--paper);background:rgba(12,9,51,.55);backdrop-filter:blur(8px);padding:6px 10px;border-radius:999px}
+  .manifesto .copy p{font-size:18px;line-height:1.55;max-width:62ch;margin-bottom:18px}
+  .manifesto .copy p + p{opacity:.8}
+  .pull{
+    margin-top:64px;display:flex;gap:16px;align-items:baseline;
+    font-family:var(--serif);font-size:32px;font-style:italic;color:var(--purple);
+  }
+  .pull::before{content:"“";font-size:64px;line-height:.6;color:var(--pink);margin-right:4px}
+
+  /* — SERVIÇOS MODULARES — */
+  .servicos{
+    background:var(--navy);color:var(--paper);
+    padding:140px 36px 160px;position:relative;
+  }
+  .servicos .inner{max-width:1480px;margin:0 auto}
+  .servicos .head{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end;margin-bottom:80px}
+  .servicos h2{
+    font-family:var(--serif);font-weight:400;
+    font-size:clamp(48px,6vw,96px);line-height:1;letter-spacing:-.02em;
+  }
+  .servicos h2 em{font-style:italic;color:var(--pink)}
+  .servicos .head .right{font-size:16px;line-height:1.55;opacity:.85;max-width:42ch}
+  .servicos .help{font-size:12px;letter-spacing:.18em;text-transform:uppercase;opacity:.55;margin-top:18px}
+
+  .modgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .mod{
+    position:relative;
+    border:1px solid var(--hair-l);
+    background:rgba(255,255,255,.02);
+    padding:24px 22px 22px;
+    aspect-ratio: 1 / 1;
+    display:flex;flex-direction:column;justify-content:space-between;
+    transition:.45s cubic-bezier(.2,.7,.2,1);
+    cursor:pointer;overflow:hidden;
+    user-select:none;
+  }
+  .mod .num{font-size:12px;letter-spacing:.2em;opacity:.55}
+  .mod .name{font-family:var(--serif);font-size:34px;line-height:1.02;letter-spacing:-.01em}
+  .mod .name em{font-style:italic}
+  .mod .desc{font-size:13px;line-height:1.5;opacity:0;transition:.4s;max-height:0}
+  .mod:hover{background:var(--pink);color:var(--navy);border-color:var(--pink)}
+  .mod:hover .num{opacity:1}
+  .mod:hover .desc{opacity:1;max-height:120px}
+  .mod.alt:hover{background:var(--lavender);color:var(--navy);border-color:var(--lavender)}
+  .mod.alt2:hover{background:var(--green);color:var(--navy);border-color:var(--green)}
+  .mod.alt3:hover{background:var(--purple);color:var(--paper);border-color:var(--purple)}
+
+  /* — CASES — X-Ray lens reveal — */
+  .cases{background:var(--paper);color:var(--ink);padding:140px 36px 100px;position:relative}
+  .cases .inner{max-width:1480px;margin:0 auto}
+  .cases h2{
+    font-family:var(--serif);font-weight:400;
+    font-size:clamp(48px,6vw,96px);line-height:1;letter-spacing:-.02em;
+    margin: 28px 0 60px;max-width:18ch;
+  }
+  .cases h2 em{font-style:italic;color:var(--purple)}
+  .case-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows: minmax(0, auto);gap:14px}
+  .case{position:relative;overflow:hidden;border:1px solid var(--hair);background:var(--navy);transition:transform .5s cubic-bezier(.2,.7,.2,1), border-color .3s;display:block}
+  .case .img-front,
+  .case .img-back{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    transition: transform .9s cubic-bezier(.2,.7,.2,1);
+  }
+  .case .img-front{ z-index:1; }
+  .case .img-back{
+    z-index:2;
+    will-change: clip-path;
+    /* começa invisível — raio 0 */
+    clip-path: circle(0px at 50% 50%);
+    transition: clip-path .25s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);
+    filter: saturate(.92) contrast(1.02);
+  }
+  /* tinta cromática Muma — magenta + roxo translúcido SOMENTE dentro da lente */
+  .case .lens-tint{
+    position:absolute;inset:0;pointer-events:none;z-index:2;
+    background: radial-gradient(circle at var(--lx, 50%) var(--ly, 50%),
+                rgba(255,128,225,.55) 0%,
+                rgba(50,21,173,.45) 55%,
+                rgba(50,21,173,.25) 100%);
+    mix-blend-mode: overlay;
+    clip-path: circle(0px at 50% 50%);
+    transition: clip-path .25s cubic-bezier(.2,.7,.2,1);
+    will-change: clip-path;
+  }
+  .case .lens-edge{
+    position:absolute;inset:0;pointer-events:none;z-index:3;
+    background: radial-gradient(circle at var(--lx, 50%) var(--ly, 50%),
+                transparent 0,
+                transparent calc(var(--lr, 150px) - 2px),
+                rgba(255,128,225,.9) var(--lr, 150px),
+                transparent calc(var(--lr, 150px) + 2px));
+    opacity:0;
+    transition: opacity .25s;
+  }
+  .case:hover .lens-edge{ opacity:.85 }
+  .case:hover .img-front,
+  .case:hover .img-back { transform: scale(1.04); }
+  .case .scrim{position:absolute;inset:0;background:linear-gradient(180deg, rgba(12,9,51,0) 35%, rgba(12,9,51,.78) 100%);pointer-events:none;z-index:3}
+  .case .meta{position:absolute;left:20px;right:20px;bottom:20px;display:flex;justify-content:space-between;align-items:end;color:var(--paper);font-size:11px;letter-spacing:.18em;text-transform:uppercase;z-index:4}
+  .case .title{position:absolute;left:20px;bottom:48px;color:var(--paper);font-family:var(--serif);font-size:38px;line-height:.95;letter-spacing:-.01em;max-width:14ch;z-index:4}
+  .case .title em{font-style:italic;color:var(--pink)}
+  .case .badge{position:absolute;top:18px;left:18px;font-size:10px;letter-spacing:.22em;text-transform:uppercase;background:var(--pink);color:var(--navy);padding:6px 10px;border-radius:999px;z-index:4}
+  /* hint sutil: pequeno selo "backstage" no canto que pulsa */
+  .case .reveal-hint{
+    position:absolute;top:18px;right:18px;z-index:4;
+    display:inline-flex;align-items:center;gap:7px;
+    font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+    background:rgba(237,236,234,.18);backdrop-filter:blur(8px);
+    color:var(--paper);padding:6px 10px;border-radius:999px;
+    border:1px solid rgba(237,236,234,.25);
+    transition: background .3s, color .3s, opacity .3s;
+    opacity:.85;
+  }
+  .case .reveal-hint .lens{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 1.8s ease-in-out infinite}
+  .case:hover .reveal-hint{ background:var(--pink);color:var(--navy);border-color:var(--pink);opacity:1 }
+  .case:hover{transform:translateY(-4px);border-color:var(--pink)}
+
+  .case.c1{grid-column:span 7;aspect-ratio: 16 / 11}
+  .case.c2{grid-column:span 5;aspect-ratio: 4 / 5}
+  .case.c3{grid-column:span 4;aspect-ratio: 4 / 5}
+  .case.c4{grid-column:span 4;aspect-ratio: 4 / 5}
+  .case.c5{grid-column:span 4;aspect-ratio: 4 / 5}
+  .case.c6{grid-column:span 12;aspect-ratio: 16 / 7}
+
+  .cases-foot{display:flex;justify-content:space-between;align-items:center;margin-top:48px;font-size:13px}
+  .ghost-btn{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--ink);padding:14px 22px;border-radius:999px;font-size:13px;letter-spacing:.04em;transition:.3s cubic-bezier(.25,1,.5,1)}
+  .ghost-btn:hover{background:var(--green);color:var(--navy);border-color:var(--green)}
+
+  /* — CLIENTES — */
+  .clientes{background:var(--paper);padding:100px 36px 140px;border-top:1px solid var(--hair)}
+  .clientes .inner{max-width:1480px;margin:0 auto}
+  .clientes h3{
+    font-family:var(--serif);font-weight:400;font-size:clamp(34px,4vw,56px);line-height:1;
+    letter-spacing:-.015em;margin:24px 0 56px;max-width:22ch;
+  }
+  .clientes h3 em{font-style:italic;color:var(--purple)}
+  .client-grid{
+    display:grid;grid-template-columns:repeat(6,1fr);
+    border-top:1px solid var(--hair);border-left:1px solid var(--hair);
+  }
+  .client-grid div{
+    border-right:1px solid var(--hair);border-bottom:1px solid var(--hair);
+    padding:34px 22px;display:flex;align-items:center;justify-content:center;
+    font-family:var(--serif);font-size:26px;letter-spacing:-.01em;text-align:center;
+    min-height:120px;transition:.3s;cursor:default;
+  }
+  .client-grid div:hover{background:var(--navy);color:var(--pink)}
+  .client-grid div em{font-style:italic}
+
+  /* — CTA — Copy email button + email row — */
+  .cta .contact .email-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .copy-email-btn{
+    background:transparent;border:1px solid rgba(237,236,234,.35);
+    color:var(--paper);border-radius:999px;
+    width:36px;height:36px;display:inline-flex;align-items:center;justify-content:center;
+    position:relative;transition:.3s cubic-bezier(.25,1,.5,1);flex-shrink:0;
+  }
+  .copy-email-btn:hover{background:var(--green);color:var(--navy);border-color:var(--green)}
+  .copy-email-btn .ic-check{display:none}
+  .copy-email-btn.copied{background:var(--green);color:var(--navy);border-color:var(--green)}
+  .copy-email-btn.copied .ic-copy{display:none}
+  .copy-email-btn.copied .ic-check{display:block}
+  .copy-email-btn .tip{
+    position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%) translateY(4px);
+    background:var(--navy);color:var(--paper);
+    font-family:var(--sans);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+    padding:6px 10px;border-radius:6px;white-space:nowrap;
+    opacity:0;pointer-events:none;transition:.25s;
+    border:1px solid rgba(237,236,234,.18);
+  }
+  .copy-email-btn.copied .tip{opacity:1;transform:translateX(-50%) translateY(0)}
+
+  /* — FOUNDERS — */
+  .founders{background:var(--purple);color:var(--paper);padding:140px 36px}
+  .founders .inner{max-width:1480px;margin:0 auto;display:grid;grid-template-columns:1fr 1.4fr;gap:80px;align-items:center}
+  .founders h2{
+    font-family:var(--serif);font-weight:400;font-size:clamp(48px,6vw,96px);line-height:1;letter-spacing:-.02em;
+  }
+  .founders h2 em{font-style:italic;color:var(--pink)}
+  .founders p{font-size:18px;line-height:1.6;opacity:.92;max-width:60ch;margin-bottom:18px}
+  .founders .photo-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .founders .photo{aspect-ratio:3/4;background:var(--navy);border:1px solid rgba(255,255,255,.18);position:relative;overflow:hidden}
+  .founders .photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+  .founders .photo:hover img{transform:scale(1.05)}
+  .founders .photo .scrim{
+    position:absolute;inset:0;pointer-events:none;
+    background:
+      linear-gradient(135deg, rgba(12,9,51,.62) 0%, rgba(12,9,51,0) 42%),
+      linear-gradient(180deg, rgba(50,21,173,0) 50%, rgba(50,21,173,.78) 100%);
+  }
+  .founders .photo span.cap{position:absolute;inset:auto 14px 14px 14px;font-family:var(--sans);font-size:11px;letter-spacing:.22em;text-transform:uppercase;opacity:.85;color:var(--paper);z-index:2;text-shadow:0 1px 4px rgba(12,9,51,.5)}
+  .founders .photo .name{
+    position:absolute;left:14px;top:14px;
+    font-family:var(--serif);font-size:28px;font-style:italic;color:var(--pink);z-index:2;
+    text-shadow: 0 2px 10px rgba(12,9,51,.65), 0 4px 24px rgba(12,9,51,.45);
+  }
+  .founders .photo.right{margin-top:48px}
+
+  /* — CTA — */
+  .cta{background:var(--navy);color:var(--paper);padding:160px 36px 60px;position:relative;overflow:hidden}
+  .cta .inner{max-width:1480px;margin:0 auto;position:relative;z-index:2}
+  .cta .eyebrow{font-size:11px;letter-spacing:.28em;text-transform:uppercase;opacity:.6;margin-bottom:32px}
+  .cta h2{
+    font-family:var(--serif);font-weight:400;font-size:clamp(80px,13vw,210px);
+    line-height:.94;letter-spacing:-.02em;
+  }
+  .cta h2 em{font-style:italic;color:var(--pink)}
+  .cta h2 .stop{color:var(--pink)}
+  .cta .send{
+    margin-top:64px;display:grid;grid-template-columns:1.4fr 1fr;gap:60px;align-items:end;
+  }
+  .cta .form{display:flex;gap:0;border-bottom:1px solid rgba(237,236,234,.4);padding-bottom:12px;align-items:center}
+  .cta .form input{
+    flex:1;background:transparent;border:0;color:var(--paper);
+    font-family:var(--serif);font-size:28px;outline:none;padding:8px 0;font-style:italic;
+  }
+  .cta .form input::placeholder{color:rgba(237,236,234,.5)}
+  .cta .form button{
+    background:var(--pink);color:var(--navy);border:0;border-radius:999px;
+    padding:14px 22px;font-size:13px;letter-spacing:.06em;cursor:pointer;
+    display:inline-flex;align-items:center;gap:8px;
+    transition:.3s cubic-bezier(.25,1,.5,1);
+  }
+  .cta .form button:hover{background:var(--green);color:var(--navy)}
+  .cta .contact{display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:1.5;opacity:.9}
+  .cta .contact .big{font-family:var(--serif);font-size:30px;line-height:1.1;opacity:1;color:var(--pink);font-style:italic}
+
+  .cta .deco{position:absolute;right:-20px;top:80px;width:520px;height:auto;color:var(--pink);opacity:.18;pointer-events:none;transform: rotate(180deg)}
+
+  /* — FOOTER — */
+  footer{background:var(--navy);color:var(--paper);padding:60px 36px 40px;border-top:1px solid rgba(237,236,234,.18)}
+  footer .inner{max-width:1480px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;align-items:start}
+  footer h4{font-size:11px;letter-spacing:.28em;text-transform:uppercase;opacity:.55;margin-bottom:18px;font-weight:400}
+  footer ul{list-style:none;display:flex;flex-direction:column;gap:8px;font-size:14px}
+  footer ul a{opacity:.9;transition:.2s}
+  footer ul a:hover{opacity:1;color:var(--pink)}
+  footer .lockup{font-family:var(--serif);font-size:54px;line-height:1;letter-spacing:-.01em}
+  footer .lockup i{font-style:italic;color:var(--pink)}
+  footer .tag{font-family:var(--serif);font-size:18px;font-style:italic;opacity:.7;margin-top:10px}
+  .legal{max-width:1480px;margin:60px auto 0;display:flex;justify-content:space-between;font-size:11px;letter-spacing:.18em;text-transform:uppercase;opacity:.55;border-top:1px solid rgba(237,236,234,.18);padding-top:24px}
+
+  /* — Fibonacci burst (clique global) — */
+  #cursor-fx-container{
+    position:fixed;inset:0;pointer-events:none;z-index:99997;
+    mix-blend-mode: difference;
+  }
+  .fibonacci-ring{
+    position:absolute;border-radius:50%;
+    border:1.5px solid var(--pink);
+    pointer-events:none;
+    transform: translate(-50%, -50%) scale(0.1);
+    opacity:1;
+    animation: fibonacci-burst .42s cubic-bezier(.1,.8,.3,1) forwards;
+  }
+  /* Variante "shaped": nasce com o formato do botão, expande virando círculo */
+  .fibonacci-ring.shaped{
+    animation: fibonacci-burst-shaped .42s cubic-bezier(.1,.8,.3,1) forwards;
+  }
+  @keyframes fibonacci-burst{
+    0%   { transform: translate(-50%, -50%) scale(0.1); opacity: 1; }
+    60%  { opacity: .8; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+  }
+  @keyframes fibonacci-burst-shaped{
+    0%   { transform: translate(-50%, -50%) scale(0.95); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1.6);  opacity: 0; border-radius: 50%; }
+  }
+  .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid currentColor;border-radius:999px;padding:6px 12px;font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (max-width:900px){
+    .hero-foot{grid-template-columns:1fr;gap:24px}
+    .manifesto .inner{grid-template-columns:1fr;gap:24px}
+    .servicos .head{grid-template-columns:1fr}
+    .modgrid{grid-template-columns:repeat(2,1fr)}
+    .case-grid > .case{grid-column:span 12 !important;aspect-ratio:4/3 !important}
+    .client-grid{grid-template-columns:repeat(3,1fr)}
+    .founders .inner{grid-template-columns:1fr}
+    .cta .send{grid-template-columns:1fr;gap:32px}
+    footer .inner{grid-template-columns:1fr 1fr;gap:32px}
+    .nav-links{display:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- Cursor customizado -->
+<div id="cursor"></div>
+<div id="cursor-halo"></div>
+<div id="cursor-fx-container"></div>
+
+<!-- NAV -->
+<nav class="nav dark" id="nav" data-screen-label="00 Nav">
+  <div class="wrap nav-row">
+    <div class="nav-left">
+      <a class="brand" href="#top" aria-label="Muma" id="brandLogo">
+        <svg id="brandSvg" viewBox="0 0 1201.6 246.96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- lp1: primeiro M (orig + alternativo) -->
+          <g class="lp lp1">
+            <path class="orig" d="M295.04,8.93c-23.55-13.24-58.03-17.69-93.63,29.71-7.13-11.96-17-22.19-30.37-29.71-26.66-14.99-67.3-18.73-107.72,51.21L51.08,5.18H8.12s0,0,0,0C8.97,146.32,0,230.62,0,230.61h69.41V65.77c22.7-48.79,70.32-55.88,82.43-20.11,21.44,63.32-53.45,185.04-53.39,184.95h89.16c13.12-21.16,47.71-121.76,17.85-184.41,24.49-30.39,60.14-30.8,70.39-.54,21.44,63.32-53.45,185.04-53.39,184.95h89.16c16.31-26.3,65.82-175.36-16.57-221.68Z"/>
+            <path class="alt"  d="M157.12,157.74C161.09,114.02,169.63,2.95,246.65.05c94.42-3.55,106.19,184.25.08,173.58-8.67-.87-15.38-2.02-20.63-2.41-10.77-.79-20.2,11.4-5.51,19.31,38.59,20.78,69.12-29.37,99.54-19.79,46.9,14.76,38.85,86.71-45.42,74.33-63.39-9.31-77.36-40.33-74.11-61.51,4.58-29.83,42.28-34.32,46.45-96.2,2.3-34.2-21.49-81.65-49.82-48.14-21.58,25.53-22.52,93.37-13.4,142.62,5.16,27.87-6.37,49.65-29.86,48.82-22.78-.81-41.06-15.46-38.32-45.49,3.46-37.93,6.67-93.35-2.5-131.66-9.89-41.34-35.72-44.97-48.29-20.41-20.57,40.2-23.75,114.44,14.29,148.61,29.66,26.64,14.21,60.78-13.27,64.22-22.36,2.8-44.2-12.17-52.75-33.66C-13.34,145.65-3.09-5.24,74.39.28c61.45,4.38,50.11,99.32,70.54,157.93,2.73,7.84,11.37,8.54,12.19-.48Z"/>
+          </g>
+          <!-- lp2: U (orig + alternativo) -->
+          <g class="lp lp2">
+            <path class="orig" d="M580.04,5.18h-42.94s-7.13,143.6-47.19,192.25c-71.7,87.06-100.29-77.31.31-192.25h-108.03s-54.39,172.75,20.73,219.87c69.09,43.34,112.86-48.93,112.86-48.93l3.12,54.48h69.26c-11.21-95.48-8.12-225.43-8.12-225.43Z"/>
+            <path class="alt"  d="M442.93,55.36c-16.1-46.33-36.55-61.06-62.73-53.1s-31.5,39.83-11.21,53.41c20.29,13.58,61.28-1.18,58.72,19.91-2.56,21.09-80.46,57.37-77.55,119.74,2.51,53.75,72.72,59.67,107.13,44.21,11.36-5.1,16.91-17.44,13.5-28.72-6.8-22.54,2.15-51.72,17.52-39.79,3.94,3.06,5.23,8.7.77,15.19-18.13,26.42,9.16,54.01,33.14,58.66,38.92,7.56,61.49-9.51,68.29-27.15,6.37-16.51-9.46-32.61-27.26-28.04-17.1,4.39-40.9-1.77-26.17-91.86,3.69-22.57,21.01-56.28,18.86-78.25-1.34-13.71-15.66-22.86-29.53-18.45-14.77,4.7-18.04,21.91-10.28,38.23,9.64,20.26,9.81,43.73-.96,64.03-22.59,42.57-64.18,91.99-106.99,64.27-61.23-39.64,50.89-65.77,34.73-112.28Z"/>
+          </g>
+          <!-- lp3: segundo M (orig + alternativo) -->
+          <g class="lp lp3">
+            <path class="orig" d="M913.76,8.93c-23.55-13.24-58.03-17.69-93.63,29.71-7.13-11.96-17.01-22.19-30.37-29.71-26.66-14.99-67.3-18.73-107.72,51.21l-12.25-54.96h-42.95s0,0,0,0c.85,141.14-8.12,225.43-8.12,225.43h69.41V65.77c22.7-48.79,70.32-55.88,82.43-20.11,21.44,63.32-53.45,185.04-53.39,184.95h89.16c13.12-21.16,47.71-121.76,17.85-184.41,24.49-30.39,60.14-30.8,70.39-.54,21.44,63.32-53.45,185.04-53.39,184.95h89.16c16.31-26.3,65.82-175.36-16.57-221.68Z"/>
+            <path class="alt"  d="M787.66,105.3c-.38-9.16,3.03-18.15,10.3-25.52,22.27-22.6,72.54.14,88.55,26.34,41.96,68.69-82.44,53.04-110.74,79.37-21.66,20.15-11.36,65.47,42.01,61.19,47.61-3.82,95.33-48.48,90.96-108.87-5.26-72.59-44.39-134.51-90.08-123.07-36.47,9.13-30,58.2-41.44,85.88-4.74,11.48-17.71,17.39-29.51,13.5-17.14-5.65-25.61-21.15-22.52-44.95,4.98-38.39,2.09-88.73-63.38-61.35-65.47,27.39-105.55,194.85-6.29,228.61,99.27,33.77,113.2-41.83,65.1-58.32-48.1-16.48-113.29-8.64-113.4-48.52-.11-39.88,94.15-72.85,103.68-45.73,6.53,18.58-4.74,39.26-2.95,58.58,2.15,23.21,42.14,46.01,74.58,24.04,22.56-15.28,6.13-37.27,5.13-61.18Z"/>
+          </g>
+          <!-- lp4: A (orig + alternativo) -->
+          <g class="lp lp4">
+            <path class="orig" d="M1193.69,84.65c1.08-113.11-168.89-100.62-183.5-33.98-8.38,38.22,32.15,48.75,51.28,40.47,16.3-7.05,23.47-28.4,3.39-41.66-21.54-14.23-6.21-40.49,16.58-42.78,35.22-3.55,72.22,39.31,5.31,90.34-44.87,34.22-111.66,31.83-118.99,86.6-7.84,58.58,103.16,76.59,156.58,13.03l7.94,33.95h69.32c-8.82-76.06-7.91-145.96-7.91-145.97ZM1110.2,196.43c-13.63,12.18-41.47,13.68-55.81,2.77-13.55-10.31-21.11-29.27-14.5-45.37,10.38-25.27,72.18-52.54,93.61-91.35l.33,45.58c-1.3,50.84-2.58,69.54-23.64,88.36Z"/>
+            <path class="alt"  d="M1161.78,98.57c22.38-134.23-175.6-113.12-193.88-44.48-13.64,51.22,58.97,54.2,89.33,56.4,8.35.6,11.39,2.77,11.39,5.85,0,12.27-60.35,15.26-88.41,26.15-47.64,18.49-59.13,97.98,24.87,104.28,54.02,4.05,76.39-23.46,97.54-56.09,2.44-3.77,5.09-4.14,7.13-3.51,2.14.66,3.6,2.52,1.83,7.41-11.7,32.35-15.18,45.05,26.05,45.05,55.32,0,7.24-39.61,24.16-141.06ZM1124.08,126.59c-9.85,25.72-23.9,55.69-42.7,72.06-21.51,18.73-58.02,7.59-60.96-19.3-1.72-15.71,9.18-30.03,28.13-38.99,20.86-9.86,39.53-16.93,37.52-28.13-2.27-12.63-19.09-12.42-37.52-16.01-26.37-5.14-55.69-14.37-47.38-42.39,5.4-18.22,24.33-27.21,46.35-27.73,56.19-1.34,95.55,50.94,76.57,100.49Z"/>
+          </g>
+        </svg>
+      </a>
+      <div class="nav-ticker" id="navTicker">
+        <span class="pulse"></span>
+        <span class="phrase"><em>disponível</em> para projetos · 2026</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="#manifesto">Manifesto</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#cases">Cases</a>
+      <a href="#clientes">Clientes</a>
+      <a href="#estudio">Estúdio</a>
+    </div>
+    <div class="nav-right">
+      <a class="nav-cta" href="#contato"><span>orçamento</span><span class="arr">↗</span></a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top" data-screen-label="01 Hero">
+  <div class="grid">
+    <div class="vstrip">Muma Estúdio Criativo · Rio de Janeiro · 2025</div>
+    <div class="col">
+      <div class="hero-meta">
+        <span>[ 001 ] estúdio criativo modular</span>
+        <span>fundado por mulheres ✦ desde 2023</span>
+      </div>
+
+      <h1>
+        <span class="row">Do detalhe</span>
+        <span class="row indent"><span class="it">ao todo</span><span class="stop">.</span></span>
+      </h1>
+
+      <div class="hero-foot">
+        <div class="col">
+          <span class="label">[ a ] o estúdio</span>
+          Transformamos ideias em histórias visuais autênticas — produção, arte, captação, edição, cenografia, styling, beauty, casting e catering, do começo ao fim ou só onde for preciso.
+        </div>
+        <div class="col">
+          <span class="label">[ b ] o jeito</span>
+          <div class="big">Criar não é caótico, é orquestrado.</div>
+        </div>
+        <div class="col">
+          <span class="label">[ c ] números</span>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;font-family:var(--serif);font-size:42px;line-height:1">
+            <div>+80<div style="font-family:var(--sans);font-size:11px;letter-spacing:.18em;text-transform:uppercase;opacity:.6;margin-top:6px">projetos</div></div>
+            <div>13<div style="font-family:var(--sans);font-size:11px;letter-spacing:.18em;text-transform:uppercase;opacity:.6;margin-top:6px">clientes ativos</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- cardume curioso: particles injetadas via JS -->
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span>Do detalhe <em>ao todo</em><span class="dot"></span>Criamos em rede<span class="dot"></span>Conteúdo <em>sem fórmula de bolo</em><span class="dot"></span>Produção sem cilada<span class="dot"></span>Da ideia ao impacto, com sofisticação<span class="dot"></span>Conectamos <em>o que importa</em><span class="dot"></span></span>
+    <span>Do detalhe <em>ao todo</em><span class="dot"></span>Criamos em rede<span class="dot"></span>Conteúdo <em>sem fórmula de bolo</em><span class="dot"></span>Produção sem cilada<span class="dot"></span>Da ideia ao impacto, com sofisticação<span class="dot"></span>Conectamos <em>o que importa</em><span class="dot"></span></span>
+  </div>
+</div>
+
+<!-- MANIFESTO -->
+<section class="manifesto" id="manifesto" data-screen-label="02 Manifesto">
+  <div class="inner">
+    <div class="left">
+      <div class="section-label">[ 02 ] Manifesto</div>
+      <div class="visual">
+        <img src="assets/socias.jpg" alt="Duo fundadoras Muma" />
+        <span class="tag">por duas mulheres</span>
+        <svg class="corner" viewBox="0 0 320.23 538.51" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="currentColor" d="M315.5,203.29L283.8,0H0v283.8h173.8c0,73.34-13.7,140.23-115.61,151.47v103.24c135.51-13.76,291.32-117.03,257.3-335.23Z"/></svg>
+      </div>
+      <div class="caption">pausa estratégica.<br/>conexão entre partes.</div>
+    </div>
+    <div class="copy">
+      <h2>A Muma nasceu para transformar <em>ideias em histórias</em> visuais <span class="pink">autênticas.</span></h2>
+      <p>Somos um estúdio criativo modular: entramos do início ao fim de um projeto, ou apenas onde for preciso. Nosso jeito é claro e sofisticado, mas sempre próximo.</p>
+      <p>Não prometemos fórmulas mágicas — entregamos resultados consistentes, com criatividade, método e colaboração. Acreditamos que adaptabilidade não é bagunça, é inteligência.</p>
+      <div class="pull">brilho no olho <span style="color:var(--pink)">+</span> impacto real</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVIÇOS -->
+<section class="servicos" id="servicos" data-screen-label="03 Serviços">
+  <div class="inner">
+    <div class="head">
+      <div>
+        <div class="section-label" style="color:var(--pink)">[ 03 ] Serviços modulares</div>
+        <h2 style="margin-top:28px">Encaixa<br/><em>do jeito</em> que <br/>seu projeto pede.</h2>
+      </div>
+      <div class="right">
+        Cada serviço opera como uma peça independente — você contrata o pacote completo ou só o módulo que falta no seu time. Tudo orquestrado por uma curadoria que enxerga o detalhe e o todo.
+        <div class="help">↳ passe o mouse para abrir cada módulo</div>
+      </div>
+    </div>
+
+    <div class="modgrid" id="modgrid">
+      <div class="mod">
+        <div class="num">01 / direção</div>
+        <div>
+          <div class="name">Direção <em>criativa</em></div>
+          <div class="desc">Conceito, narrativa e linguagem visual para campanhas, lançamentos e conteúdos editoriais.</div>
+        </div>
+      </div>
+      <div class="mod alt">
+        <div class="num">02 / produção</div>
+        <div>
+          <div class="name">Produção <em>executiva</em></div>
+          <div class="desc">Gestão de cronograma, locação, fornecedores e logística. Você só pensa no resultado.</div>
+        </div>
+      </div>
+      <div class="mod alt2">
+        <div class="num">03 / captação</div>
+        <div>
+          <div class="name">Foto <em>&amp;</em> vídeo</div>
+          <div class="desc">Captação still e em movimento, com equipes técnicas premiadas e direção alinhada ao briefing.</div>
+        </div>
+      </div>
+      <div class="mod alt3">
+        <div class="num">04 / pós</div>
+        <div>
+          <div class="name">Edição <em>e pós</em></div>
+          <div class="desc">Color, sound design, motion e tratamento. Acabamento sofisticado da primeira ao última frame.</div>
+        </div>
+      </div>
+
+      <div class="mod alt">
+        <div class="num">05 / arte</div>
+        <div>
+          <div class="name">Arte <em>&amp;</em> cenografia</div>
+          <div class="desc">Cenários vivos, props, ambientação e construção. Da pesquisa ao set montado e pronto.</div>
+        </div>
+      </div>
+      <div class="mod">
+        <div class="num">06 / beauty</div>
+        <div>
+          <div class="name"><em>Beauty</em> + styling</div>
+          <div class="desc">Direção de styling, makeup, hair e wardrobe. Coerência estética em cada quadro.</div>
+        </div>
+      </div>
+      <div class="mod alt3">
+        <div class="num">07 / casting</div>
+        <div>
+          <div class="name">Casting <em>autoral</em></div>
+          <div class="desc">Seleção de elenco, modelos e talentos com curadoria de imagem e diversidade real.</div>
+        </div>
+      </div>
+      <div class="mod alt2">
+        <div class="num">08 / catering</div>
+        <div>
+          <div class="name">Catering <em>set</em></div>
+          <div class="desc">Alimentação para equipe e elenco, com cardápios pensados pra cada dia de set.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:48px;font-size:13px;opacity:.7">
+      <span>tudo, ou só a parte que faltar — você escolhe.</span>
+      <span>↳ orçamento sob medida em 48h</span>
+    </div>
+  </div>
+</section>
+
+<!-- CASES -->
+<section class="cases" id="cases" data-screen-label="04 Cases">
+  <div class="inner">
+    <div class="section-label">[ 04 ] Trabalhos selecionados</div>
+        <h2>Histórias visuais que <em>acontecem.</em></h2>
+        <p style="font-family:var(--sans);font-size:14px;letter-spacing:.04em;opacity:.7;margin:-30px 0 60px;max-width:46ch;line-height:1.55">passe o mouse — o backstage também é cena.</p>
+
+    <div class="case-grid">
+      <a href="https://www.behance.net/mumaestudiocriativo" target="_blank" rel="noopener" class="case c1">
+        <img src="assets/work-koni.png" alt="Koni - Dia do Koni" class="img-front" />
+        <img src="assets/bts-koni.jpg" alt="Koni - bastidores" class="img-back" />
+        <div class="scrim"></div>
+        <span class="badge">campanha · still</span>
+        <span class="reveal-hint"><span class="lens"></span> backstage</span>
+        <div class="title">Dia do <em>Koni</em></div>
+        <div class="meta"><span>Koni · 2025</span><span>revelar bastidor ↗</span></div>
+      </a>
+      <a href="https://www.behance.net/mumaestudiocriativo" target="_blank" rel="noopener" class="case c2">
+        <img src="assets/work-spoleto.jpg" alt="Spoleto" class="img-front" />
+        <img src="assets/bts-spoleto.jpg" alt="Spoleto - bastidores" class="img-back" />
+        <div class="scrim"></div>
+        <span class="badge">conteúdo · still</span>
+        <span class="reveal-hint"><span class="lens"></span> backstage</span>
+        <div class="title"><em>Spoleto</em></div>
+        <div class="meta"><span>Spoleto · 2025</span><span>revelar bastidor ↗</span></div>
+      </a>
+      <a href="https://www.behance.net/mumaestudiocriativo" target="_blank" rel="noopener" class="case c3">
+        <img src="assets/work-care.jpg" alt="Care Beauty" class="img-front" />
+        <img src="assets/bts-care.jpg" alt="Care Beauty - bastidores" class="img-back" />
+        <div class="scrim"></div>
+        <span class="badge">beauty · still</span>
+        <span class="reveal-hint"><span class="lens"></span> backstage</span>
+        <div class="title"><em>Care</em><br/>Beauty</div>
+        <div class="meta"><span>2025</span><span>revelar bastidor ↗</span></div>
+      </a>
+      <a href="https://www.behance.net/mumaestudiocriativo" target="_blank" rel="noopener" class="case c4">
+        <img src="assets/work-gendai.jpg" alt="Gendai" class="img-front" />
+        <img src="assets/bts-gendai.jpg" alt="Gendai - bastidores" class="img-back" />
+        <div class="scrim"></div>
+        <span class="badge">food · still</span>
+        <span class="reveal-hint"><span class="lens"></span> backstage</span>
+        <div class="title"><em>Gendai</em></div>
+        <div class="meta"><span>Gendai · 2024</span><span>revelar bastidor ↗</span></div>
+      </a>
+      <a href="https://www.behance.net/mumaestudiocriativo" target="_blank" rel="noopener" class="case c5">
+        <img src="assets/work-granado.jpg" alt="Granado" class="img-front" />
+        <img src="assets/bts-granado.jpg" alt="Granado - bastidores" class="img-back" />
+        <div class="scrim"></div>
+        <span class="badge">produto · still</span>
+        <span class="reveal-hint"><span class="lens"></span> backstage</span>
+        <div class="title"><em>Granado</em></div>
+        <div class="meta"><span>Granado · 2024</span><span>revelar bastidor ↗</span></div>
+      </a>
+      <a href="https://www.behance.net/mumaestudiocriativo" target="_blank" rel="noopener" class="case c6">
+        <img src="assets/work-cimed.jpg" alt="CIMED" class="img-front" />
+        <img src="assets/bts-cimed.jpg" alt="CIMED - bastidores" class="img-back" />
+        <div class="scrim"></div>
+        <span class="badge">filme · campanha</span>
+        <span class="reveal-hint"><span class="lens"></span> backstage</span>
+        <div class="title">CIMED · <em>SuperPoderosa</em></div>
+        <div class="meta"><span>CIMED · 2024</span><span>revelar bastidor ↗</span></div>
+      </a>
+    </div>
+
+    <div class="cases-foot">
+      <span style="opacity:.7">selecionados de +80 projetos.</span>
+      <a class="ghost-btn" href="https://www.behance.net/mumaestudiocriativo" target="_blank" rel="noopener">portfólio completo no Behance <span>↗</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENTES -->
+<section class="clientes" id="clientes" data-screen-label="05 Clientes">
+  <div class="inner">
+    <div class="section-label">[ 05 ] Clientes</div>
+    <h3>marcas que <em>criam</em> com a Muma.</h3>
+    <div class="client-grid">
+      <div>Spoleto</div>
+      <div><em>China</em> in Box</div>
+      <div>Gendai</div>
+      <div>Koni</div>
+      <div>CIMED</div>
+      <div>Mude</div>
+      <div>Granado</div>
+      <div>DryOn</div>
+      <div><em>Care</em> Beauty</div>
+      <div>Globo</div>
+      <div>SESC</div>
+      <div>Ambev</div>
+      <div>Exc Rio</div>
+      <div style="font-family:var(--sans);font-size:11px;letter-spacing:.18em;text-transform:uppercase;opacity:.5">+ outros</div>
+      <div style="background:var(--green);color:var(--navy)"><em>e</em> você?</div>
+      <div style="background:var(--lavender);color:var(--navy)">↗</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDERS -->
+<section class="founders" id="estudio" data-screen-label="06 Estúdio">
+  <div class="inner">
+    <div>
+      <div class="section-label" style="color:var(--pink)">[ 06 ] Estúdio</div>
+      <h2 style="margin-top:28px">Duas mulheres, <em>uma vontade</em> de criar diferente.</h2>
+      <p style="margin-top:28px">A Muma é fundada e dirigida por mulheres apaixonadas por orquestrar projetos com método e brilho no olho. Trabalhamos em rede, com especialistas que vibram com o que fazem.</p>
+      <p><em>Viciadas em criar.</em> Sagazes para resolver. Próximas o suficiente pra entrar no time, sofisticadas o bastante pra elevar a entrega.</p>
+      <div style="margin-top:36px;display:flex;gap:10px;flex-wrap:wrap">
+        <span class="pill">⬢ Modular</span>
+        <span class="pill">⬢ Autoral</span>
+        <span class="pill">⬢ Sagaz</span>
+        <span class="pill">⬢ Próxima</span>
+      </div>
+    </div>
+    <div class="photo-pair">
+      <div class="photo">
+        <img src="assets/socia-01.jpg" alt="Sócia fundadora 01" />
+        <div class="scrim"></div>
+        <div class="name">Alinne</div>
+        <span class="cap">fundadora · viciada em criar</span>
+      </div>
+      <div class="photo right">
+        <img src="assets/socia-02.jpg" alt="Sócia fundadora 02" />
+        <div class="scrim"></div>
+        <div class="name">Vicky</div>
+        <span class="cap">fundadora · brilho no olho</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / CONTATO -->
+<section class="cta" id="contato" data-screen-label="07 Contato">
+  <div class="inner">
+    <div class="eyebrow">[ 07 ] Vamos criar juntos</div>
+    <h2>
+      <span style="display:block">nos conte</span>
+      <span style="display:block;padding-left:.5em">sua <em>ideia</em>,<span class="stop"></span></span>
+    </h2>
+
+    <div class="send">
+      <form class="form" onsubmit="event.preventDefault();this.querySelector('button').textContent='enviado ✓';setTimeout(()=>{window.location.href='mailto:oi@mumaestudio.com.br'},400)">
+        <input type="email" placeholder="seu melhor e-mail" required />
+        <button type="submit">enviar briefing <span>↗</span></button>
+      </form>
+
+      <div class="contact">
+        <span style="font-size:11px;letter-spacing:.28em;text-transform:uppercase;opacity:.55">ou direto</span>
+        <div class="email-row">
+          <a class="big" href="/cdn-cgi/l/email-protection#ff9096bf928a929e9a8c8b8a9b9690d19c9092d19d8d"><span class="__cf_email__" data-cfemail="a8c7c1e8c5ddc5c9cddbdcddccc1c786cbc7c586cada">[email&#160;protected]</span></a>
+          <button class="copy-email-btn" id="copyEmail" type="button" aria-label="Copiar e-mail">
+            <svg class="ic-copy" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9"></path></svg>
+            <svg class="ic-check" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg>
+            <span class="tip">Copiado!</span>
+          </button>
+        </div>
+        <span style="opacity:.7">Rio de Janeiro</span>
+        <span style="opacity:.7">resposta em até 24h úteis</span>
+      </div>
+    </div>
+  </div>
+  <svg class="deco" viewBox="0 0 320.23 538.51" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path fill="currentColor" d="M315.5,203.29L283.8,0H0v283.8h173.8c0,73.34-13.7,140.23-115.61,151.47v103.24c135.51-13.76,291.32-117.03,257.3-335.23Z"/></svg>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="inner">
+    <div>
+      <div class="lockup">
+        <img src="assets/logo-muma.svg" alt="Muma" style="height:46px;width:auto;display:block;color:var(--pink)" />
+      </div>
+      <div class="tag">do detalhe ao todo.</div>
+      <p style="margin-top:24px;font-size:13px;opacity:.7;max-width:42ch;line-height:1.5">Estúdio criativo modular — produção, captação, arte, beauty, styling, casting, catering, edição. Fundado por mulheres.</p>
+    </div>
+    <div>
+      <h4>navegar</h4>
+      <ul>
+        <li><a href="#manifesto">Manifesto</a></li>
+        <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#cases">Cases</a></li>
+        <li><a href="#clientes">Clientes</a></li>
+        <li><a href="#estudio">Estúdio</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>siga</h4>
+      <ul>
+        <li><a href="https://www.instagram.com/mumaestudiocriativo/" target="_blank" rel="noopener">Instagram ↗</a></li>
+        <li><a href="https://www.behance.net/mumaestudiocriativo" target="_blank" rel="noopener">Behance ↗</a></li>
+        <li><a href="https://www.linkedin.com/company/mumaestudiocriativo" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+        <li><a href="https://www.tiktok.com/@mumaestudiocriativo" target="_blank" rel="noopener">TikTok ↗</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>contato</h4>
+      <ul>
+        <li><a href="/cdn-cgi/l/email-protection#bbd4d2fbd6ced6dadec8cfcedfd2d495d8d4d695d9c9"><span class="__cf_email__" data-cfemail="b5dadcf5d8c0d8d4d0c6c1c0d1dcda9bd6dad89bd7c7">[email&#160;protected]</span></a></li>
+        <li><a href="#contato">Orçamento</a></li>
+        <li><a href="#contato">Trabalhe com a gente</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="legal">
+    <span>© 2026 Muma Estúdio Criativo</span>
+    <span>feito com método + brilho no olho</span>
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // Nav: alternar tema do nav conforme seção
+  const nav = document.getElementById('nav');
+  const darkSections = document.querySelectorAll('.hero, .servicos, .founders, .cta, footer');
+  function checkNav(){
+    const y = window.scrollY + 80;
+    let dark = false;
+    darkSections.forEach(s=>{
+      const r = s.getBoundingClientRect();
+      const top = r.top + window.scrollY;
+      const bot = top + s.offsetHeight;
+      if(y >= top && y < bot) dark = true;
+    });
+    nav.classList.toggle('dark', dark);
+  }
+  window.addEventListener('scroll', checkNav, {passive:true});
+  checkNav();
+
+  // Reveal animations
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }});
+  },{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // Modular drag — light-touch: clicking a service highlights it
+  document.querySelectorAll('.mod').forEach(m=>{
+    m.addEventListener('click', ()=>{
+      document.querySelectorAll('.mod').forEach(x=>x.style.transform='');
+      m.style.transform='scale(1.02)';
+      setTimeout(()=>{m.style.transform=''},400);
+    });
+  });
+
+  // ——————————————————————————————————————————————
+  // Cardume 3D Muma: órbitas elípticas com profundidade
+  // (planetas ao redor do cursor — sem cruzar o hotspot)
+  // ——————————————————————————————————————————————
+  const COLORS = ['#ff80e1','#a194ff','#9cff97','#ff80e1','#edecea','#a194ff'];
+  const REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ICON_VB = '0 0 320.23 538.51';
+  const ICON_D  = 'M315.5,203.29L283.8,0H0v283.8h173.8c0,73.34-13.7,140.23-115.61,151.47v103.24c135.51-13.76,291.32-117.03,257.3-335.23Z';
+  const ICON_AR = 538.51 / 320.23;
+
+  function makeIcon(size, color, rotate){
+    const ns = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', ICON_VB);
+    svg.style.width  = size + 'px';
+    svg.style.height = (size * ICON_AR) + 'px';
+    svg.style.display = 'block';
+    svg.style.transform = `rotate(${rotate}deg)`;
+    svg.style.transformOrigin = 'center';
+    svg.style.transition = 'transform .8s cubic-bezier(.4,0,.2,1)';
+    const path = document.createElementNS(ns, 'path');
+    path.setAttribute('d', ICON_D);
+    path.setAttribute('fill', color);
+    path.style.transition = 'fill 1.2s cubic-bezier(.4,0,.2,1)';
+    svg.appendChild(path);
+    return { svg, path };
+  }
+
+  function spawnCardume(container, opts){
+    if(!container || REDUCE) return;
+    const cfg = Object.assign({
+      shapes: 10,
+      follow: true,
+      followStrength: 1,
+      mouseSmoothing: 0.04,
+      orbitFollow: 0.14,
+      opacity: 0.95,
+      sizeMul: 1,
+      idleAnchor: null,
+      clickScare: true,
+      tilt: 0.55,
+      depthMin: 0.55,
+      depthMax: 1.20,
+      enableAtomIdle: true,
+      idleMs: 3000,
+      enableFollowFormation: true,  // STATE_FOLLOW (rastro/bando)
+      velocityThreshold: 0.45,      // px/ms — acima disso → bando
+      trailDelayMs: 280,            // janela total do rastro (ms)
+    }, opts || {});
+
+    // Miniaturizado: ícones 12-28, pontos 4-10
+    const baseShapes = [
+      { kind:'icon', size: 28 },
+      { kind:'icon', size: 22 },
+      { kind:'icon', size: 18 },
+      { kind:'icon', size: 14 },
+      { kind:'icon', size: 12 },
+      { kind:'dot',  size: 10 },
+      { kind:'dot',  size: 7  },
+      { kind:'dot',  size: 6  },
+      { kind:'dot',  size: 5  },
+      { kind:'dot',  size: 4  },
+    ].slice(0, cfg.shapes);
+
+    // 3 tilts do átomo: 45°, -45°, 90°
+    const ATOM_TILTS = [Math.PI/4, -Math.PI/4, Math.PI/2];
+
+    const ps = baseShapes.map((c, i) => {
+      const el = document.createElement('span');
+      el.className = 'cardume-p';
+      el.style.willChange = 'transform, opacity, z-index';
+      const ci = i % COLORS.length;
+      const color = COLORS[ci];
+      const size = c.size * cfg.sizeMul;
+      let path = null;
+
+      if (c.kind === 'icon') {
+        const rot = (Math.random()*40 - 20);
+        const { svg, path: p } = makeIcon(size, color, rot);
+        el.appendChild(svg);
+        path = p;
+        el.dataset.kind = 'icon';
+        el.dataset.rot = rot;
+      } else {
+        el.style.width = size + 'px';
+        el.style.height = size + 'px';
+        el.style.borderRadius = '50%';
+        el.style.background = color;
+        el.dataset.kind = 'dot';
+        el.style.transition = 'background 1.2s cubic-bezier(.4,0,.2,1)';
+      }
+      el.style.opacity = cfg.opacity;
+      container.appendChild(el);
+
+      const seed = ((i * 37 + 13) % 100) / 100;
+      const tiltIdx = i % 3;
+      const radius = 80 + i * 12;
+      const sameTiltIdx = Math.floor(i / 3);
+      const totalInThisTilt = Math.ceil(baseShapes.length / 3);
+      const atomBaseAngle = (sameTiltIdx / totalInThisTilt) * Math.PI * 2;
+      // delay próprio para sampling do rastro — particulas mais ao fundo seguem com mais atraso
+      const trailDelay = ((i + 1) / baseShapes.length) * cfg.trailDelayMs;
+
+      return {
+        el, path, kind:c.kind, baseSize: size,
+        x:0, y:0, vx:0, vy:0,
+        angle: (i / baseShapes.length) * Math.PI * 2 + seed * 0.5,
+        atomAngle: atomBaseAngle,
+        atomTiltIdx: tiltIdx,
+        baseOrbitSpeed: (0.0006 + (i % 4) * 0.0004) * (i % 2 ? 1 : -1),
+        radiusX: radius,
+        radiusY: radius * cfg.tilt,
+        atomRadius: 100 + (sameTiltIdx * 14),
+        ci, nextColor: 0,
+        rot: parseFloat(el.dataset.rot || '0'),
+        trailDelay,
+        // pequena ondulação lateral pra parecer cardume "nadando"
+        wavePhase: seed * Math.PI * 2,
+      };
+    });
+
+    const bounds = () => container.getBoundingClientRect();
+    let bb = bounds();
+    ps.forEach((p) => { p.x = bb.width * 0.5; p.y = bb.height * 0.5; });
+
+    let mx = bb.width * 0.7, my = bb.height * 0.45;
+    let smx = mx, smy = my;
+    let inside = false;
+    let scareUntil = 0;
+    let scareCx = 0, scareCy = 0;
+
+    let mouseInertia = 0;
+    let prevMx = mx, prevMy = my;
+    let lastMoveT = performance.now();
+    let atomT = 0;
+    let atomSpin = 0;
+    let idleId = null;
+
+    // Estado FOLLOW (bando) — buffer circular do rastro
+    const TRAIL_MAX = 90;
+    const trail = [];
+    let followT = 0; // 0..1 — quanto está em estado bando vs órbita
+    let mouseSpeed = 0; // px/ms (suavizada)
+
+    function pushTrail(t){
+      trail.push({ t, x: mx, y: my });
+      while (trail.length > TRAIL_MAX) trail.shift();
+    }
+    function sampleTrail(targetT){
+      // interpola entre os dois pontos mais próximos
+      if (!trail.length) return { x: mx, y: my };
+      if (trail.length === 1) return trail[0];
+      // procura par envolvendo targetT
+      for (let i = trail.length - 1; i > 0; i--){
+        const a = trail[i-1], b = trail[i];
+        if (a.t <= targetT && b.t >= targetT){
+          const f = (targetT - a.t) / Math.max(1, b.t - a.t);
+          return { x: a.x + (b.x - a.x) * f, y: a.y + (b.y - a.y) * f };
+        }
+      }
+      return trail[0];
+    }
+
+    function startIdleTimer(){
+      clearTimeout(idleId);
+      if (!cfg.enableAtomIdle) return;
+      idleId = setTimeout(()=>{}, cfg.idleMs);
+    }
+
+    if (cfg.follow){
+      container.addEventListener('mousemove', e => {
+        const b = bounds();
+        const newMx = e.clientX - b.left;
+        const newMy = e.clientY - b.top;
+        const dx = newMx - prevMx, dy = newMy - prevMy;
+        const delta = Math.hypot(dx, dy);
+        mouseInertia += delta * 0.00018;
+        prevMx = newMx; prevMy = newMy;
+        mx = newMx; my = newMy;
+        inside = true;
+        lastMoveT = performance.now();
+        pushTrail(lastMoveT);
+        startIdleTimer();
+      });
+      container.addEventListener('mouseleave', () => { inside = false; });
+    }
+
+    if (cfg.clickScare){
+      container.addEventListener('click', e => {
+        const b = bounds();
+        scareCx = e.clientX - b.left;
+        scareCy = e.clientY - b.top;
+        scareUntil = performance.now() + 1100;
+        lastMoveT = performance.now();
+        startIdleTimer();
+        for (const p of ps){
+          const dx = p.x - scareCx, dy = p.y - scareCy;
+          const d = Math.hypot(dx, dy) || 1;
+          const kick = 14 + Math.random()*14;
+          p.vx = (dx/d) * kick + (Math.random()-0.5)*5;
+          p.vy = (dy/d) * kick + (Math.random()-0.5)*5;
+          const newCi = (p.ci + 1 + Math.floor(Math.random()*4)) % COLORS.length;
+          p.ci = newCi;
+          const c = COLORS[newCi];
+          if (p.path) p.path.setAttribute('fill', c);
+          else p.el.style.background = c;
+          if (p.kind === 'icon') {
+            p.rot += (Math.random()-0.5) * 80;
+            const svg = p.el.querySelector('svg');
+            if (svg) svg.style.transform = `rotate(${p.rot}deg)`;
+          }
+          p.nextColor = performance.now() + 3200 + Math.random()*1500;
+        }
+      });
+    }
+
+    window.addEventListener('resize', () => { bb = bounds(); }, {passive:true});
+    startIdleTimer();
+
+    let last = performance.now();
+    function tick(t){
+      const dt = Math.min(33, t - last); last = t;
+      bb = bounds();
+
+      const ax = (cfg.idleAnchor && cfg.idleAnchor.x) ?? 0.66;
+      const ay = (cfg.idleAnchor && cfg.idleAnchor.y) ?? 0.50;
+      const idleX = bb.width  * (ax + Math.sin(t*0.0001)*0.06);
+      const idleY = bb.height * (ay + Math.cos(t*0.00012)*0.07);
+
+      const useMouse = inside && cfg.follow;
+      const targetX = useMouse ? (mx*cfg.followStrength + idleX*(1-cfg.followStrength)) : idleX;
+      const targetY = useMouse ? (my*cfg.followStrength + idleY*(1-cfg.followStrength)) : idleY;
+
+      smx += (targetX - smx) * cfg.mouseSmoothing;
+      smy += (targetY - smy) * cfg.mouseSmoothing;
+
+      mouseInertia *= 0.95;
+
+      // velocidade média do mouse recente (~120ms)
+      let recentSpeed = 0;
+      if (trail.length > 1){
+        let total = 0, dts = 0;
+        const cutoff = t - 120;
+        for (let i = 1; i < trail.length; i++){
+          if (trail[i].t < cutoff) continue;
+          total += Math.hypot(trail[i].x - trail[i-1].x, trail[i].y - trail[i-1].y);
+          dts   += trail[i].t - trail[i-1].t;
+        }
+        recentSpeed = dts > 0 ? total / dts : 0;
+      }
+      // suaviza
+      mouseSpeed += (recentSpeed - mouseSpeed) * 0.25;
+
+      // alvo de followT: 1 quando rápido, 0 quando lento — easing
+      const wantFollow = cfg.enableFollowFormation && useMouse && mouseSpeed > cfg.velocityThreshold;
+      followT += ((wantFollow ? 1 : 0) - followT) * (wantFollow ? 0.18 : 0.08);
+      // ease-out elástico sutil no retorno via desaceleração progressiva já no easing acima
+
+      // modo átomo
+      const idleFor = t - lastMoveT;
+      const wantAtom = cfg.enableAtomIdle && idleFor > cfg.idleMs && !scareUntil && followT < 0.05;
+      if (wantAtom) atomT += (1 - atomT) * 0.04;
+      else atomT += (0 - atomT) * 0.22;
+      atomSpin += dt * 0.0002;
+
+      const scared = t < scareUntil;
+      const scareDecay = scared ? (scareUntil - t) / 1100 : 0;
+      const depthRange = cfg.depthMax - cfg.depthMin;
+      const depthMid = (cfg.depthMax + cfg.depthMin) / 2;
+
+      for (let i=0; i<ps.length; i++){
+        const p = ps[i];
+
+        if (!scared){
+          p.angle += (p.baseOrbitSpeed + mouseInertia * (p.baseOrbitSpeed > 0 ? 1 : -1)) * dt;
+        }
+
+        const c1 = Math.cos(p.angle);
+        const s1 = Math.sin(p.angle);
+
+        // === posição na ÓRBITA elíptica ===
+        const orbX = smx + c1 * p.radiusX;
+        const orbY = smy + s1 * p.radiusY;
+
+        // === posição no ÁTOMO (3 elipses cruzadas) ===
+        const T = ATOM_TILTS[p.atomTiltIdx] + atomSpin;
+        const aA = p.atomAngle + atomSpin;
+        const lx = Math.cos(aA) * p.atomRadius;
+        const ly = Math.sin(aA) * p.atomRadius * 0.35;
+        const atomX = smx + (lx * Math.cos(T) - ly * Math.sin(T));
+        const atomY = smy + (lx * Math.sin(T) + ly * Math.cos(T));
+
+        // === posição no BANDO (rastro do mouse) ===
+        const sample = sampleTrail(t - p.trailDelay);
+        // wave lateral (ondulação de cardume) — perpendicular à direção
+        const wave = Math.sin(t*0.006 + p.wavePhase) * 6 * (1 - i/ps.length);
+        // direção do rastro: deriva de dois pontos próximos
+        const aheadSample = sampleTrail(t - p.trailDelay + 60);
+        const tdx = aheadSample.x - sample.x;
+        const tdy = aheadSample.y - sample.y;
+        const tlen = Math.hypot(tdx, tdy) || 1;
+        // perpendicular
+        const px = -tdy/tlen, py = tdx/tlen;
+        const followX = sample.x + px * wave;
+        const followY = sample.y + py * wave;
+
+        // === blends: órbita ↔ átomo ↔ bando ===
+        // primeiro: órbita-átomo
+        const oaX = orbX + (atomX - orbX) * atomT;
+        const oaY = orbY + (atomY - orbY) * atomT;
+        // depois: órbita-átomo ↔ bando
+        const tgtX = oaX + (followX - oaX) * followT;
+        const tgtY = oaY + (followY - oaY) * followT;
+
+        if (scared){
+          p.x += p.vx; p.y += p.vy;
+          p.vx *= 0.91; p.vy *= 0.91;
+          p.x += (Math.random()-0.5) * 2.5 * scareDecay;
+          p.y += (Math.random()-0.5) * 2.5 * scareDecay;
+          const fdx = p.x - scareCx, fdy = p.y - scareCy;
+          const fd = Math.hypot(fdx, fdy) || 1;
+          if (fd < 260){
+            const fk = (1 - fd/260) * 5 * scareDecay;
+            p.x += (fdx/fd) * fk;
+            p.y += (fdy/fd) * fk;
+          }
+        } else {
+          // ease maior durante follow (responsividade) e menor durante átomo (sereno)
+          const ease = cfg.orbitFollow * (1 + followT * 0.6);
+          p.x += (tgtX - p.x) * ease;
+          p.y += (tgtY - p.y) * ease;
+        }
+
+        // profundidade — atenuada em modo bando (formação plana, sem profundidade)
+        const depth = (depthMid + s1 * (depthRange / 2)) * (1 - followT * 0.4) + followT * 0.85;
+        const opa = ((s1 > 0 ? 0.95 : 0.50) * (1 - followT) + 0.90 * followT) * cfg.opacity;
+
+        p.el.style.transform =
+          `translate3d(${p.x.toFixed(1)}px, ${p.y.toFixed(1)}px, 0) translate(-50%, -50%) scale(${depth.toFixed(3)})`;
+        p.el.style.zIndex = s1 > 0 ? 3 : 1;
+        p.el.style.opacity = opa.toFixed(2);
+
+        if (!scared && t > p.nextColor){
+          p.nextColor = t + 3200 + Math.random()*2800;
+          p.ci = (p.ci + 1 + Math.floor(Math.random()*3)) % COLORS.length;
+          const c = COLORS[p.ci];
+          if (p.path) p.path.setAttribute('fill', c);
+          else p.el.style.background = c;
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  // Hero: cardume 3D miniatura, com inércia e modo átomo em repouso
+  spawnCardume(document.querySelector('.hero'), {
+    shapes: 10, follow: true, opacity: 0.95, sizeMul: 1.0,
+    mouseSmoothing: 0.030, orbitFollow: 0.14,
+    tilt: 0.55, depthMin: 0.50, depthMax: 1.25,
+    enableAtomIdle: true, idleMs: 3000,
+    idleAnchor: {x:0.72, y:0.46},
+  });
+
+  // Manifesto: planetas pequenos, ambient, sem seguir o mouse
+  spawnCardume(document.querySelector('.manifesto'), {
+    shapes: 5, follow: false, clickScare: false, enableAtomIdle: false,
+    opacity: 0.32, sizeMul: 0.55,
+    mouseSmoothing: 0.02, orbitFollow: 0.08,
+    tilt: 0.6, depthMin: 0.6, depthMax: 1.1,
+    idleAnchor: {x:0.88, y:0.78},
+  });
+
+  // CTA: segue o mouse de leve, cardume médio
+  spawnCardume(document.querySelector('.cta'), {
+    shapes: 6, follow: true, followStrength: 0.45,
+    opacity: 0.6, sizeMul: 0.85, enableAtomIdle: false,
+    mouseSmoothing: 0.025, orbitFollow: 0.10,
+    tilt: 0.55, depthMin: 0.55, depthMax: 1.15,
+    idleAnchor: {x:0.84, y:0.52},
+  });
+
+  // ——————————————————————————————————————————————
+  // Cursor customizado (esfera + halo) — perfeitamente concêntricos
+  // + Fibonacci burst no clique + X-Ray cromático nos cases
+  // + Ímã magnético iPadOS (halo abraça botão)
+  // ——————————————————————————————————————————————
+  (function customCursor(){
+    if (window.matchMedia('(pointer: coarse)').matches) return;
+    const dot  = document.getElementById('cursor');
+    const halo = document.getElementById('cursor-halo');
+    const fx   = document.getElementById('cursor-fx-container');
+    if (!dot || !halo) return;
+
+    let x = -100, y = -100;
+    let hx = -100, hy = -100;
+    // estado magnético: se setado, halo "abraça" esse elemento
+    let magnetEl = null;
+    // Elementos "atraidores" (geleca): cursor se estica em direção a eles quando próximo
+    const STICKY_SEL = '.form button, .ghost-btn, .nav-cta, .copy-email-btn';
+    const STICKY_RANGE = 70; // px até a borda do botão pra começar a esticar
+
+    document.addEventListener('mousemove', e => {
+      x = e.clientX; y = e.clientY;
+    }, {passive:true});
+
+    // ——— Fibonacci burst: anéis concêntricos 1,2,3,5,8 ———
+    const FIB = [1, 2, 3, 5, 8];
+    const FIB_BASE = 22;
+    function fibonacciBurst(cx, cy, shape){
+      if (!fx) return;
+      FIB.forEach((n, i) => {
+        setTimeout(() => {
+          const ring = document.createElement('div');
+          ring.className = 'fibonacci-ring' + (shape ? ' shaped' : '');
+          if (shape){
+            // nasce contornando o botão, expande virando círculo
+            const expansion = n * 6;
+            ring.style.width  = (shape.width  + expansion) + 'px';
+            ring.style.height = (shape.height + expansion) + 'px';
+            ring.style.borderRadius = shape.radius;
+            ring.style.left = shape.cx + 'px';
+            ring.style.top  = shape.cy + 'px';
+          } else {
+            const size = n * FIB_BASE;
+            ring.style.width  = size + 'px';
+            ring.style.height = size + 'px';
+            ring.style.left = cx + 'px';
+            ring.style.top  = cy + 'px';
+          }
+          ring.style.borderColor = (i % 2 === 0) ? 'var(--pink)' : 'var(--green)';
+          ring.style.borderWidth = (i < 2 ? '1.5px' : '1px');
+          fx.appendChild(ring);
+          setTimeout(() => ring.remove(), 460);
+        }, i * 28);
+      });
+    }
+    document.addEventListener('mousedown', (e) => {
+      dot.classList.add('click');
+      // se o clique foi DENTRO de um CTA, anéis nascem com formato do botão
+      const ctaTarget = e.target.closest(STICKY_SEL);
+      if (ctaTarget){
+        const r = ctaTarget.getBoundingClientRect();
+        const cs = getComputedStyle(ctaTarget);
+        fibonacciBurst(0, 0, {
+          width: r.width, height: r.height,
+          radius: cs.borderRadius,
+          cx: r.left + r.width/2,
+          cy: r.top  + r.height/2,
+        });
+      } else {
+        fibonacciBurst(e.clientX, e.clientY);
+      }
+    });
+    document.addEventListener('mouseup', () => { dot.classList.remove('click'); });
+
+    // ——— Loop principal: posiciona dot + halo + stretch geleca ———
+    let stickyTransform = '';
+    function loop(){
+      // halo: segue cursor OU abraça magnetEl
+      if (magnetEl){
+        const r = magnetEl.getBoundingClientRect();
+        const cx = r.left + r.width/2;
+        const cy = r.top  + r.height/2;
+        hx += (cx - hx) * 0.28;
+        hy += (cy - hy) * 0.28;
+        halo.style.transform = `translate3d(${hx}px, ${hy}px, 0) translate(-50%, -50%)`;
+        halo.style.width  = (r.width  + 14) + 'px';
+        halo.style.height = (r.height + 10) + 'px';
+        const cs = getComputedStyle(magnetEl);
+        halo.style.borderRadius = cs.borderRadius;
+      } else {
+        hx += (x - hx) * 0.18;
+        hy += (y - hy) * 0.18;
+        halo.style.transform = `translate3d(${hx}px, ${hy}px, 0) translate(-50%, -50%)`;
+      }
+
+      // dot: se NÃO em estado magnético (escondido), calcula stretch toward CTA mais próximo
+      if (!magnetEl){
+        let nearestDist = Infinity;
+        let nearCx = 0, nearCy = 0;
+        let insideCTA = false;
+        const ctas = document.querySelectorAll(STICKY_SEL);
+        for (const btn of ctas){
+          const r = btn.getBoundingClientRect();
+          // distância do cursor à caixa do botão (0 se dentro)
+          const dxBox = Math.max(r.left - x, 0, x - r.right);
+          const dyBox = Math.max(r.top  - y, 0, y - r.bottom);
+          const dist = Math.hypot(dxBox, dyBox);
+          if (dist < nearestDist){
+            nearestDist = dist;
+            nearCx = r.left + r.width/2;
+            nearCy = r.top  + r.height/2;
+            insideCTA = (dist === 0);
+          }
+        }
+        if (insideCTA){
+          // dentro: deixa cursor mutante (cta-arrow) cuidar — sem stretch
+          dot.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+        } else if (nearestDist < STICKY_RANGE){
+          // perto: estica como gota em direção ao centro do botão
+          const angle = Math.atan2(nearCy - y, nearCx - x);
+          const amount = 1 - nearestDist / STICKY_RANGE; // 0..1
+          const sx = 1 + amount * 0.9;
+          const sy = 1 - amount * 0.25;
+          // ao se aproximar muito, "puxa" o cursor levemente na direção do botão (atração)
+          const pull = amount * amount * 8;
+          const ax2 = x + Math.cos(angle) * pull;
+          const ay2 = y + Math.sin(angle) * pull;
+          dot.style.transform = `translate3d(${ax2}px, ${ay2}px, 0) translate(-50%, -50%) rotate(${angle}rad) scale(${sx.toFixed(3)}, ${sy.toFixed(3)}) rotate(${(-angle).toFixed(4)}rad)`;
+        } else {
+          dot.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+        }
+      }
+
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+
+    // ——— Lente X-Ray + tint cromático nos cases ———
+    document.querySelectorAll('.case').forEach(c => {
+      const back = c.querySelector('.img-back');
+      if (!back) return;
+      // injeta tint + edge
+      const tint = document.createElement('div'); tint.className = 'lens-tint';
+      const edge = document.createElement('div'); edge.className = 'lens-edge';
+      c.appendChild(tint); c.appendChild(edge);
+
+      let raf = null, mx = 0, my = 0;
+      let openness = 0;
+      const TARGET = 150;
+      let hovering = false;
+
+      c.addEventListener('mouseenter', () => { hovering = true; runLens(); });
+      c.addEventListener('mousemove', e => {
+        const r = c.getBoundingClientRect();
+        mx = e.clientX - r.left;
+        my = e.clientY - r.top;
+        // var pra o radial gradient do tint
+        tint.style.setProperty('--lx', mx + 'px');
+        tint.style.setProperty('--ly', my + 'px');
+        edge.style.setProperty('--lx', mx + 'px');
+        edge.style.setProperty('--ly', my + 'px');
+      });
+      c.addEventListener('mouseleave', () => {
+        hovering = false;
+        back.style.clipPath = `circle(0px at ${mx}px ${my}px)`;
+        tint.style.clipPath = `circle(0px at ${mx}px ${my}px)`;
+      });
+      function runLens(){
+        cancelAnimationFrame(raf);
+        function tick(){
+          const t = hovering ? TARGET : 0;
+          openness += (t - openness) * 0.22;
+          const cp = `circle(${openness.toFixed(1)}px at ${mx}px ${my}px)`;
+          back.style.clipPath = cp;
+          tint.style.clipPath = cp;
+          edge.style.setProperty('--lr', openness.toFixed(1) + 'px');
+          if (Math.abs(t - openness) > 0.5 || hovering) raf = requestAnimationFrame(tick);
+        }
+        tick();
+      }
+    });
+
+    // ——— Estados mutantes do cursor por contexto ———
+    const matches = (el, sel) => el && el.matches && el.matches(sel);
+    const textMatch = el => matches(el, 'input, textarea, [contenteditable=true]');
+
+    const CONTEXTS = [
+      { sel: '.case',                                 cls: 'case-lens',   html: '<span class="cursor-text">ver ↗</span>' },
+      { sel: '.photo',                                cls: 'detail-lens', html: '<span class="cursor-text plus">+</span>' },
+      // CTAs primárias: dot vira pequeno verde sólido com ↗ (sem texto)
+      { sel: '.form button, .ghost-btn, .nav-cta, .copy-email-btn',    cls: 'cta-arrow',   html: '<span class="cursor-text" style="font-size:14px;letter-spacing:0">↗</span>' },
+      // Magnético: halo abraça (sem html no dot)
+      { sel: '.nav-links a, .client-grid div',        cls: 'magnetic',    magnetic: true, html: '' },
+    ];
+    const HOVER_FALLBACK = 'a, button, [role=button], summary, label, .mod, .photo, .cardume-p, .marquee, .brand, .copy-email-btn';
+
+    function resetCursor(){
+      dot.classList.remove('hover','text','case-lens','detail-lens','cta-arrow','magnetic');
+      halo.classList.remove('hover','hidden');
+      halo.style.width = ''; halo.style.height = ''; halo.style.borderRadius = '';
+      magnetEl = null;
+      if (dot.innerHTML) dot.innerHTML = '';
+    }
+
+    document.addEventListener('mouseover', e => {
+      let n = e.target;
+      while (n && n !== document.body){
+        if (textMatch(n)){
+          resetCursor();
+          dot.classList.add('text');
+          halo.classList.add('hidden');
+          return;
+        }
+        for (const c of CONTEXTS){
+          if (matches(n, c.sel)){
+            if (!dot.classList.contains(c.cls)){
+              resetCursor();
+              dot.classList.add(c.cls);
+              dot.innerHTML = c.html;
+              if (c.magnetic){
+                magnetEl = n;
+                halo.classList.remove('hidden');
+              } else {
+                halo.classList.add('hidden');
+              }
+            } else if (c.magnetic && magnetEl !== n){
+              // mudou de botão magnético sem sair do contexto
+              magnetEl = n;
+            }
+            return;
+          }
+        }
+        if (matches(n, HOVER_FALLBACK)){
+          if (!dot.classList.contains('hover') || dot.innerHTML){
+            resetCursor();
+            dot.classList.add('hover');
+            halo.classList.add('hover');
+          }
+          return;
+        }
+        n = n.parentElement;
+      }
+      if (dot.classList.length > 0 || dot.innerHTML) resetCursor();
+    }, {passive:true});
+
+    document.addEventListener('mouseleave', () => { dot.classList.add('hidden'); halo.classList.add('hidden'); });
+    document.addEventListener('mouseenter', () => { dot.classList.remove('hidden'); halo.classList.remove('hidden'); });
+  })();
+
+  // ——————————————————————————————————————————————
+  // Copy email button — Clipboard API + tip "Copiado!"
+  // ——————————————————————————————————————————————
+  (function copyEmail(){
+    const btn = document.getElementById('copyEmail');
+    if (!btn) return;
+    btn.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText('oi@mumaestudio.com.br'); }
+      catch(e){
+        // fallback antigo
+        const ta = document.createElement('textarea');
+        ta.value = 'oi@mumaestudio.com.br';
+        ta.style.position='fixed';ta.style.opacity='0';
+        document.body.appendChild(ta); ta.select();
+        try{ document.execCommand('copy'); }catch(_){}
+        ta.remove();
+      }
+      btn.classList.add('copied');
+      setTimeout(() => btn.classList.remove('copied'), 1500);
+    });
+  })();
+
+  // ——————————————————————————————————————————————
+  // Logo mutante: intro sequencial (swap entre orig/alt)
+  // + variação aleatória no header
+  // ——————————————————————————————————————————————
+  (function logoMutante(){
+    const svg = document.getElementById('brandSvg');
+    if (!svg) return;
+    const letters = svg.querySelectorAll('.lp');
+    if (!letters.length) return;
+
+    function popLetter(idx){
+      const el = letters[idx];
+      if (!el) return;
+      el.classList.remove('pop');
+      void el.offsetWidth;
+      el.classList.add('pop');
+    }
+    function toggleAlt(idx, force){
+      const el = letters[idx];
+      if (!el) return;
+      if (typeof force === 'boolean') el.classList.toggle('swap', force);
+      else el.classList.toggle('swap');
+    }
+    function setRandomState(){
+      // 50% chance de cada letra estar na versão alt — sempre pelo menos 1 alt
+      let altCount = 0;
+      letters.forEach((_, i) => {
+        const alt = Math.random() > 0.5;
+        toggleAlt(i, alt);
+        if (alt) altCount++;
+      });
+      if (altCount === 0) toggleAlt(Math.floor(Math.random() * letters.length), true);
+    }
+
+    // Intro: cycle ultra-rápido entre orig/alt em cada letra (200ms × 8 = 1.6s)
+    let step = 0;
+    const totalSteps = letters.length * 2;
+    const intro = setInterval(() => {
+      const idx = step % letters.length;
+      toggleAlt(idx); // toggle
+      popLetter(idx);
+      step++;
+      if (step >= totalSteps){
+        clearInterval(intro);
+        // estabiliza num estado aleatório (não todos voltam ao orig)
+        setRandomState();
+      }
+    }, 200);
+
+    // Header hover/click: troca uma letra aleatória entre orig ↔ alt
+    const nav = document.getElementById('nav');
+    let throttled = false;
+    function randomSwap(){
+      if (throttled) return;
+      throttled = true;
+      const idx = Math.floor(Math.random() * letters.length);
+      toggleAlt(idx);
+      popLetter(idx);
+      setTimeout(() => { throttled = false; }, 420);
+    }
+    nav && nav.addEventListener('mouseenter', randomSwap);
+    document.getElementById('brandLogo') && document.getElementById('brandLogo').addEventListener('click', randomSwap);
+  })();
+
+  // ——————————————————————————————————————————————
+  // Nav ticker: rotação de frases do repertório verbal
+  // ——————————————————————————————————————————————
+  (function ticker(){
+    const node = document.querySelector('#navTicker .phrase');
+    if (!node) return;
+    const phrases = [
+      '<em>disponível</em> para projetos · 2026',
+      'do detalhe <em>ao todo</em>.',
+      'criamos <em>em rede</em>.',
+      'conectamos <em>o que importa</em>.',
+      'produção <em>sem cilada</em>.',
+      'conteúdo <em>sem fórmula</em> de bolo.',
+    ];
+    let i = 0;
+    setInterval(() => {
+      node.classList.add('out');
+      setTimeout(() => {
+        i = (i + 1) % phrases.length;
+        node.innerHTML = phrases[i];
+        node.classList.remove('out');
+      }, 420);
+    }, 4400);
+  })();
+</script>
+
+</body>
+</html>

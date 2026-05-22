@@ -370,7 +370,7 @@ function spawnCardume(container, opts){
 
     // modo átomo
     const idleFor = t - lastMoveT;
-    const wantAtom = cfg.enableAtomIdle && idleFor > cfg.idleMs && !scareUntil && followT < 0.05;
+    const wantAtom = cfg.enableAtomIdle && idleFor > cfg.idleMs && !scareUntil && followT < 0.05 && !document.body.classList.contains('ee-active');
     if (wantAtom) atomT += (1 - atomT) * 0.04;
     else atomT += (0 - atomT) * 0.22;
     atomSpin += dt * 0.0002;
@@ -591,6 +591,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     clearTimeout(idleTimer);
     dot.classList.remove('idle-atom');
     halo.classList.remove('idle-atom');
+    if (document.body.classList.contains('ee-active')) return;
     idleTimer = setTimeout(() => {
       // enter idle-atom only if completely idle and not hovering or holding down
       if (!magnetEl && !dot.classList.contains('hover') && !dot.classList.contains('text') && !dot.classList.contains('click') && !dot.classList.contains('case-lens') && !dot.classList.contains('detail-lens')) {
@@ -602,6 +603,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
   document.addEventListener('mousemove', resetIdleTimer, {passive:true});
   document.addEventListener('mousedown', resetIdleTimer, {passive:true});
   resetIdleTimer();
+  window.resetIdleTimerGlobal = resetIdleTimer;
 
   // ——— Loop principal: posiciona dot + halo + stretch geleca ———
   function loop(){
@@ -889,8 +891,17 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
 (function ticker(){
   const node = document.querySelector('#navTicker .phrase');
   if (!node) return;
+
+  function getTickerYear() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = now.getMonth(); // 0-11
+    if (month >= 9) return year + 1; // October or later
+    return year;
+  }
+
   const phrases = [
-    '<em>disponível</em> para projetos · 2025',
+    `<em>disponível</em> para projetos · ${getTickerYear()}`,
     'do detalhe <em>ao todo</em>.',
     'criamos <em>em rede</em>.',
     'conectamos <em>o que importa</em>.',
@@ -898,14 +909,43 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     'conteúdo <em>sem fórmula</em> de bolo.',
   ];
   let i = 0;
-  setInterval(() => {
-    node.classList.add('out');
+  
+  const firstName = localStorage.getItem('muma_first_name');
+  if (firstName) {
+    node.innerHTML = `Olá, <em>${firstName}!</em>`;
+    
+    // After 6 seconds, transition to the first standard phrase, then resume normal rotation
     setTimeout(() => {
-      i = (i + 1) % phrases.length;
-      node.innerHTML = phrases[i];
-      node.classList.remove('out');
-    }, 420);
-  }, 4400);
+      node.classList.add('out');
+      setTimeout(() => {
+        i = 0;
+        node.innerHTML = phrases[i];
+        node.classList.remove('out');
+        
+        setInterval(() => {
+          node.classList.add('out');
+          setTimeout(() => {
+            i = (i + 1) % phrases.length;
+            node.innerHTML = phrases[i];
+            node.classList.remove('out');
+          }, 420);
+        }, 4400);
+      }, 420);
+    }, 6000);
+  } else {
+    // Set the dynamic first phrase immediately to avoid showing outdated static text
+    node.innerHTML = phrases[0];
+
+    // No saved name, start rotating immediately
+    setInterval(() => {
+      node.classList.add('out');
+      setTimeout(() => {
+        i = (i + 1) % phrases.length;
+        node.innerHTML = phrases[i];
+        node.classList.remove('out');
+      }, 420);
+    }, 4400);
+  }
 })();
 
 // ——————————————————————————————————————————————
@@ -1165,6 +1205,16 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
       }
       submissionCount++;
       lastSubmitTime = Date.now();
+
+      // Save first name to browser cache (localStorage)
+      if (name && name.trim()) {
+        const firstWord = name.trim().split(/\s+/)[0];
+        if (firstWord) {
+          const capitalized = firstWord.charAt(0).toUpperCase() + firstWord.slice(1).toLowerCase();
+          localStorage.setItem('muma_first_name', capitalized);
+        }
+      }
+
       showSuccess();
     } catch (err) {
       showError();
@@ -1585,6 +1635,16 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
       }
       submissionCount++;
       lastSubmitTime = Date.now();
+
+      // Save first name to browser cache (localStorage)
+      if (name && name.trim()) {
+        const firstWord = name.trim().split(/\s+/)[0];
+        if (firstWord) {
+          const capitalized = firstWord.charAt(0).toUpperCase() + firstWord.slice(1).toLowerCase();
+          localStorage.setItem('muma_first_name', capitalized);
+        }
+      }
+
       showSuccess();
     } catch (err) {
       showError();
@@ -1724,9 +1784,15 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
   }
 
   function startEasterEgg() {
+    // Do not run on mobile/tablet devices
+    if (window.innerWidth <= 768 || window.matchMedia('(pointer: coarse)').matches) return;
+
     // Prevent background scrolling
     document.body.classList.add('modal-open');
     document.body.classList.add('ee-active');
+
+    // Cancel idle atom animations immediately
+    if (window.resetIdleTimerGlobal) window.resetIdleTimerGlobal();
     
     // Reset states
     phase = 'spiral';
@@ -1781,6 +1847,8 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     window.removeEventListener('resize', resizeCanvas);
     clicks = 0; // reset click counter
     if (window.resetCustomCursor) window.resetCustomCursor();
+    // Restart idle atom timer
+    if (window.resetIdleTimerGlobal) window.resetIdleTimerGlobal();
   }
 
   function tick() {
@@ -1959,6 +2027,9 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
 
   // Trigger clicks
   trigger.addEventListener('click', (e) => {
+    // Disable on mobile/tablet devices
+    if (window.innerWidth <= 768 || window.matchMedia('(pointer: coarse)').matches) return;
+
     // Disable if any other modal is active to prevent overlap
     if (document.querySelector('.modal-overlay.active')) return;
     

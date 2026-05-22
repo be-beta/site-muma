@@ -362,12 +362,22 @@
         <div class="scrim"></div>
         <div class="name">Alinne</div>
         <span class="cap">fundadora · viciada em criar</span>
+        <!-- Easter Egg Overlay -->
+        <div class="easter-egg-overlay">
+          <button type="button" class="easter-egg-btn career-modal-trigger">quer fazer parte da muma?</button>
+          <button type="button" class="easter-egg-close">voltar</button>
+        </div>
       </div>
       <div class="photo right">
         <img src="assets/images/socias/socia-02.jpg" alt="Vicky — Sócia fundadora" loading="lazy" />
         <div class="scrim"></div>
         <div class="name">Vicky</div>
         <span class="cap">fundadora · brilho no olho</span>
+        <!-- Easter Egg Overlay -->
+        <div class="easter-egg-overlay">
+          <button type="button" class="easter-egg-btn career-modal-trigger">quer fazer parte da muma?</button>
+          <button type="button" class="easter-egg-close">voltar</button>
+        </div>
       </div>
     </div>
   </div>
@@ -440,7 +450,7 @@
       <ul>
         <li><a href="#" id="footerEmail">carregando...</a></li>
         <li><a href="#contato">Orçamento</a></li>
-        <li><a href="#contato">Trabalhe com a gente</a></li>
+        <li><a href="#trabalhe" class="career-modal-trigger">Trabalhe com a gente</a></li>
       </ul>
     </div>
   </div>
@@ -511,8 +521,83 @@
       <h3>Mensagem <em>enviada</em>!</h3>
       <p>Retornamos em até 24h úteis.</p>
     </div>
-    <div class="modal-error" id="modalError" style="display:none">
-      <p>Ops, algo deu errado. Tente novamente ou envie direto para <strong>oi@mumaestudio.com.br</strong></p>
+    </div>
+  </div>
+</div>
+
+<!-- CAREER MODAL (TRABALHE CONOSCO) -->
+<div class="modal-overlay" id="careerModal">
+  <div class="modal-container">
+    <button class="modal-close" id="careerModalClose" aria-label="Fechar" type="button">✕</button>
+    <div class="modal-header">
+      <div class="section-label" style="color:var(--green)">[ trabalhe conosco ]</div>
+      <h3>Faça parte da <em>muma</em>.</h3>
+    </div>
+    <form class="modal-form" id="careerForm" novalidate>
+      <!-- Honeypot anti-spam (invisible to humans) -->
+      <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+      <div class="form-group">
+        <label for="careerName">Nome</label>
+        <input type="text" id="careerName" name="name" required placeholder="Seu nome completo" autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label for="careerEmail">E-mail</label>
+        <input type="email" id="careerEmail" name="email" required placeholder="seu@email.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label for="careerProfession">Profissão / Área de Atuação</label>
+        <input type="text" id="careerProfession" name="profession" required placeholder="ex: Fotógrafa, Designer, Diretor de Arte, Editor..." autocomplete="organization-title">
+      </div>
+      <div class="form-group">
+        <label>Currículo / Portfólio <span class="optional">(PDF, Imagem ou Vídeo · máx 10MB)</span></label>
+        <div class="drop-zone" id="careerDropZone">
+          <input type="file" id="careerFile" name="attachment" accept=".pdf,.jpg,.jpeg,.png,.mp4,.mov,.zip" required>
+          <div class="drop-zone-text">
+            <span class="drop-icon">📎</span>
+            <span>Arraste um arquivo ou <em>clique aqui</em></span>
+          </div>
+          <div class="drop-zone-file" id="careerDropZoneFile" style="display:none">
+            <span class="file-name" id="careerFileName"></span>
+            <button type="button" class="file-remove" id="careerFileRemove">✕</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label>Links importantes <span class="optional">(LinkedIn, Behance, Instagram...)</span></label>
+        <div id="linksContainer" class="dynamic-links-container">
+          <div class="dynamic-link-row">
+            <select name="link_platform[]" class="link-platform">
+              <option value="portfolio">Portfólio / Site</option>
+              <option value="linkedin">LinkedIn</option>
+              <option value="behance">Behance</option>
+              <option value="instagram">Instagram</option>
+              <option value="dribbble">Dribbble</option>
+              <option value="vimeo">Vimeo</option>
+              <option value="youtube">YouTube</option>
+              <option value="outro">Outro</option>
+            </select>
+            <input type="url" name="link_url[]" placeholder="https://" class="link-url">
+            <button type="button" class="btn-remove-link" style="display:none">✕</button>
+          </div>
+        </div>
+        <button type="button" id="btnAddLink" class="btn-add-link">+ Adicionar Link</button>
+      </div>
+
+      <button type="submit" class="modal-submit" id="careerSubmit">
+        <span class="submit-text">enviar candidatura</span>
+        <span class="submit-loading" style="display:none">enviando...</span>
+        <span class="arr">↗</span>
+      </button>
+    </form>
+    <div class="modal-success" id="careerSuccess" style="display:none">
+      <div class="success-icon">✓</div>
+      <h3>Inscrição <em>recebida</em>!</h3>
+      <p>Obrigado pelo interesse. Guardamos seu portfólio no nosso radar criativo!</p>
+    </div>
+    <div class="modal-error" id="careerError" style="display:none">
+      <p>Ops, algo deu errado. Tente novamente ou envie seu portfólio para <strong>oi@mumaestudio.com.br</strong></p>
     </div>
   </div>
 </div>

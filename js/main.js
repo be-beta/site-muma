@@ -218,18 +218,26 @@ function spawnCardume(container, opts){
     container.addEventListener('mouseleave', () => { inside = false; });
   }
 
+  let mousedownTime = 0;
   if (cfg.clickScare){
-    container.addEventListener('click', e => {
+    container.addEventListener('mousedown', e => {
+      mousedownTime = performance.now();
+    });
+    container.addEventListener('mouseup', e => {
+      const duration = performance.now() - mousedownTime;
+      const charge = Math.min(1.0, duration / 1200); // 0..1
+      const chargeMultiplier = 1.0 + charge * 1.5; // up to 2.5x larger dispersion
+      
       const b = bounds();
       scareCx = e.clientX - b.left;
       scareCy = e.clientY - b.top;
-      scareUntil = performance.now() + 1100;
+      scareUntil = performance.now() + 1100 * chargeMultiplier;
       lastMoveT = performance.now();
       startIdleTimer();
       for (const p of ps){
         const dx = p.x - scareCx, dy = p.y - scareCy;
         const d = Math.hypot(dx, dy) || 1;
-        const kick = 14 + Math.random()*14;
+        const kick = (14 + Math.random()*14) * chargeMultiplier;
         p.vx = (dx/d) * kick + (Math.random()-0.5)*5;
         p.vy = (dy/d) * kick + (Math.random()-0.5)*5;
         const newCi = (p.ci + 1 + Math.floor(Math.random()*4)) % COLORS.length;
@@ -248,7 +256,7 @@ function spawnCardume(container, opts){
           p.el.style.transition = 'background 1.2s cubic-bezier(.4,0,.2,1)';
         }
         if (p.kind === 'icon') {
-          p.rot += (Math.random()-0.5) * 80;
+          p.rot += (Math.random()-0.5) * 80 * chargeMultiplier;
           const svg = p.el.querySelector('svg');
           if (svg) svg.style.transform = `rotate(${p.rot}deg)`;
         }
@@ -419,13 +427,15 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     idleAnchor: {x:0.88, y:0.78},
   });
 
-  // CTA: segue o mouse de leve, cardume médio
+  // CTA: segue o mouse de leve, cardume premium com 3 cascas
   spawnCardume(document.querySelector('.cta'), {
-    shapes: 6, follow: true, followStrength: 0.45,
-    opacity: 0.6, sizeMul: 0.85, enableAtomIdle: false,
-    mouseSmoothing: 0.025, orbitFollow: 0.10,
-    tilt: 0.55, depthMin: 0.55, depthMax: 1.15,
+    shapes: 10, follow: true, opacity: 0.95, sizeMul: 1.0,
+    mouseSmoothing: 0.035, orbitFollow: 0.055,
+    tilt: 0.55, depthMin: 0.50, depthMax: 1.25,
+    enableAtomIdle: true, idleMs: 5000,
+    enableFollowFormation: false,
     idleAnchor: {x:0.84, y:0.52},
+    threeShells: true,
   });
 }
 
@@ -459,7 +469,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
   // ——— Fibonacci burst: anéis concêntricos 1,2,3,5,8 ———
   const FIB = [1, 2, 3, 5, 8];
   const FIB_BASE = 22;
-  function fibonacciBurst(cx, cy, shape){
+  function fibonacciBurst(cx, cy, shape, chargeMultiplier = 1.0){
     if (!fx) return;
     FIB.forEach((n, i) => {
       setTimeout(() => {
@@ -467,14 +477,14 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
         ring.className = 'fibonacci-ring' + (shape ? ' shaped' : '');
         if (shape){
           // nasce contornando o botão, expande virando círculo
-          const expansion = n * 6;
+          const expansion = n * 6 * chargeMultiplier;
           ring.style.width  = (shape.width  + expansion) + 'px';
           ring.style.height = (shape.height + expansion) + 'px';
           ring.style.borderRadius = shape.radius;
           ring.style.left = shape.cx + 'px';
           ring.style.top  = shape.cy + 'px';
         } else {
-          const size = n * FIB_BASE;
+          const size = n * FIB_BASE * chargeMultiplier;
           ring.style.width  = size + 'px';
           ring.style.height = size + 'px';
           ring.style.left = cx + 'px';
@@ -487,8 +497,17 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
       }, i * 28);
     });
   }
+  let clickStartTime = 0;
   document.addEventListener('mousedown', (e) => {
+    clickStartTime = performance.now();
     dot.classList.add('click');
+  });
+  document.addEventListener('mouseup', (e) => {
+    dot.classList.remove('click');
+    const duration = performance.now() - clickStartTime;
+    const charge = Math.min(1.0, duration / 1200); // 0..1
+    const chargeMultiplier = 1.0 + charge * 1.2; // up to 2.2x larger rings
+    
     // se o clique foi DENTRO de um CTA, anéis nascem com formato do botão
     const ctaTarget = e.target.closest(STICKY_SEL);
     if (ctaTarget){
@@ -499,12 +518,11 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
         radius: cs.borderRadius,
         cx: r.left + r.width/2,
         cy: r.top  + r.height/2,
-      });
+      }, chargeMultiplier);
     } else {
-      fibonacciBurst(e.clientX, e.clientY);
+      fibonacciBurst(e.clientX, e.clientY, null, chargeMultiplier);
     }
   });
-  document.addEventListener('mouseup', () => { dot.classList.remove('click'); });
 
   // ——— Idle Atom timer: entering rotating 3D atom state after 5s of mouse idleness ———
   let idleTimer = null;
@@ -668,7 +686,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
 
   // ——— Estados mutantes do cursor por contexto ———
   const matches = (el, sel) => el && el.matches && el.matches(sel);
-  const textMatch = el => matches(el, 'input, textarea, [contenteditable=true]');
+  const textMatch = el => matches(el, 'input:not([type=file]):not([type=checkbox]):not([type=radio]):not([type=submit]):not([type=button]):not([type=hidden]), textarea, [contenteditable=true]');
 
   const CONTEXTS = [
     { sel: '.case',          cls: 'case-lens',   html: '<span class="cursor-text">ver ↗</span>' },
@@ -678,7 +696,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
   const HOVER_FALLBACK = 'a, button, [role=button], summary, label, .mod, .photo, .cardume-p, .marquee, .brand, .copy-email-btn, .client-grid div';
 
   function resetCursor(){
-    dot.classList.remove('hover','text','case-lens','detail-lens','magnetic');
+    dot.classList.remove('hover','text','case-lens','detail-lens','magnetic','hidden');
     halo.classList.remove('hover','hidden');
     halo.style.width = ''; halo.style.height = ''; halo.style.borderRadius = '';
     magnetEl = null;
@@ -690,7 +708,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     while (n && n !== document.body){
       if (textMatch(n)){
         resetCursor();
-        dot.classList.add('text');
+        dot.classList.add('hidden');
         halo.classList.add('hidden');
         return;
       }
@@ -699,7 +717,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
           if (!dot.classList.contains(c.cls)){
             if (c.magnetic){
               // Ignora se estiver dentro do modal fechado
-              const modalParent = n.closest('#contactModal');
+              const modalParent = n.closest('#contactModal, #careerModal');
               if (modalParent && !modalParent.classList.contains('active')) {
                 continue;
               }
@@ -715,7 +733,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
             }
           } else if (c.magnetic && magnetEl !== n){
             // mudou de botão magnético sem sair do contexto
-            const modalParent = n.closest('#contactModal');
+            const modalParent = n.closest('#contactModal, #careerModal');
             if (modalParent && !modalParent.classList.contains('active')) {
               continue;
             }
@@ -1150,4 +1168,309 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
       window.location.reload();
     }
   });
+})();
+
+// ——————————————————————————————————————————————
+// Founders Easter Egg overlay & Career Modal triggers
+// ——————————————————————————————————————————————
+(function foundersEasterEgg() {
+  document.querySelectorAll('.founders .photo').forEach(photo => {
+    photo.addEventListener('click', e => {
+      // Se o clique foi em um botão interno do overlay, ignora
+      if (e.target.closest('.easter-egg-overlay')) return;
+      const overlay = photo.querySelector('.easter-egg-overlay');
+      if (overlay) overlay.classList.add('active');
+    });
+
+    const closeBtn = photo.querySelector('.easter-egg-close');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        e.preventDefault();
+        const overlay = photo.querySelector('.easter-egg-overlay');
+        if (overlay) overlay.classList.remove('active');
+      });
+    }
+
+    const eggBtn = photo.querySelector('.easter-egg-btn');
+    if (eggBtn) {
+      eggBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        e.preventDefault();
+        const overlay = photo.querySelector('.easter-egg-overlay');
+        if (overlay) overlay.classList.remove('active');
+      });
+    }
+  });
+})();
+
+// ——————————————————————————————————————————————
+// Career Modal — Form + Dynamic Links + Drag-and-drop
+// ——————————————————————————————————————————————
+(function careerModal() {
+  const modal = document.getElementById('careerModal');
+  const form = document.getElementById('careerForm');
+  const closeBtn = document.getElementById('careerModalClose');
+  const successEl = document.getElementById('careerSuccess');
+  const errorEl = document.getElementById('careerError');
+  const submitBtn = document.getElementById('careerSubmit');
+  const dropZone = document.getElementById('careerDropZone');
+  const fileInput = document.getElementById('careerFile');
+  const dropZoneText = dropZone ? dropZone.querySelector('.drop-zone-text') : null;
+  const dropZoneFile = document.getElementById('careerDropZoneFile');
+  const fileNameEl = document.getElementById('careerFileName');
+  const fileRemoveBtn = document.getElementById('careerFileRemove');
+  const linksContainer = document.getElementById('linksContainer');
+  const btnAddLink = document.getElementById('btnAddLink');
+  if (!modal || !form) return;
+
+  // Setup triggers
+  window.openCareerModal = function() {
+    modal.classList.add('active');
+    document.body.classList.add('modal-open');
+    formOpenedAt = Date.now();
+    form.style.display = '';
+    successEl.style.display = 'none';
+    errorEl.style.display = 'none';
+    form.reset();
+    clearFile();
+    
+    // Reset links back to initial state (single link)
+    if (linksContainer) {
+      linksContainer.innerHTML = `
+        <div class="dynamic-link-row">
+          <select name="link_platform[]" class="link-platform">
+            <option value="portfolio">Portfólio / Site</option>
+            <option value="linkedin">LinkedIn</option>
+            <option value="behance">Behance</option>
+            <option value="instagram">Instagram</option>
+            <option value="dribbble">Dribbble</option>
+            <option value="vimeo">Vimeo</option>
+            <option value="youtube">YouTube</option>
+            <option value="outro">Outro</option>
+          </select>
+          <input type="url" name="link_url[]" placeholder="https://" class="link-url">
+          <button type="button" class="btn-remove-link" style="display:none">✕</button>
+        </div>
+      `;
+    }
+  };
+
+  document.querySelectorAll('.career-modal-trigger').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      openCareerModal();
+    });
+  });
+
+  closeBtn && closeBtn.addEventListener('click', () => {
+    modal.classList.remove('active');
+    document.body.classList.remove('modal-open');
+  });
+  modal.addEventListener('click', e => {
+    if (e.target === modal) {
+      modal.classList.remove('active');
+      document.body.classList.remove('modal-open');
+    }
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+      modal.classList.remove('active');
+      document.body.classList.remove('modal-open');
+    }
+  });
+
+  // Drag-and-drop / File handling
+  function clearFile() {
+    if (fileInput) fileInput.value = '';
+    if (dropZoneText) dropZoneText.style.display = '';
+    if (dropZoneFile) dropZoneFile.style.display = 'none';
+  }
+
+  function showFile(file) {
+    if (!file) return;
+    if (file.size > 10 * 1024 * 1024) {
+      alert('Arquivo muito grande. Máximo: 10MB');
+      clearFile();
+      return;
+    }
+    if (fileNameEl) fileNameEl.textContent = file.name;
+    if (dropZoneText) dropZoneText.style.display = 'none';
+    if (dropZoneFile) dropZoneFile.style.display = 'flex';
+  }
+
+  if (fileInput) {
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files.length) showFile(fileInput.files[0]);
+    });
+  }
+  if (fileRemoveBtn) {
+    fileRemoveBtn.addEventListener('click', e => {
+      e.preventDefault();
+      e.stopPropagation();
+      clearFile();
+    });
+  }
+  if (dropZone) {
+    ['dragenter', 'dragover'].forEach(evt => {
+      dropZone.addEventListener(evt, e => {
+        e.preventDefault();
+        dropZone.classList.add('dragover');
+      });
+    });
+    ['dragleave', 'drop'].forEach(evt => {
+      dropZone.addEventListener(evt, e => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+      });
+    });
+    dropZone.addEventListener('drop', e => {
+      const dt = e.dataTransfer;
+      if (dt.files.length && fileInput) {
+        fileInput.files = dt.files;
+        showFile(dt.files[0]);
+      }
+    });
+  }
+
+  // Dynamic link additions
+  if (btnAddLink && linksContainer) {
+    btnAddLink.addEventListener('click', () => {
+      const rows = linksContainer.querySelectorAll('.dynamic-link-row');
+      if (rows.length >= 8) {
+        alert('Máximo de 8 links atingido.');
+        return;
+      }
+      const newRow = document.createElement('div');
+      newRow.className = 'dynamic-link-row';
+      newRow.innerHTML = `
+        <select name="link_platform[]" class="link-platform">
+          <option value="portfolio">Portfólio / Site</option>
+          <option value="linkedin">LinkedIn</option>
+          <option value="behance">Behance</option>
+          <option value="instagram">Instagram</option>
+          <option value="dribbble">Dribbble</option>
+          <option value="vimeo">Vimeo</option>
+          <option value="youtube">YouTube</option>
+          <option value="outro">Outro</option>
+        </select>
+        <input type="url" name="link_url[]" placeholder="https://" class="link-url">
+        <button type="button" class="btn-remove-link">✕</button>
+      `;
+      
+      const removeBtn = newRow.querySelector('.btn-remove-link');
+      removeBtn.addEventListener('click', () => {
+        newRow.remove();
+      });
+      
+      linksContainer.appendChild(newRow);
+    });
+  }
+
+  // EmailJS form submit details
+  const EMAILJS_SERVICE  = 'YOUR_SERVICE_ID';
+  const EMAILJS_TEMPLATE = 'YOUR_CAREER_TEMPLATE_ID';
+  const EMAILJS_KEY      = 'YOUR_PUBLIC_KEY';
+  const FALLBACK_EMAIL   = 'beai.bernardot@gmail.com';
+  const isEmailJSConfigured = EMAILJS_SERVICE !== 'YOUR_SERVICE_ID';
+
+  let formOpenedAt = 0;
+  let submissionCount = 0;
+  let lastSubmitTime = 0;
+  const MAX_SUBMISSIONS = 3;
+  const RATE_LIMIT_MS = 600000;
+  const MIN_FILL_TIME_MS = 2000;
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+
+    const hp = form.querySelector('.hp-field');
+    if (hp && hp.value) {
+      showSuccess();
+      return;
+    }
+
+    const fillTime = Date.now() - formOpenedAt;
+    if (fillTime < MIN_FILL_TIME_MS) {
+      showSpamWarning();
+      return;
+    }
+
+    const now = Date.now();
+    if (now - lastSubmitTime < RATE_LIMIT_MS && submissionCount >= MAX_SUBMISSIONS) {
+      showSpamWarning();
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.querySelector('.submit-text').style.display = 'none';
+    submitBtn.querySelector('.submit-loading').style.display = '';
+
+    const name = form.querySelector('#careerName').value;
+    const email = form.querySelector('#careerEmail').value;
+    const profession = form.querySelector('#careerProfession').value;
+
+    const platforms = Array.from(form.querySelectorAll('.link-platform')).map(el => el.value);
+    const urls = Array.from(form.querySelectorAll('.link-url')).map(el => el.value);
+    let linksStr = '';
+    for (let i = 0; i < platforms.length; i++) {
+      if (urls[i]) {
+        linksStr += `- ${platforms[i].toUpperCase()}: ${urls[i]}\n`;
+      }
+    }
+
+    try {
+      if (isEmailJSConfigured && window.emailjs) {
+        await emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, {
+          from_name: name,
+          from_email: email,
+          profession: profession,
+          links: linksStr || 'Nenhum informado',
+          origin: 'Candidatura Landing Page Muma',
+        }, EMAILJS_KEY);
+      } else {
+        const subject = encodeURIComponent('[Candidatura Muma] Nova candidatura de ' + name);
+        const body = encodeURIComponent(
+          'Nome: ' + name + '\n' +
+          'Email: ' + email + '\n' +
+          'Profissão/Área: ' + profession + '\n' +
+          '---\n' +
+          'Links:\n' + (linksStr || 'Nenhum informado') + '\n' +
+          '---\n' +
+          'Origem: Candidatura Landing Page Muma\n' +
+          'Enviado em: ' + new Date().toLocaleString('pt-BR')
+        );
+        window.location.href = 'mailto:' + FALLBACK_EMAIL + '?subject=' + subject + '&body=' + body;
+        await new Promise(r => setTimeout(r, 500));
+      }
+      submissionCount++;
+      lastSubmitTime = Date.now();
+      showSuccess();
+    } catch (err) {
+      showError();
+    }
+  });
+
+  function showSuccess() {
+    form.style.display = 'none';
+    errorEl.style.display = 'none';
+    successEl.style.display = 'block';
+    submitBtn.disabled = false;
+    submitBtn.querySelector('.submit-text').style.display = '';
+    submitBtn.querySelector('.submit-loading').style.display = 'none';
+  }
+
+  function showError() {
+    errorEl.style.display = 'block';
+    submitBtn.disabled = false;
+    submitBtn.querySelector('.submit-text').style.display = '';
+    submitBtn.querySelector('.submit-loading').style.display = 'none';
+  }
+
+  function showSpamWarning() {
+    alert('Comportamento de spam detectado. Por favor, preencha o formulário com calma ou envie direto para oi@mumaestudio.com.br');
+    submitBtn.disabled = false;
+    submitBtn.querySelector('.submit-text').style.display = '';
+    submitBtn.querySelector('.submit-loading').style.display = 'none';
+  }
 })();

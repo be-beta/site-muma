@@ -81,6 +81,16 @@ function spawnCardume(container, opts){
     threeShells: false,
   }, opts || {});
 
+  const IS_TOUCH = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 768;
+  if (IS_TOUCH) {
+    cfg.shapes = Math.min(cfg.shapes, 5);
+    cfg.follow = false;
+    cfg.clickScare = false;
+    cfg.enableAtomIdle = false;
+    cfg.enableFollowFormation = false;
+    cfg.idleAnchor = { x: 0.5, y: 0.5 };
+  }
+
   // Miniaturizado: ícones 12-28, pontos 4-10
   const baseShapes = [
     { kind:'icon', size: 28 },
@@ -445,7 +455,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
 // + Ímã magnético iPadOS (halo abraça botão)
 // ——————————————————————————————————————————————
 (function customCursor(){
-  if (window.matchMedia('(pointer: coarse)').matches) return;
+  if (window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 768) return;
   if (document.documentElement.classList.contains('a11y-mode')) return;
   const dot  = document.getElementById('cursor');
   const halo = document.getElementById('cursor-halo');

@@ -245,7 +245,7 @@ img{max-width:100%;display:block}
 .nav-links a:hover::after{right:14px}
 .nav.dark .nav-links a:hover{background:rgba(237,236,234,.08)}
 .nav:not(.dark) .nav-links a:hover{background:rgba(12,9,51,.05)}
-.nav-links { position: relative; }
+
 .nav-indicator {
   position: absolute;
   top: 50%;
@@ -522,29 +522,32 @@ img{max-width:100%;display:block}
 .client-grid div:hover{background:var(--navy);color:var(--pink)}
 .client-grid div em{font-style:italic}
 .client-grid div img {
-  max-width: 82%;
-  max-height: 48px;
+  width: auto;
+  height: 38px;
+  max-width: 80%;
   object-fit: contain;
-  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: filter 0.3s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s, transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
   filter: brightness(0) saturate(100%) invert(6%) sepia(31%) saturate(5796%) hue-rotate(224deg) brightness(91%) contrast(105%);
   opacity: 0.72;
 }
 .client-grid div:hover img {
   filter: brightness(0) saturate(100%) invert(61%) sepia(55%) saturate(1754%) hue-rotate(296deg) brightness(101%) contrast(101%);
   opacity: 1;
-  transform: scale(1.05);
+  transform: scale(1.08);
 }
+/* logos com respiro interno médio — escala compensatória */
 .client-grid div img.logo-trim-medium {
-  transform: scale(1.22);
+  height: 48px;
 }
 .client-grid div:hover img.logo-trim-medium {
-  transform: scale(1.28);
+  transform: scale(1.12);
 }
+/* logos com muito respiro interno — escala maior */
 .client-grid div img.logo-trim-high {
-  transform: scale(1.42);
+  height: 56px;
 }
 .client-grid div:hover img.logo-trim-high {
-  transform: scale(1.48);
+  transform: scale(1.12);
 }
 
 /* — CTA — Copy email button + email row — */

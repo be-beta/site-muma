@@ -1551,11 +1551,11 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     const profession = professionEl.value;
 
     const platforms = Array.from(form.querySelectorAll('.link-platform')).map(el => el.value);
-    const urls = Array.from(form.querySelectorAll('.link-url')).map(el => el.value);
+    const linkUrls = Array.from(form.querySelectorAll('.link-url')).map(el => el.value);
     let linksStr = '';
     for (let i = 0; i < platforms.length; i++) {
-      if (urls[i]) {
-        linksStr += `- ${platforms[i].toUpperCase()}: ${urls[i]}\n`;
+      if (linkUrls[i]) {
+        linksStr += `- ${platforms[i].toUpperCase()}: ${linkUrls[i]}\n`;
       }
     }
 

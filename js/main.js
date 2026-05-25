@@ -1296,10 +1296,54 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
 })();
 
 // ——————————————————————————————————————————————
-// Founders Easter Egg overlay & Career Modal triggers
+// Integrantes Section — Dynamic Team Rendering, Parsing and Overlay triggers
 // ——————————————————————————————————————————————
-(function foundersEasterEgg() {
-  document.querySelectorAll('.founders .photo').forEach(photo => {
+(function integrantesSection() {
+  const integrantesData = [
+    {
+      file: 'Alinne-Fundadora.jpg',
+      cap: 'fundadora · viciada em criar',
+      desc: 'Co-fundadora da Muma, viciada em criar. Organiza projetos com olhar clínico, unindo método e inteligência estratégica para tirar ideias do papel e dar vida a narrativas visuais autênticas.'
+    },
+    {
+      file: 'Vicky-Fundadora.jpg',
+      cap: 'fundadora · brilho no olho',
+      desc: 'Co-fundadora da Muma, apaixonada pelo brilho no olho. Focada na direção criativa e estética do estúdio, conectando marcas e pessoas de forma autoral, sagaz e com acabamento impecável.'
+    },
+    {
+      file: 'Maria_Eduarda-Social_Media_e_Designer.jpeg',
+      cap: 'social media & designer · olhar contemporâneo',
+      desc: 'Designer e Social Media na Muma. Com mente ágil e olhar contemporâneo, ela conecta a identidade visual do estúdio e de nossos clientes às conversas do dia a dia, trazendo frescor e consistência digital.'
+    }
+  ];
+
+  const container = document.getElementById('integrantesContainer');
+  if (!container) return;
+
+  // Render cards dynamically
+  container.innerHTML = integrantesData.map(member => {
+    const base = member.file.substring(0, member.file.lastIndexOf('.'));
+    const parts = base.split('-');
+    const name = parts[0].replace(/_/g, ' ');
+    const role = parts[1].replace(/_/g, ' ');
+
+    return `
+      <div class="photo">
+        <img src="assets/images/integrantes/${member.file}" alt="${name}, ${role}" loading="lazy" />
+        <div class="scrim"></div>
+        <div class="name">${name}</div>
+        <span class="cap">${member.cap}</span>
+        <!-- Easter Egg Overlay -->
+        <div class="easter-egg-overlay">
+          <p class="integrante-desc">${member.desc}</p>
+          <button type="button" class="easter-egg-btn career-modal-trigger">quer fazer parte da muma?</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  // Setup click logic on the newly generated photo cards
+  container.querySelectorAll('.photo').forEach(photo => {
     const overlay = photo.querySelector('.easter-egg-overlay');
     photo.addEventListener('click', e => {
       // Se o clique foi dentro do overlay, o tratador do overlay cuida disso

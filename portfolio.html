@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfólio · Muma Estúdio Criativo</title>
+  
+  <meta name="description" content="Portfólio completo da Muma Estúdio Criativo. Seleção de campanhas, stills, direção criativa, beleza e conteúdo audiovisual de alto impacto.">
+  <meta name="keywords" content="Muma, estúdio criativo, portfólio, direção criativa, foto, vídeo, marcas, spoleto, cimed, care beauty">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Portfólio · Muma Estúdio Criativo">
+  <meta property="og:description" content="Portfólio completo da Muma Estúdio Criativo. Seleção de campanhas, stills e direção de imagem.">
+  <meta property="og:type" content="website">
+  
+  <!-- CSS & Fonts -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:ital,wght@0,400..900;1,400..900&family=Outfit:wght@100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+  
+  <style>
+    /* portfolio-specific inline override styles for fast loading and modularity */
+    .portfolio-hero {
+      padding: 180px 36px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      min-height: 45vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background: var(--navy);
+    }
+    .portfolio-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: url('assets/background/nKEYb01.svg') no-repeat center center;
+      background-size: cover;
+      opacity: 0.05;
+      transform: scale(1.08) translateY(calc(var(--hero-scroll, 0) * 0.25px));
+      will-change: transform;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .portfolio-hero .inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+    }
+    .portfolio-hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(48px, 9vw, 96px);
+      font-weight: 400;
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      color: var(--paper);
+    }
+    .portfolio-hero h1 em {
+      font-style: italic;
+      color: var(--pink);
+    }
+    .portfolio-hero p {
+      font-family: var(--sans);
+      font-size: clamp(14px, 2vw, 17px);
+      opacity: 0.85;
+      max-width: 52ch;
+      line-height: 1.5;
+      margin: 0 auto;
+    }
+
+    /* Filters */
+    .portfolio-filters {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 40px 0 60px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 10;
+    }
+    .portfolio-filters button {
+      background: transparent;
+      border: 1px solid rgba(237, 236, 234, 0.15);
+      color: var(--paper);
+      padding: 10px 24px;
+      border-radius: 999px;
+      font-family: var(--sans);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .portfolio-filters button:hover,
+    .portfolio-filters button.active {
+      background: var(--pink);
+      border-color: var(--pink);
+      color: var(--navy);
+      transform: translateY(-2px);
+    }
+
+    /* Grid */
+    .portfolio-grid {
+      max-width: 1480px;
+      margin: 0 auto 120px;
+      padding: 0 36px;
+    }
+
+    /* Project Detail Modal Overlay */
+    .project-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(12, 9, 51, 0.94);
+      backdrop-filter: blur(15px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      padding: 20px;
+    }
+    .project-modal.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .project-modal-content {
+      background: var(--navy);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 24px;
+      max-width: 960px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 20px 80px rgba(0, 0, 0, 0.85);
+      transform: translateY(30px) scale(0.95);
+      transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      scrollbar-width: none;
+    }
+    .project-modal-content::-webkit-scrollbar {
+      display: none;
+    }
+    .project-modal.active .project-modal-content {
+      transform: translateY(0) scale(1);
+    }
+    .project-modal-close {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--paper);
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.3s;
+    }
+    .project-modal-close:hover {
+      background: var(--pink);
+      color: var(--navy);
+      border-color: var(--pink);
+      transform: rotate(90deg);
+    }
+    .project-modal-body {
+      padding: 60px 48px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 48px;
+    }
+    .project-modal-visuals {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .project-modal-visuals img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      object-fit: cover;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .project-modal-info h2 {
+      font-family: var(--serif);
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.1;
+      margin-bottom: 8px;
+      color: var(--paper);
+    }
+    .project-modal-info h2 em {
+      font-style: italic;
+      color: var(--pink);
+    }
+    .project-modal-tag {
+      display: inline-block;
+      background: rgba(255, 128, 225, 0.15);
+      color: var(--pink);
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .project-modal-description {
+      font-family: var(--sans);
+      font-size: 14px;
+      line-height: 1.6;
+      opacity: 0.88;
+      margin-bottom: 32px;
+    }
+    .project-modal-specs {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 24px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .project-modal-spec-item {
+      font-family: var(--sans);
+    }
+    .project-modal-spec-label {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      opacity: 0.5;
+      margin-bottom: 4px;
+    }
+    .project-modal-spec-value {
+      font-size: 13px;
+      font-weight: 500;
+      opacity: 0.9;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .project-modal-body {
+        grid-template-columns: 1fr;
+        padding: 48px 24px 32px;
+        gap: 32px;
+      }
+      .portfolio-grid {
+        padding: 0 20px;
+      }
+      .portfolio-hero {
+        padding: 130px 20px 50px;
+      }
+    }
+  </style>
+</head>
+<body class="is-cases">
+
+  <!-- BACKGROUND GRID -->
+  <div class="ring-bg-container">
+    <div class="ring-orbit ring-1"></div>
+    <div class="ring-orbit ring-2"></div>
+    <div class="ring-orbit ring-3"></div>
+  </div>
+  <div id="cursor-fx-container"></div>
+
+  <!-- CUSTOM CURSOR -->
+  <div id="cursor"></div>
+  <div id="cursor-halo"></div>
+
+  <!-- NAV -->
+  <nav class="nav dark" id="nav" data-screen-label="00 Nav">
+    <div class="wrap nav-row">
+      <div class="nav-left">
+        <a class="brand" href="index.html" aria-label="Muma" id="brandLogo">
+          <svg id="brandSvg" viewBox="0 0 1201.6 246.96" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g class="lp lp1">
+              <path class="orig" d="M295.04,8.93c-23.55-13.24-58.03-17.69-93.63,29.71-7.13-11.96-17-22.19-30.37-29.71-26.66-14.99-67.3-18.73-107.72,51.21L51.08,5.18H8.12s0,0,0,0C8.97,146.32,0,230.62,0,230.61h69.41V65.77c22.7-48.79,70.32-55.88,82.43-20.11,21.44,63.32-53.45,185.04-53.39,184.95h89.16c13.12-21.16,47.71-121.76,17.85-184.41,24.49-30.39,60.14-30.8,70.39-.54,21.44,63.32-53.45,185.04-53.39,184.95h89.16c16.31-26.3,65.82-175.36-16.57-221.68Z"/>
+              <path class="alt"  d="M157.12,157.74C161.09,114.02,169.63,2.95,246.65.05c94.42-3.55,106.19,184.25.08,173.58-8.67-.87-15.38-2.02-20.63-2.41-10.77-.79-20.2,11.4-5.51,19.31,38.59,20.78,69.12-29.37,99.54-19.79,46.9,14.76,38.85,86.71-45.42,74.33-63.39-9.31-77.36-40.33-74.11-61.51,4.58-29.83,42.28-34.32,46.45-96.2,2.3-34.2-21.49-81.65-49.82-48.14-21.58,25.53-22.52,93.37-13.4,142.62,5.16,27.87-6.37,49.65-29.86,48.82-22.78-.81-41.06-15.46-38.32-45.49,3.46-37.93,6.67-93.35-2.5-131.66-9.89-41.34-35.72-44.97-48.29-20.41-20.57,40.2-23.75,114.44,14.29,148.61,29.66,26.64,14.21,60.78-13.27,64.22-22.36,2.8-44.2-12.17-52.75-33.66C-13.34,145.65-3.09-5.24,74.39.28c61.45,4.38,50.11,99.32,70.54,157.93,2.73,7.84,11.37,8.54,12.19-.48Z"/>
+            </g>
+            <g class="lp lp2">
+              <path class="orig" d="M580.04,5.18h-42.94s-7.13,143.6-47.19,192.25c-71.7,87.06-100.29-77.31.31-192.25h-108.03s-54.39,172.75,20.73,219.87c69.09,43.34,112.86-48.93,112.86-48.93l3.12,54.48h69.26c-11.21-95.48-8.12-225.43-8.12-225.43Z"/>
+              <path class="alt"  d="M442.93,55.36c-16.1-46.33-36.55-61.06-62.73-53.1s-31.5,39.83-11.21,53.41c20.29,13.58,61.28-1.18,58.72,19.91-2.56,21.09-80.46,57.37-77.55,119.74,2.51,53.75,72.72,59.67,107.13,44.21,11.36-5.1,16.91-17.44,13.5-28.72-6.8-22.54,2.15-51.72,17.52-39.79,3.94,3.06,5.23,8.7.77,15.19-18.13,26.42,9.16,54.01,33.14,58.66,38.92,7.56,61.49-9.51,68.29-27.15,6.37-16.51-9.46-32.61-27.26-28.04-17.1,4.39-40.9-1.77-26.17-91.86,3.69-22.57,21.01-56.28,18.86-78.25-1.34-13.71-15.66-22.86-29.53-18.45-14.77,4.7-18.04,21.91-10.28,38.23,9.64,20.26,9.81,43.73-.96,64.03-22.59,42.57-64.18,91.99-106.99,64.27-61.23-39.64,50.89-65.77,34.73-112.28Z"/>
+            </g>
+            <g class="lp lp3">
+              <path class="orig" d="M913.76,8.93c-23.55-13.24-58.03-17.69-93.63,29.71-7.13-11.96-17.01-22.19-30.37-29.71-26.66-14.99-67.3-18.73-107.72,51.21l-12.25-54.96h-42.95s0,0,0,0c.85,141.14-8.12,225.43-8.12,225.43h69.41V65.77c22.7-48.79,70.32-55.88,82.43-20.11,21.44,63.32-53.45,185.04-53.39,184.95h89.16c13.12-21.16,47.71-121.76,17.85-184.41,24.49-30.39,60.14-30.8,70.39-.54,21.44,63.32-53.45,185.04-53.39,184.95h89.16c16.31-26.3,65.82-175.36-16.57-221.68Z"/>
+              <path class="alt"  d="M787.66,105.3c-.38-9.16,3.03-18.15,10.3-25.52,22.27-22.6,72.54.14,88.55,26.34,41.96,68.69-82.44,53.04-110.74,79.37-21.66,20.15-11.36,65.47,42.01,61.19,47.61-3.82,95.33-48.48,90.96-108.87-5.26-72.59-44.39-134.51-90.08-123.07-36.47,9.13-30,58.2-41.44,85.88-4.74,11.48-17.71,17.39-29.51,13.5-17.14-5.65-25.61-21.15-22.52-44.95,4.98-38.39,2.09-88.73-63.38-61.35-65.47,27.39-105.55,194.85-6.29,228.61,99.27,33.77,113.2-41.83,65.1-58.32-48.1-16.48-113.29-8.64-113.4-48.52-.11-39.88,94.15-72.85,103.68-45.73,6.53,18.58-4.74,39.26-2.95,58.58,2.15,23.21,42.14,46.01,74.58,24.04,22.56-15.28,6.13-37.27,5.13-61.18Z"/>
+            </g>
+            <g class="lp lp4">
+              <path class="orig" d="M1193.69,84.65c1.08-113.11-168.89-100.62-183.5-33.98-8.38,38.22,32.15,48.75,51.28,40.47,16.3-7.05,23.47-28.4,3.39-41.66-21.54-14.23-6.21-40.49,16.58-42.78,35.22-3.55,72.22,39.31,5.31,90.34-44.87,34.22-111.66,31.83-118.99,86.6-7.84,58.58,103.16,76.59,156.58,13.03l7.94,33.95h69.32c-8.82-76.06-7.91-145.96-7.91-145.97ZM1110.2,196.43c-13.63,12.18-41.47,13.68-55.81,2.77-13.55-10.31-21.11-29.27-14.5-45.37,10.38-25.27,72.18-52.54,93.61-91.35l.33,45.58c-1.3,50.84-2.58,69.54-23.64,88.36Z"/>
+              <path class="alt"  d="M1161.78,98.57c22.38-134.23-175.6-113.12-193.88-44.48-13.64,51.22,58.97,54.2,89.33,56.4,8.35.6,11.39,2.77,11.39,5.85,0,12.27-60.35,15.26-88.41,26.15-47.64,18.49-59.13,97.98,24.87,104.28,54.02,4.05,76.39-23.46,97.54-56.09,2.44-3.77,5.09-4.14,7.13-3.51,2.14.66,3.6,2.52,1.83,7.41-11.7,32.35-15.18,45.05,26.05,45.05,55.32,0,7.24-39.61,24.16-141.06ZM1124.08,126.59c-9.85,25.72-23.9,55.69-42.7,72.06-21.51,18.73-58.02,7.59-60.96-19.3-1.72-15.71,9.18-30.03,28.13-38.99,20.86-9.86,39.53-16.93,37.52-28.13-2.27-12.63-19.09-12.42-37.52-16.01-26.37-5.14-55.69-14.37-47.38-42.39,5.4-18.22,24.33-27.21,46.35-27.73,56.19-1.34,95.55,50.94,76.57,100.49Z"/>
+            </g>
+          </svg>
+        </a>
+        <div class="nav-ticker" id="navTicker">
+          <span class="pulse"></span>
+          <span class="phrase"><em>disponível</em> para projetos · 2026</span>
+        </div>
+      </div>
+      <div class="nav-links">
+        <div class="nav-indicator"></div>
+        <a href="index.html" class="portfolio-btn"><span>Home</span><span class="arr">↗</span></a>
+      </div>
+      <div class="nav-right" style="display:flex;align-items:center;gap:10px;">
+        <a class="nav-cta" href="index.html#contato"><span>orçamento</span><span class="arr">↗</span></a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <header class="portfolio-hero">
+    <div class="inner">
+      <div class="section-label" style="color:var(--pink)">[ Portfólio ]</div>
+      <h1>Coleção de <em>trabalhos</em>.</h1>
+      <p>Conceito, captação, direção criativa, pós-produção e brilho no olho. Cada projeto é construído sob medida com foco na sofisticação e no impacto real das marcas.</p>
+    </div>
+  </header>
+
+  <!-- CATEGORY FILTERS -->
+  <div class="portfolio-filters wrap">
+    <button class="filter-btn active" data-filter="all">Todos</button>
+    <button class="filter-btn" data-filter="still">Stills</button>
+    <button class="filter-btn" data-filter="campanha">Campanhas</button>
+    <button class="filter-btn" data-filter="beauty">Beauty</button>
+    <button class="filter-btn" data-filter="filme">Filmes</button>
+  </div>
+
+  <!-- PORTFOLIO GRID (Trabalhos Selecionados Reutilizados) -->
+  <main class="portfolio-grid">
+    <div class="case-grid" id="portfolioCases">
+      
+      <!-- Case 1: Koni -->
+      <div class="case c1" data-categories="campanha,still" data-id="koni" style="cursor: pointer;">
+        <img src="assets/images/clientes/work-koni.png" alt="Koni - Dia do Koni" class="img-front" />
+        <img src="assets/images/clientes/bts-koni.jpg" alt="Koni - bastidores" class="img-back" loading="lazy" />
+        <div class="scrim"></div>
+        <span class="badge">campanha · still</span>
+        <span class="reveal-hint"><span class="lens"></span> backstage</span>
+        <div class="title">Dia do <em>Koni</em></div>
+        <div class="meta"><span>Koni · 2025</span><span>ver bastidor + detalhes ↗</span></div>
+      </div>
+
+      <!-- Case 2: Spoleto -->
+      <div class="case c2" data-categories="still" data-id="spoleto" style="cursor: pointer;">
+        <img src="assets/images/clientes/work-spoleto.jpg" alt="Spoleto" class="img-front" loading="lazy" />
+        <img src="assets/images/clientes/bts-spoleto.jpeg" alt="Spoleto - bastidores" class="img-back" loading="lazy" />
+        <div class="scrim"></div>
+        <span class="badge">conteúdo · still</span>
+        <span class="reveal-hint"><span class="lens"></span> backstage</span>
+        <div class="title"><em>Spoleto</em></div>
+        <div class="meta"><span>Spoleto · 2025</span><span>ver bastidor + detalhes ↗</span></div>
+      </div>
+
+      <!-- Case 3: Care Beauty -->
+      <div class="case c3" data-categories="beauty,still" data-id="care" style="cursor: pointer;">
+        <img src="assets/images/clientes/work-care.jpg" alt="Care Beauty" class="img-front" loading="lazy" />
+        <img src="assets/images/clientes/bts-care.jpg" alt="Care Beauty - bastidores" class="img-back" loading="lazy" />
+        <div class="scrim"></div>
+        <span class="badge">beauty · still</span>
+        <span class="reveal-hint"><span class="lens"></span> backstage</span>
+        <div class="title"><em>Care</em><br/>Beauty</div>
+        <div class="meta"><span>Care Beauty · 2025</span><span>ver bastidor + detalhes ↗</span></div>
+      </div>
+
+      <!-- Case 4: Gendai -->
+      <div class="case c4" data-categories="still" data-id="gendai" style="cursor: pointer;">
+        <img src="assets/images/clientes/work-gendai.jpg" alt="Gendai" class="img-front" loading="lazy" />
+        <img src="assets/images/clientes/bts-gendai.jpg" alt="Gendai - bastidores" class="img-back" loading="lazy" />
+        <div class="scrim"></div>
+        <span class="badge">food · still</span>
+        <span class="reveal-hint"><span class="lens"></span> backstage</span>
+        <div class="title"><em>Gendai</em></div>
+        <div class="meta"><span>Gendai · 2024</span><span>ver bastidor + detalhes ↗</span></div>
+      </div>
+
+      <!-- Case 5: Granado -->
+      <div class="case c5" data-categories="still" data-id="granado" style="cursor: pointer;">
+        <img src="assets/images/clientes/work-granado.jpg" alt="Granado" class="img-front" loading="lazy" />
+        <img src="assets/images/clientes/bts-granado.jpg" alt="Granado - bastidores" class="img-back" loading="lazy" />
+        <div class="scrim"></div>
+        <span class="badge">produto · still</span>
+        <span class="reveal-hint"><span class="lens"></span> backstage</span>
+        <div class="title"><em>Granado</em></div>
+        <div class="meta"><span>Granado · 2024</span><span>ver bastidor + detalhes ↗</span></div>
+      </div>
+
+      <!-- Case 6: CIMED -->
+      <div class="case c6" data-categories="filme,campanha" data-id="cimed" style="cursor: pointer;">
+        <img src="assets/images/clientes/work-cimed.jpg" alt="CIMED" class="img-front" loading="lazy" />
+        <img src="assets/images/clientes/bts-cimed.jpg" alt="CIMED - bastidores" class="img-back" loading="lazy" />
+        <div class="scrim"></div>
+        <span class="badge">filme · campanha</span>
+        <span class="reveal-hint"><span class="lens"></span> backstage</span>
+        <div class="title">CIMED · <em>SuperPoderosa</em></div>
+        <div class="meta"><span>CIMED · 2024</span><span>ver bastidor + detalhes ↗</span></div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- CTA / CONTACT FORM -->
+  <section class="cta" id="contato" data-screen-label="07 Contato">
+    <div class="inner">
+      <div class="eyebrow">[ 07 ] Vamos criar juntos</div>
+      <h2>
+        <span style="display:block">nos conte</span>
+        <span style="display:block;padding-left:.5em">sua <em>ideia</em><svg class="muma-comma" viewBox="0 0 320.23 538.51" aria-hidden="true"><path fill="currentColor" d="M315.5,203.29L283.8,0H0v283.8h173.8c0,73.34-13.7,140.23-115.61,151.47v103.24c135.51-13.76,291.32-117.03,257.3-335.23Z"/></svg><span class="stop"></span></span>
+      </h2>
+
+      <div class="send">
+        <form class="form" onsubmit="event.preventDefault();">
+          <input type="email" id="ctaEmailInput" placeholder="seu melhor e-mail" required />
+          <button type="submit">enviar briefing <span>↗</span></button>
+        </form>
+
+        <div class="contact">
+          <span style="font-size:11px;letter-spacing:.28em;text-transform:uppercase;opacity:.55">ou direto</span>
+          <div class="email-row">
+            <a class="big" href="#" id="emailLink">carregando...</a>
+            <button class="copy-email-btn" id="copyEmail" type="button" aria-label="Copiar e-mail">
+              <svg class="ic-copy" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9"></path></svg>
+              <svg class="ic-check" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg>
+              <span class="tip">Copiado!</span>
+            </button>
+          </div>
+          <span style="opacity:.7">Rio de Janeiro</span>
+          <span style="opacity:.7">resposta em até 24h úteis</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="inner">
+      <div>
+        <div class="lockup">
+          <img src="assets/logos/logo-muma.svg" alt="Muma" style="height:46px;width:auto;display:block;color:var(--pink)" />
+        </div>
+        <div class="tag">estúdio criativo</div>
+        <p style="margin-top:24px;font-size:13px;opacity:.7;max-width:42ch;line-height:1.5">Estúdio criativo modular. Produção, captação, arte, beauty, styling, casting, catering, edição. Fundado por mulheres.</p>
+      </div>
+      <div>
+        <h4>navegar</h4>
+        <ul>
+          <li><a href="index.html#manifesto">Manifesto</a></li>
+          <li><a href="index.html#servicos">Serviços</a></li>
+          <li><a href="portfolio.html">Portfólio</a></li>
+          <li><a href="index.html#clientes">Clientes</a></li>
+          <li><a href="index.html#estudio">Estúdio</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>siga</h4>
+        <ul>
+          <li><a href="https://www.instagram.com/mumaestudiocriativo/" target="_blank" rel="noopener">Instagram ↗</a></li>
+          <li><a href="https://www.behance.net/mumaestudiocriativo" target="_blank" rel="noopener">Behance ↗</a></li>
+          <li><a href="https://www.linkedin.com/company/mumaestudiocriativo" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+          <li><a href="https://www.tiktok.com/@mumaestudiocriativo" target="_blank" rel="noopener">TikTok ↗</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>contato</h4>
+        <ul>
+          <li><a href="index.html#contato">Orçamento</a></li>
+          <li><a href="#trabalhe" class="career-modal-trigger">Trabalhe com a gente</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© 2024 Muma Estúdio Criativo</span>
+      <div class="legal-right">
+        <span class="legal-phrase">feito com método + brilho no olho</span>
+        <span class="legal-version">site_muma-v6_final_portfolio.html</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- DETAILED PROJECT MODAL -->
+  <div class="project-modal" id="projectModal">
+    <div class="project-modal-content">
+      <button class="project-modal-close" id="projectModalClose">✕</button>
+      <div class="project-modal-body">
+        
+        <div class="project-modal-visuals" id="modalVisuals">
+          <!-- Dinâmico -->
+        </div>
+        
+        <div class="project-modal-info">
+          <span class="project-modal-tag" id="modalBadge">Categoria</span>
+          <h2 id="modalTitle">Título do <em>Projeto</em></h2>
+          <div class="project-modal-description" id="modalDesc">
+            Detalhes dos bastidores.
+          </div>
+          
+          <div class="project-modal-specs">
+            <div class="project-modal-spec-item">
+              <div class="project-modal-spec-label">Cliente</div>
+              <div class="project-modal-spec-value" id="specClient">Koni</div>
+            </div>
+            <div class="project-modal-spec-item">
+              <div class="project-modal-spec-label">Ano</div>
+              <div class="project-modal-spec-value" id="specYear">2025</div>
+            </div>
+            <div class="project-modal-spec-item">
+              <div class="project-modal-spec-label">Direção Criativa</div>
+              <div class="project-modal-spec-value" id="specDir">Vicky & Alinne</div>
+            </div>
+            <div class="project-modal-spec-item">
+              <div class="project-modal-spec-label">Fotografia</div>
+              <div class="project-modal-spec-value" id="specPhoto">Alinne</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/main.js"></script>
+  <script>
+    // Detailed Cases Database for Dynamic Modals
+    const PROJECT_DB = {
+      koni: {
+        title: "Dia do <em>Koni</em>",
+        badge: "campanha · still",
+        desc: "Koni, um dos maiores nomes de gastronomia rápida japonesa, precisava de uma campanha visualmente marcante para comemorar o Dia do Koni. Estruturamos a direção criativa unindo a alta velocidade de produção set com a sofisticação da fotografia still. Focamos no frescor dos insumos e criamos uma estética pop-premium que conectou as lojas a um público jovem e apaixonado.",
+        client: "Koni Store",
+        year: "2025",
+        direction: "Vicky & Alinne",
+        photo: "Alinne (Estúdio Muma)",
+        front: "assets/images/clientes/work-koni.png",
+        back: "assets/images/clientes/bts-koni.jpg"
+      },
+      spoleto: {
+        title: "Conteúdo <em>Spoleto</em>",
+        badge: "conteúdo · still",
+        desc: "Ensaio de fotografia still culinária para a renomada marca italiana Spoleto. O conceito focou em desconstruir os pratos, mostrando a verdade crua e fresca de cada ingrediente selecionado (tomates maduros, massas artesanais e temperos verdes). O set foi montado sob iluminação difusa precisa para realçar a vivacidade das cores e a textura apetitosa dos alimentos.",
+        client: "Spoleto",
+        year: "2025",
+        direction: "Alinne",
+        photo: "Vicky (Estúdio Muma)",
+        front: "assets/images/clientes/work-spoleto.jpg",
+        back: "assets/images/clientes/bts-spoleto.jpeg"
+      },
+      care: {
+        title: "<em>Care</em> Beauty",
+        badge: "beauty · still",
+        desc: "Campanha digital focada no viço da pele e na leveza da maquiagem limpa e orgânica da Care Beauty. Desenvolvemos uma estética editorial de luz natural suave combinada com texturas macro dos cosméticos em estúdio. A curadoria de casting trouxe uma identidade plural, sagaz e próxima, traduzindo com sofisticação os valores de sustentabilidade da marca.",
+        client: "Care Natural Beauty",
+        year: "2025",
+        direction: "Vicky",
+        photo: "Alinne (Estúdio Muma)",
+        front: "assets/images/clientes/work-care.jpg",
+        back: "assets/images/clientes/bts-care.jpg"
+      },
+      gendai: {
+        title: "Visual <em>Gendai</em>",
+        badge: "food · still",
+        desc: "Produção still gastronômica e cenografia oriental de alto nível para o restaurante Gendai. Criamos ambientes conceituais com fundos de texturas minimalistas de ardósia e madeira, dando destaque às cores vibrantes do salmão, atum e elementos frescos. Uma abordagem intelectualmente limpa e sofisticada que elevou a percepção visual do cardápio digital.",
+        client: "Gendai S/A",
+        year: "2024",
+        direction: "Alinne",
+        photo: "Vicky (Estúdio Muma)",
+        front: "assets/images/clientes/work-gendai.jpg",
+        back: "assets/images/clientes/bts-gendai.jpg"
+      },
+      granado: {
+        title: "Branding <em>Granado</em>",
+        badge: "produto · still",
+        desc: "Campanha conceitual de still de produto para a tradicionalíssima Granado Pharmácias. A cenografia utilizou folhas tropicais e reflexos elegantes em espelho d'água para representar a herança botânica e a alta perfumaria da marca. Sombras duras e composições geométricas trouxeram um tom moderno e autoral que dialoga perfeitamente com os frascos clássicos da marca.",
+        client: "Granado Pharmácias",
+        year: "2024",
+        direction: "Vicky & Alinne",
+        photo: "Alinne (Estúdio Muma)",
+        front: "assets/images/clientes/work-granado.jpg",
+        back: "assets/images/clientes/bts-granado.jpg"
+      },
+      cimed: {
+        title: "CIMED <em>SuperPoderosa</em>",
+        badge: "filme · campanha",
+        desc: "Uma produção audiovisual e still de altíssimo impacto para o lançamento da linha de cosméticos SuperPoderosa da farmacêutica CIMED. Orquestramos a produção executiva de ponta a ponta, desde a cenografia monumental dos sets até a captura de vídeos de alta velocidade. O resultado é um filme dinâmico com movimentos fluidos e um brilho no olho incomparável.",
+        client: "CIMED Grupo",
+        year: "2024",
+        direction: "Vicky",
+        photo: "Alinne (Estúdio Muma)",
+        front: "assets/images/clientes/work-cimed.jpg",
+        back: "assets/images/clientes/bts-cimed.jpg"
+      }
+    };
+
+    // Filter Logic
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.portfolio-grid .case');
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Toggle Active
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.dataset.filter.toLowerCase();
+
+        projectCards.forEach(card => {
+          const cats = card.dataset.categories.split(',');
+          if (filter === 'all' || cats.includes(filter)) {
+            card.style.display = 'block';
+            // Smooth fade-in
+            card.style.opacity = '0';
+            setTimeout(() => { card.style.opacity = '1'; }, 50);
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Modal Logic
+    const modal = document.getElementById('projectModal');
+    const modalClose = document.getElementById('projectModalClose');
+    const modalVisuals = document.getElementById('modalVisuals');
+    const modalBadge = document.getElementById('modalBadge');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const specClient = document.getElementById('specClient');
+    const specYear = document.getElementById('specYear');
+    const specDir = document.getElementById('specDir');
+    const specPhoto = document.getElementById('specPhoto');
+
+    projectCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const id = card.dataset.id;
+        const project = PROJECT_DB[id];
+        if (!project) return;
+
+        // Injetar dados
+        modalBadge.textContent = project.badge;
+        modalTitle.innerHTML = project.title;
+        modalDesc.innerHTML = project.desc;
+        specClient.textContent = project.client;
+        specYear.textContent = project.year;
+        specDir.textContent = project.direction;
+        specPhoto.textContent = project.photo;
+
+        // Injetar imagens (Principal + Bastidores)
+        modalVisuals.innerHTML = `
+          <img src="${project.front}" alt="${project.client} - Final" />
+          <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.15em;opacity:0.5;margin-top:12px;display:block">Nos bastidores (backstage):</span>
+          <img src="${project.back}" alt="${project.client} - Bastidores" loading="lazy" />
+        `;
+
+        // Abrir Modal
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // trava scroll da home
+      });
+    });
+
+    // Close Modal
+    function closeModal() {
+      modal.classList.remove('active');
+      document.body.style.overflow = ''; // destrava scroll
+    }
+
+    modalClose.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    // Escape Key Close
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // Email link injection in portfolio
+    (function injectEmail() {
+      const email = 'contato' + '@' + 'mumaestudiocriativo.com.br';
+      const link = document.getElementById('emailLink');
+      if (link) {
+        link.textContent = email;
+        link.href = 'mailto:' + email + '?subject=Orçamento%20Muma';
+      }
+    })();
+  </script>
+</body>
+</html>

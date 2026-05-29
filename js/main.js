@@ -1988,6 +1988,16 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
           explosionParticles.push(new ExplodeParticle(center.x, center.y, color, speed, angle));
         }
 
+        // If redirect target is set, perform redirect during the peak white flash
+        if (window.redirectTargetUrl) {
+          const target = window.redirectTargetUrl;
+          window.redirectTargetUrl = null; // clear state
+          setTimeout(() => {
+            window.location.href = target;
+          }, 80);
+          return;
+        }
+
         // Show popup overlay after 1.5s delay
         setTimeout(() => {
           if (phase !== 'drift' && phase !== 'explosion') return; // if closed in between
@@ -2111,6 +2121,48 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     if (e.target === overlay) {
       closeEasterEgg();
     }
+  });
+
+  // Intercept Portfolio links for the supernova page transition
+  document.querySelectorAll('a[href="portfolio.html"]').forEach(link => {
+    link.addEventListener('click', e => {
+      // Do not run on mobile/tablet devices or coarse pointers
+      if (window.innerWidth <= 768 || window.matchMedia('(pointer: coarse)').matches) return;
+
+      e.preventDefault();
+      
+      // Cancel idle atom animations
+      if (window.resetIdleTimerGlobal) window.resetIdleTimerGlobal();
+      
+      // Reset states
+      phase = 'spiral';
+      trailParticles = [];
+      explosionParticles = [];
+      shockwaves = [];
+      orbitingStars = [];
+      flashOpacity = 0;
+      implosionTimer = 0;
+      
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+
+      startDistance = Math.min(canvas.width, canvas.height) * 0.42;
+      spiralRadius = startDistance;
+      spiralAngle = 0;
+
+      // Lock scrolling and show canvas overlay
+      document.body.classList.add('modal-open');
+      document.body.classList.add('ee-active');
+      overlay.classList.add('active');
+      popup.classList.remove('active');
+
+      // Set redirect URL
+      window.redirectTargetUrl = 'portfolio.html';
+
+      // Start animation loop
+      if (animId) cancelAnimationFrame(animId);
+      animId = requestAnimationFrame(tick);
+    });
   });
 
 })();

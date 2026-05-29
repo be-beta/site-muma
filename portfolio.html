@@ -13,6 +13,9 @@
   <meta property="og:description" content="Portfólio completo da Muma Estúdio Criativo. Seleção de campanhas, stills e direção de imagem.">
   <meta property="og:type" content="website">
   
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="assets/icons/M.svg">
+  
   <!-- CSS & Fonts -->
   <link rel="stylesheet" href="css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -325,6 +328,20 @@
   </style>
 </head>
 <body class="is-cases">
+
+  <!-- Cinematic Supernova Entrance Transition Overlay -->
+  <div id="transitionFlash" style="position:fixed;inset:0;z-index:9999;background:#ffffff;pointer-events:none;transition:opacity 0.6s cubic-bezier(0.25,1,0.5,1)"></div>
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const flash = document.getElementById('transitionFlash');
+      if (flash) {
+        setTimeout(() => {
+          flash.style.opacity = '0';
+          setTimeout(() => { flash.remove(); }, 600);
+        }, 50);
+      }
+    });
+  </script>
 
   <!-- BACKGROUND GRID -->
   <div class="ring-bg-container">
@@ -705,6 +722,10 @@
     projectCards.forEach(card => {
       card.addEventListener('click', () => {
         const id = card.dataset.id;
+        if (id === 'koni') {
+          window.location.href = 'case-koni.html';
+          return;
+        }
         const project = PROJECT_DB[id];
         if (!project) return;
 

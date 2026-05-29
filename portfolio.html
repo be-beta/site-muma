@@ -103,11 +103,13 @@
     .portfolio-filters {
       display: flex;
       justify-content: center;
-      gap: 12px;
-      margin: 40px 0 60px;
+      gap: 10px;
+      margin: 40px auto 60px;
       flex-wrap: wrap;
+      max-width: 1000px;
       position: relative;
       z-index: 10;
+      padding: 0 20px;
     }
     .portfolio-filters button {
       background: rgba(255, 255, 255, 0.05);
@@ -154,13 +156,13 @@
     }
     
     .portfolio-grid .case[data-categories*="campanha"] {
-      animation: campaignHaloPulse 4s infinite cubic-bezier(0.4, 0, 0.2, 1);
       transition: all 0.38s cubic-bezier(0.25, 1, 0.5, 1);
+      border: 1px solid rgba(255, 255, 255, 0.15) !important;
     }
     .portfolio-grid .case[data-categories*="campanha"]:hover {
-      animation: none !important;
-      box-shadow: 0 0 40px rgba(255, 128, 225, 0.6) !important;
+      animation: campaignHaloPulse 3s infinite cubic-bezier(0.4, 0, 0.2, 1) !important;
       border-color: var(--pink) !important;
+      box-shadow: 0 0 40px rgba(255, 128, 225, 0.6) !important;
     }
 
     /* Sections background overrides to keep consistent purple */
@@ -393,7 +395,7 @@
     <button class="filter-btn" data-filter="pos">Edição & Pós</button>
     <button class="filter-btn" data-filter="arte">Arte & Cenografia</button>
     <button class="filter-btn" data-filter="beauty">Beauty & Styling</button>
-    <button class="filter-btn" data-filter="casting">Casting Autoral</button>
+    <button class="filter-btn" data-filter="casting">Casting</button>
     <button class="filter-btn" data-filter="catering">Catering Set</button>
   </div>
 

@@ -13,7 +13,7 @@ function checkNav(){
   nav.classList.toggle('dark', dark);
 }
 // Scroll Spy & Navigation Bubble Indicator
-const navLinks = document.querySelectorAll('.nav-links a');
+const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
 const indicator = document.querySelector('.nav-indicator');
 const spySections = Array.from(navLinks).map(link => {
   const href = link.getAttribute('href');

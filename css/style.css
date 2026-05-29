@@ -710,7 +710,8 @@ footer .tag{font-family:var(--serif);font-size:18px;font-style:italic;opacity:.7
   .founders .inner{grid-template-columns:1fr}
   .cta .send{grid-template-columns:1fr;gap:32px}
   footer .inner{grid-template-columns:1fr 1fr;gap:32px}
-  .nav-links{display:none}
+  .nav-links{display:flex !important}
+  .nav-links a{padding:8px 12px !important;font-size:11px !important}
 }
 
 /* ================================================================

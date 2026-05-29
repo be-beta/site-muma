@@ -571,6 +571,8 @@ img{max-width:100%;display:block}
 .client-grid div img.logo-size-down-sm { height: 32px; }
 .client-grid div img.logo-size-down-md { height: 30px; }
 .client-grid div img.logo-size-down-lg { height: 24px; }
+.client-grid div img.logo-size-down-xl { height: 18px; }
+.client-grid div img.logo-size-up-xxl { height: 76px; }
 
 /* — CTA — Copy email button + email row — */
 .cta .contact .email-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
@@ -1229,12 +1231,7 @@ html.a11y-mode :focus-visible {
     height: 22px !important;
   }
   .a11y-toggle {
-    width: 32px !important;
-    height: 32px !important;
-  }
-  .a11y-toggle svg {
-    width: 15px !important;
-    height: 15px !important;
+    display: none !important;
   }
 
   /* Hero Section Responsiveness */
@@ -1253,7 +1250,7 @@ html.a11y-mode :focus-visible {
     letter-spacing: 0.1em !important;
   }
   .hero h1 {
-    font-size: clamp(44px, 12.5vw, 68px) !important;
+    font-size: clamp(52px, 14.5vw, 78px) !important;
     line-height: 0.88 !important;
     letter-spacing: -0.02em !important;
   }
@@ -1287,13 +1284,22 @@ html.a11y-mode :focus-visible {
   .manifesto .visual {
     max-width: 100% !important;
     aspect-ratio: 4 / 3 !important; /* Make it fit nicely without consuming too much vertical space */
+    position: relative !important;
+  }
+  .manifesto .visual .corner {
+    display: none !important; /* Remove comma overlay on mobile */
+  }
+  .manifesto .visual .tag {
+    top: auto !important;
+    bottom: 14px !important;
+    right: 14px !important;
   }
   .pull {
-    margin-top: 36px !important;
-    font-size: 20px !important;
+    margin-top: 24px !important;
+    font-size: 17px !important;
   }
   .pull::before {
-    font-size: 40px !important;
+    font-size: 32px !important;
   }
 
   /* Serviços Section */
@@ -1385,21 +1391,51 @@ html.a11y-mode :focus-visible {
     line-height: 1.5 !important;
   }
   .founders .photo-pair {
-    grid-template-columns: 1fr !important; /* Stack vertically */
-    gap: 20px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    gap: 16px !important;
+    padding-bottom: 20px !important;
+    scroll-snap-type: x mandatory !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+    margin: 0 -20px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  .founders .photo-pair::-webkit-scrollbar {
+    display: none !important;
   }
   .founders .photo.right,
   .founders .photo-pair > div:nth-child(2) {
     margin-top: 0 !important; /* Remove top offset on stack */
   }
   .founders .photo {
+    flex-shrink: 0 !important;
+    width: 250px !important;
+    max-width: 80vw !important;
     aspect-ratio: 3 / 4 !important;
-    max-width: 290px !important;
-    width: 100% !important;
-    margin: 0 auto !important;
+    scroll-snap-align: center !important;
+    margin: 0 !important;
   }
   .founders .photo .name {
     font-size: 20px !important;
+  }
+  .founders .pill-container {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    gap: 4px !important;
+    width: 100% !important;
+    margin-top: 24px !important;
+  }
+  .founders .pill {
+    flex: 1 !important;
+    justify-content: center !important;
+    font-size: clamp(8px, 2.2vw, 10px) !important;
+    padding: 4px 6px !important;
+    white-space: nowrap !important;
+    letter-spacing: 0.05em !important;
   }
 
   /* CTA Section */
@@ -1544,6 +1580,13 @@ html.a11y-mode :focus-visible {
     max-width: 80% !important;
     height: auto !important;
     max-height: 28px !important;
+  }
+  .client-grid div img.logo-size-down-xl {
+    max-height: 14px !important;
+  }
+  .client-grid div img.logo-size-up-xxl {
+    max-height: 48px !important;
+    max-width: 90% !important;
   }
 }
 

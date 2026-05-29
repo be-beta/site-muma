@@ -138,12 +138,19 @@ function spawnCardume(container, opts){
 
   const IS_TOUCH = window.matchMedia('(pointer: coarse)').matches || window.innerWidth <= 768;
   if (IS_TOUCH) {
-    cfg.shapes = Math.min(cfg.shapes, 5);
+    cfg.shapes = Math.min(cfg.shapes, 4);
     cfg.follow = false;
     cfg.clickScare = false;
     cfg.enableAtomIdle = false;
     cfg.enableFollowFormation = false;
-    cfg.idleAnchor = { x: 0.5, y: 0.5 };
+    cfg.sizeMul = 0.28; // Shrink cardume sizes by 72% on mobile
+    
+    // Position CTA cardume in top right corner to prevent text/form overlap
+    if (container.classList.contains('cta')) {
+      cfg.idleAnchor = { x: 0.82, y: 0.06 };
+    } else {
+      cfg.idleAnchor = { x: 0.5, y: 0.5 };
+    }
   }
 
   // Miniaturizado: ícones 12-28, pontos 4-10
@@ -340,8 +347,10 @@ function spawnCardume(container, opts){
 
     const ax = (cfg.idleAnchor && cfg.idleAnchor.x) ?? 0.66;
     const ay = (cfg.idleAnchor && cfg.idleAnchor.y) ?? 0.50;
-    const idleX = bb.width  * (ax + Math.sin(t*0.0001)*0.06);
-    const idleY = bb.height * (ay + Math.cos(t*0.00012)*0.07);
+    const oscX = IS_TOUCH ? 0.02 : 0.06;
+    const oscY = IS_TOUCH ? 0.02 : 0.07;
+    const idleX = bb.width  * (ax + Math.sin(t*0.0001)*oscX);
+    const idleY = bb.height * (ay + Math.cos(t*0.00012)*oscY);
 
     const useMouse = inside && cfg.follow;
     const targetX = useMouse ? (mx*cfg.followStrength + idleX*(1-cfg.followStrength)) : idleX;

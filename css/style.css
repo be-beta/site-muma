@@ -290,10 +290,22 @@ img{max-width:100%;display:block}
   overflow:hidden;
   display:flex;flex-direction:column;
 }
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('../assets/background/nKEYb01.svg') no-repeat center;
+  background-size: cover;
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 0;
+}
 .hero .grid{
   max-width:1480px;margin:0 auto;width:100%;
   display:grid;grid-template-columns:60px 1fr;gap:24px;
   flex:1;
+  position:relative;
+  z-index: 2;
 }
 .hero .grid > .col{
   display:flex;flex-direction:column;justify-content:space-between;min-height:100%;
@@ -321,7 +333,7 @@ img{max-width:100%;display:block}
 .hero h1 .indent{padding-left:0}
 
 .hero-foot{
-  display:grid;grid-template-columns: 1fr 1fr 1fr;gap:48px;
+  display:grid;grid-template-columns: 1.4fr 1fr;gap:48px;
   align-items:end;
 }
 .hero-foot .col{font-size:14px;line-height:1.55;opacity:.88;max-width:32ch}
@@ -583,7 +595,7 @@ img{max-width:100%;display:block}
 
 /* — FOUNDERS — */
 .founders{background:var(--purple);color:var(--paper);padding:140px 36px}
-.founders .inner{max-width:1480px;margin:0 auto;display:grid;grid-template-columns:1fr 1.4fr;gap:80px;align-items:center}
+.founders .inner{max-width:1480px;margin:0 auto;display:grid;grid-template-columns:1fr 1.8fr;gap:80px;align-items:center}
 .founders h2{
   font-family:var(--serif);font-weight:400;font-size:clamp(48px,6vw,96px);line-height:1;letter-spacing:-.02em;
 }

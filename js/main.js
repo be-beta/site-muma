@@ -533,7 +533,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
   let activeMagnetEl = null;
 
   // Elementos "atraidores" (geleca): cursor se estica em direção a eles quando próximo
-  const STICKY_SEL = '.nav-links a, .nav-cta, #a11yToggle, #copyEmail, .ghost-btn, .cta .form button, .modal-close, .modal-submit, .ee-close';
+  const STICKY_SEL = '.nav-links a, .nav-cta, #a11yToggle, #copyEmail, .ghost-btn, .cta .form button, .modal-close, .modal-submit, .ee-close, .filter-btn';
   const STICKY_RANGE = 70; // px até a borda do botão pra começar a esticar
 
   document.addEventListener('mousemove', e => {

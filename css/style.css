@@ -295,11 +295,20 @@ img{max-width:100%;display:block}
   transition: transform 0.25s ease;
 }
 .nav-links a.portfolio-btn:hover {
-  background: var(--pink) !important;
+  background: var(--green) !important;
   color: var(--navy) !important;
-  border-color: var(--pink) !important;
+  border-color: var(--green) !important;
 }
 .nav-links a.portfolio-btn:hover .arr {
+  transform: rotate(0deg);
+}
+
+.portfolio-btn.home-btn .arr {
+  display: inline-block;
+  transform: rotate(45deg);
+  transition: transform 0.25s ease;
+}
+.portfolio-btn.home-btn:hover .arr {
   transform: rotate(0deg);
 }
 @media (max-width: 1180px){

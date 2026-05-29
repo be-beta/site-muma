@@ -59,6 +59,10 @@ function updateScrollSpy() {
 window.addEventListener('scroll', () => {
   checkNav();
   updateScrollSpy();
+  const scrollY = window.scrollY;
+  if (scrollY <= window.innerHeight) {
+    document.documentElement.style.setProperty('--hero-scroll', scrollY);
+  }
 }, {passive:true});
 window.addEventListener('resize', updateScrollSpy, {passive:true});
 

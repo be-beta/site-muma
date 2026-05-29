@@ -299,6 +299,8 @@ img{max-width:100%;display:block}
   opacity: 0.05;
   pointer-events: none;
   z-index: 0;
+  transform: scale(1.08) translateY(calc(var(--hero-scroll, 0) * 0.25px));
+  will-change: transform;
 }
 .hero .grid{
   max-width:1480px;margin:0 auto;width:100%;
@@ -1251,7 +1253,7 @@ html.a11y-mode :focus-visible {
     letter-spacing: 0.1em !important;
   }
   .hero h1 {
-    font-size: clamp(34px, 10vw, 50px) !important;
+    font-size: clamp(44px, 12.5vw, 68px) !important;
     line-height: 0.88 !important;
     letter-spacing: -0.02em !important;
   }
@@ -1391,7 +1393,10 @@ html.a11y-mode :focus-visible {
     margin-top: 0 !important; /* Remove top offset on stack */
   }
   .founders .photo {
-    aspect-ratio: 1.2 / 1 !important; /* Make it snug on vertical layout */
+    aspect-ratio: 3 / 4 !important;
+    max-width: 290px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
   }
   .founders .photo .name {
     font-size: 20px !important;
@@ -1521,6 +1526,24 @@ html.a11y-mode :focus-visible {
   .modal-submit {
     padding: 14px 20px !important;
     font-size: 13px !important;
+  }
+
+  /* Marquee ticker and client grid logos mobile optimizations */
+  .marquee {
+    padding: 10px 0 !important;
+  }
+  .marquee span {
+    font-size: 20px !important;
+  }
+  .marquee .dot {
+    width: 6px !important;
+    height: 6px !important;
+    margin: 0 24px !important;
+  }
+  .client-grid div img {
+    max-width: 80% !important;
+    height: auto !important;
+    max-height: 28px !important;
   }
 }
 

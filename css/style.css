@@ -1198,6 +1198,9 @@ html.a11y-mode :focus-visible {
   .legal-version {
     display: none !important;
   }
+  .hide-mobile {
+    display: none !important;
+  }
 
   /* Reduce global wrapping margins and padding to save space on small screens */
   .wrap {

@@ -70,10 +70,21 @@ checkNav();
 updateScrollSpy();
 setTimeout(updateScrollSpy, 200);
 
-// Reveal animations
+// Reveal animations (staggered & high-performance)
 const io = new IntersectionObserver((entries)=>{
-  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }});
-},{threshold:.15});
+  let delay = 0;
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const el = e.target;
+      if (el.classList.contains('in')) return;
+      setTimeout(() => {
+        el.classList.add('in');
+      }, delay);
+      delay += 70; // Snappy 70ms stagger waterfall
+      io.unobserve(el);
+    }
+  });
+}, { threshold: 0.05 });
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
 // Modular drag — light-touch: clicking a service highlights it
@@ -533,7 +544,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
   let activeMagnetEl = null;
 
   // Elementos "atraidores" (geleca): cursor se estica em direção a eles quando próximo
-  const STICKY_SEL = '.nav-links a, .nav-cta, #a11yToggle, #copyEmail, .ghost-btn, .cta .form button, .modal-close, .modal-submit, .ee-close, .filter-btn, .project-modal-close';
+  const STICKY_SEL = '.nav-links a, .nav-cta, #a11yToggle, #copyEmail, .ghost-btn, .cta .form button, .modal-close, .modal-submit, .ee-close, .filter-btn, .project-modal-close, .next-case-btn, .video-control-btn';
   const STICKY_RANGE = 70; // px até a borda do botão pra começar a esticar
 
   document.addEventListener('mousemove', e => {
@@ -2176,6 +2187,26 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
       e.preventDefault();
     }
   });
+
+  // Scroll Reveal Observer
+  const revealElements = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.05,
+      rootMargin: '0px 0px -40px 0px'
+    });
+    revealElements.forEach(el => revealObserver.observe(el));
+  } else {
+    // Fallback: active everything immediately
+    revealElements.forEach(el => el.classList.add('active'));
+  }
 
 })();
 

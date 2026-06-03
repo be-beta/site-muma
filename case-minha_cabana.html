@@ -298,6 +298,37 @@
         padding-top: 110px;
       }
     }
+
+    /* Video custom controls */
+    .video-control-btn {
+      background: rgba(23, 7, 92, 0.75) !important;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15) !important;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white !important;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+      pointer-events: auto;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    .video-control-btn:hover {
+      background: var(--pink) !important;
+      border-color: var(--pink) !important;
+      color: var(--navy) !important;
+      box-shadow: 0 10px 20px rgba(255, 128, 225, 0.3);
+    }
+    .video-control-btn svg {
+      transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .video-control-btn:hover svg {
+      transform: scale(1.1);
+    }
   </style>
 </head>
 <body class="is-cases">
@@ -372,7 +403,7 @@
   <main class="case-container">
     
     <!-- HERO SECTION -->
-    <header class="case-hero">
+    <header class="case-hero reveal">
       <div class="section-label">[ Case Study ]</div>
       <h1>Minha Cabana <em>Vidro</em></h1>
       <div class="case-tagline">Julia apresenta a MCV — Uma imersão de hospitalidade e conexão natural.</div>
@@ -380,7 +411,7 @@
 
     <!-- INFO GRID: Briefing / Ficha Técnica -->
     <section class="case-info-grid">
-      <div class="case-briefing">
+      <div class="case-briefing reveal">
         <h3>O Briefing</h3>
         <p>
           A Julia Ghilardi podia ter feito só mais uma hospedagem na serra, mas ao invés disso, ela resolveu transformar a Minha Cabana Vidro em um verdadeiro case de hospitalidade. Tudo pensado nos mínimos detalhes: desde a arquitetura integrada à natureza, até cada presente pros hóspedes (e o negócio ficou CHIQUE, viu?).
@@ -393,7 +424,7 @@
         </p>
       </div>
 
-      <div class="case-specs">
+      <div class="case-specs reveal">
         <h3>Ficha Técnica</h3>
         <div class="spec-item">
           <span class="spec-label">Cliente</span>
@@ -423,32 +454,49 @@
     </section>
 
     <!-- VIDEO SHOWCASE -->
-    <section style="margin-bottom: 80px;">
+    <section class="reveal" style="margin-bottom: 80px;">
       <h3 class="showcase-title">Apresentação <em>Cine</em></h3>
       <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
-        <iframe src="https://player.vimeo.com/video/1094205487?autoplay=1&loop=1&background=1&muted=1" 
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+        <iframe id="vimeoPlayer" src="https://player.vimeo.com/video/1094205487?autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&dnt=1&api=1" 
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;" 
                 frameborder="0" 
                 allow="autoplay; fullscreen; picture-in-picture" 
                 allowfullscreen>
         </iframe>
+        <!-- Overlaid click catcher to keep custom cursor active -->
+        <div id="videoOverlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; cursor: pointer;"></div>
+        <!-- Custom player controls -->
+        <div class="video-controls" style="position: absolute; bottom: 20px; right: 20px; z-index: 10; display: flex; gap: 12px; pointer-events: auto;">
+          <button id="videoPlayPauseBtn" class="video-control-btn" aria-label="Pausar vídeo">
+            <!-- Pause Icon -->
+            <svg id="pauseIcon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg>
+            <!-- Play Icon -->
+            <svg id="playIcon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="display: none; margin-left: 2px;"><path d="M8 5v14l11-7z"></path></svg>
+          </button>
+          <button id="videoMuteBtn" class="video-control-btn" aria-label="Desmutar vídeo">
+            <!-- Muted Speaker Icon -->
+            <svg id="muteIcon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+            <!-- Unmuted Speaker Icon -->
+            <svg id="unmuteIcon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+          </button>
+        </div>
       </div>
     </section>
 
     <!-- MEDIA SHOWCASE -->
     <section class="case-showcase-section">
-      <h3 class="showcase-title">Showcase <em>Visual</em></h3>
+      <h3 class="showcase-title reveal">Showcase <em>Visual</em></h3>
       
       <div class="case-media-showcase">
         
         <!-- Row 1: Single image -->
-        <div class="media-card">
+        <div class="media-card reveal">
           <img src="assets/campaigns/Minha Cabana/minha_cabana-01.webp" alt="Minha Cabana - Vista Geral" />
           <span class="media-caption">Conexão Natural · Arquitetura</span>
         </div>
 
         <!-- Row 2: 3 column images -->
-        <div class="media-row-3">
+        <div class="media-row-3 reveal">
           <div class="media-card">
             <img src="assets/campaigns/Minha Cabana/minha_cabana-02-1.webp" alt="Minha Cabana - Detalhe 1" />
           </div>
@@ -461,13 +509,13 @@
         </div>
 
         <!-- Row 3: Single image -->
-        <div class="media-card">
+        <div class="media-card reveal">
           <img src="assets/campaigns/Minha Cabana/minha_cabana-03.webp" alt="Minha Cabana - Editorial" />
           <span class="media-caption">Editorial · Experiência Premium</span>
         </div>
 
         <!-- Row 4: 2 column images -->
-        <div class="media-row-2">
+        <div class="media-row-2 reveal">
           <div class="media-card">
             <img src="assets/campaigns/Minha Cabana/minha_cabana-04-1.webp" alt="Minha Cabana - Detalhe 4" />
           </div>
@@ -477,19 +525,16 @@
         </div>
 
         <!-- Backstage/Behind the Scenes Section -->
-        <h3 class="showcase-title" style="margin-top: 40px;">Por Trás Das <em>Cenas</em></h3>
-        <div class="media-row-3">
+        <h3 class="showcase-title reveal" style="margin-top: 40px;">Por Trás Das <em>Cenas</em></h3>
+        <div class="media-row-3 reveal">
           <div class="media-card">
             <img src="assets/campaigns/Minha Cabana/bts-minha_cabana-01.jpeg" alt="Minha Cabana - Backstage 1" />
-            <span class="media-caption">Backstage 01</span>
           </div>
           <div class="media-card">
             <img src="assets/campaigns/Minha Cabana/bts-minha_cabana-02.jpeg" alt="Minha Cabana - Backstage 2" />
-            <span class="media-caption">Backstage 02</span>
           </div>
           <div class="media-card">
             <img src="assets/campaigns/Minha Cabana/bts-minha_cabana-03.jpeg" alt="Minha Cabana - Backstage 3" />
-            <span class="media-caption">Backstage 03</span>
           </div>
         </div>
 
@@ -497,7 +542,7 @@
     </section>
 
     <!-- NEXT CASE BUTTON -->
-    <div class="next-case-wrapper">
+    <div class="next-case-wrapper reveal">
       <a href="portfolio.html" class="next-case-btn">
         <span>Voltar ao Portfólio</span>
         <span style="font-size: 16px;">↗</span>
@@ -594,6 +639,74 @@
         link.textContent = email;
         link.href = 'mailto:' + email + '?subject=Orçamento%20Muma';
       }
+    })();
+
+    // Vimeo programmatic controller via postMessage API
+    (function initVimeoController() {
+      const player = document.getElementById('vimeoPlayer');
+      const overlay = document.getElementById('videoOverlay');
+      const playPauseBtn = document.getElementById('videoPlayPauseBtn');
+      const muteBtn = document.getElementById('videoMuteBtn');
+      
+      const playIcon = document.getElementById('playIcon');
+      const pauseIcon = document.getElementById('pauseIcon');
+      const muteIcon = document.getElementById('muteIcon');
+      const unmuteIcon = document.getElementById('unmuteIcon');
+      
+      if (!player || !overlay || !playPauseBtn || !muteBtn) return;
+      
+      let isPlaying = true;
+      let isMuted = true;
+      
+      function postVimeo(action, value) {
+        const data = { method: action };
+        if (value !== undefined) {
+          data.value = value;
+        }
+        player.contentWindow.postMessage(JSON.stringify(data), '*');
+      }
+      
+      function togglePlay() {
+        if (isPlaying) {
+          postVimeo('pause');
+          playIcon.style.display = 'block';
+          pauseIcon.style.display = 'none';
+          playPauseBtn.setAttribute('aria-label', 'Reproduzir vídeo');
+          isPlaying = false;
+        } else {
+          postVimeo('play');
+          playIcon.style.display = 'none';
+          pauseIcon.style.display = 'block';
+          playPauseBtn.setAttribute('aria-label', 'Pausar vídeo');
+          isPlaying = true;
+        }
+      }
+      
+      function toggleMute() {
+        if (isMuted) {
+          postVimeo('setVolume', 1);
+          muteIcon.style.display = 'none';
+          unmuteIcon.style.display = 'block';
+          muteBtn.setAttribute('aria-label', 'Mutar vídeo');
+          isMuted = false;
+        } else {
+          postVimeo('setVolume', 0);
+          muteIcon.style.display = 'block';
+          unmuteIcon.style.display = 'none';
+          muteBtn.setAttribute('aria-label', 'Desmutar vídeo');
+          isMuted = true;
+        }
+      }
+      
+      overlay.addEventListener('click', togglePlay);
+      playPauseBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        togglePlay();
+      });
+      muteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMute();
+      });
     })();
   </script>
 </body>

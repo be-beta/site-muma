@@ -565,7 +565,7 @@
     100% { transform: translate(-50%, -50%) scale(1.6);  opacity: 0; border-radius: 50%; }
   }
   .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid currentColor;border-radius:999px;padding:6px 12px;font-size:11px;letter-spacing:.18em;text-transform:uppercase}
-  .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s cubic-bezier(.16,1,.3,1),transform .6s cubic-bezier(.16,1,.3,1);will-change:opacity,transform}
   .reveal.in{opacity:1;transform:none}
 
   @media (max-width:900px){
@@ -673,7 +673,7 @@
 <!-- MANIFESTO -->
 <section class="manifesto" id="manifesto" data-screen-label="02 Manifesto">
   <div class="inner">
-    <div class="left">
+    <div class="left reveal">
       <div class="section-label">[ 02 ] Manifesto</div>
       <div class="visual">
         <img src="assets/socias.jpg" alt="Duo fundadoras Muma" />
@@ -681,7 +681,7 @@
       </div>
       <div class="caption">pausa estratégica.<br/>conexão entre partes.</div>
     </div>
-    <div class="copy">
+    <div class="copy reveal">
       <h2>A Muma nasceu para transformar <em>ideias em histórias</em> visuais <span class="pink">autênticas.</span></h2>
       <p>Somos um estúdio criativo modular: entramos do início ao fim de um projeto, ou apenas onde for preciso. Nosso jeito é claro e sofisticado, mas sempre próximo.</p>
       <p>Não prometemos fórmulas mágicas — entregamos resultados consistentes, com criatividade, método e colaboração. Acreditamos que adaptabilidade não é bagunça, é inteligência.</p>
@@ -694,39 +694,39 @@
 <section class="servicos" id="servicos" data-screen-label="03 Serviços">
   <div class="inner">
     <div class="head">
-      <div>
+      <div class="reveal">
         <div class="section-label" style="color:var(--pink)">[ 03 ] Serviços modulares</div>
         <h2 style="margin-top:28px">Encaixa<br/><em>do jeito</em> que <br/>seu projeto pede.</h2>
       </div>
-      <div class="right">
+      <div class="right reveal">
         Cada serviço opera como uma peça independente — você contrata o pacote completo ou só o módulo que falta no seu time. Tudo orquestrado por uma curadoria que enxerga o detalhe e o todo.
         <div class="help">↳ passe o mouse para abrir cada módulo</div>
       </div>
     </div>
 
     <div class="modgrid" id="modgrid">
-      <div class="mod">
+      <div class="mod reveal">
         <div class="num">01 / direção</div>
         <div>
           <div class="name">Direção <em>criativa</em></div>
           <div class="desc">Conceito, narrativa e linguagem visual para campanhas, lançamentos e conteúdos editoriais.</div>
         </div>
       </div>
-      <div class="mod alt">
+      <div class="mod alt reveal">
         <div class="num">02 / produção</div>
         <div>
           <div class="name">Produção <em>executiva</em></div>
           <div class="desc">Gestão de cronograma, locação, fornecedores e logística. Você só pensa no resultado.</div>
         </div>
       </div>
-      <div class="mod alt2">
+      <div class="mod alt2 reveal">
         <div class="num">03 / captação</div>
         <div>
           <div class="name">Foto <em>&amp;</em> vídeo</div>
           <div class="desc">Captação still e em movimento, com equipes técnicas premiadas e direção alinhada ao briefing.</div>
         </div>
       </div>
-      <div class="mod alt3">
+      <div class="mod alt3 reveal">
         <div class="num">04 / pós</div>
         <div>
           <div class="name">Edição <em>e pós</em></div>
@@ -734,28 +734,28 @@
         </div>
       </div>
 
-      <div class="mod alt">
+      <div class="mod alt reveal">
         <div class="num">05 / arte</div>
         <div>
           <div class="name">Arte <em>&amp;</em> cenografia</div>
           <div class="desc">Cenários vivos, props, ambientação e construção. Da pesquisa ao set montado e pronto.</div>
         </div>
       </div>
-      <div class="mod">
+      <div class="mod reveal">
         <div class="num">06 / beauty</div>
         <div>
           <div class="name"><em>Beauty</em> + styling</div>
           <div class="desc">Direção de styling, makeup, hair e wardrobe. Coerência estética em cada quadro.</div>
         </div>
       </div>
-      <div class="mod alt3">
+      <div class="mod alt3 reveal">
         <div class="num">07 / casting</div>
         <div>
           <div class="name">Casting <em>autoral</em></div>
           <div class="desc">Seleção de elenco, modelos e talentos com curadoria de imagem e diversidade real.</div>
         </div>
       </div>
-      <div class="mod alt2">
+      <div class="mod alt2 reveal">
         <div class="num">08 / catering</div>
         <div>
           <div class="name">Catering <em>set</em></div>
@@ -764,21 +764,24 @@
       </div>
     </div>
 
-    <div style="margin-top:48px;font-size:13px;opacity:.7;text-align:left">
+    <div class="reveal" style="margin-top:48px;font-size:13px;opacity:.7;text-align:left">
       <span>tudo, ou só a parte que faltar — você escolhe.</span>
     </div>
   </div>
 </section>
 
 <!-- CASES -->
+<!-- CASES -->
 <section class="cases" id="cases" data-screen-label="04 Cases">
   <div class="inner">
-    <div class="section-label">[ 04 ] Trabalhos recentes</div>
-        <h2>Histórias visuais que <em>acontecem.</em></h2>
-        <p style="font-family:var(--sans);font-size:14px;letter-spacing:.04em;opacity:.7;margin:-30px 0 60px;max-width:46ch;line-height:1.55"><span class="hide-mobile">passe o mouse — </span>o backstage também é cena.</p>
+    <div class="reveal">
+      <div class="section-label">[ 04 ] Trabalhos recentes</div>
+      <h2>Histórias visuais que <em>acontecem.</em></h2>
+      <p style="font-family:var(--sans);font-size:14px;letter-spacing:.04em;opacity:.7;margin:-30px 0 60px;max-width:46ch;line-height:1.55"><span class="hide-mobile">passe o mouse — </span>o backstage também é cena.</p>
+    </div>
 
     <div class="case-grid">
-      <a href="case-minha_cabana.html" class="case c6">
+      <a href="case-minha_cabana.html" class="case c6 reveal">
         <img src="assets/campaigns/Minha Cabana/capa-minha_cabana.webp" alt="Minha Cabana Vidro" class="img-front" />
         <img src="assets/campaigns/Minha Cabana/bts-minha_cabana-01.jpeg" alt="Minha Cabana - bastidores" class="img-back" loading="lazy" />
         <div class="scrim"></div>
@@ -788,7 +791,7 @@
         <div class="meta"><span>Minha Cabana · 2025</span><span>revelar bastidor ↗</span></div>
       </a>
 
-      <a href="case-koni.html" class="case c1">
+      <a href="case-koni.html" class="case c1 reveal">
         <img src="assets/work-koni.png" alt="Koni - Dia do Koni" class="img-front" />
         <img src="assets/bts-koni.jpg" alt="Koni - bastidores" class="img-back" />
         <div class="scrim"></div>
@@ -797,7 +800,7 @@
         <div class="title">Dia do <em>Koni</em></div>
         <div class="meta"><span>Koni · 2025</span><span>revelar bastidor ↗</span></div>
       </a>
-      <a href="https://www.behance.net/mumaestudiocriativo" target="_blank" rel="noopener" class="case c2">
+      <a href="https://www.behance.net/mumaestudiocriativo" target="_blank" rel="noopener" class="case c2 reveal">
         <img src="assets/work-spoleto.jpg" alt="Spoleto" class="img-front" />
         <img src="assets/bts-spoleto.jpg" alt="Spoleto - bastidores" class="img-back" />
         <div class="scrim"></div>
@@ -806,7 +809,7 @@
         <div class="title"><em>Spoleto</em></div>
         <div class="meta"><span>Spoleto · 2025</span><span>revelar bastidor ↗</span></div>
       </a>
-      <a href="https://www.behance.net/mumaestudiocriativo" target="_blank" rel="noopener" class="case c3">
+      <a href="https://www.behance.net/mumaestudiocriativo" target="_blank" rel="noopener" class="case c3 reveal">
         <img src="assets/work-care.jpg" alt="Care Beauty" class="img-front" />
         <img src="assets/bts-care.jpg" alt="Care Beauty - bastidores" class="img-back" />
         <div class="scrim"></div>
@@ -815,7 +818,7 @@
         <div class="title"><em>Care</em><br/>Beauty</div>
         <div class="meta"><span>2025</span><span>revelar bastidor ↗</span></div>
       </a>
-      <a href="https://www.behance.net/mumaestudiocriativo" target="_blank" rel="noopener" class="case c4">
+      <a href="https://www.behance.net/mumaestudiocriativo" target="_blank" rel="noopener" class="case c4 reveal">
         <img src="assets/work-gendai.jpg" alt="Gendai" class="img-front" />
         <img src="assets/bts-gendai.jpg" alt="Gendai - bastidores" class="img-back" />
         <div class="scrim"></div>
@@ -824,7 +827,7 @@
         <div class="title"><em>Gendai</em></div>
         <div class="meta"><span>Gendai · 2024</span><span>revelar bastidor ↗</span></div>
       </a>
-      <a href="https://www.behance.net/mumaestudiocriativo" target="_blank" rel="noopener" class="case c5">
+      <a href="https://www.behance.net/mumaestudiocriativo" target="_blank" rel="noopener" class="case c5 reveal">
         <img src="assets/work-granado.jpg" alt="Granado" class="img-front" />
         <img src="assets/bts-granado.jpg" alt="Granado - bastidores" class="img-back" />
         <div class="scrim"></div>
@@ -833,7 +836,7 @@
         <div class="title"><em>Granado</em></div>
         <div class="meta"><span>Granado · 2024</span><span>revelar bastidor ↗</span></div>
       </a>
-      <a href="https://www.behance.net/mumaestudiocriativo" target="_blank" rel="noopener" class="case c6">
+      <a href="https://www.behance.net/mumaestudiocriativo" target="_blank" rel="noopener" class="case c6 reveal">
         <img src="assets/work-cimed.jpg" alt="CIMED" class="img-front" />
         <img src="assets/bts-cimed.jpg" alt="CIMED - bastidores" class="img-back" />
         <div class="scrim"></div>
@@ -844,7 +847,7 @@
       </a>
     </div>
 
-    <div class="cases-foot">
+    <div class="cases-foot reveal">
       <span style="opacity:.7">selecionados de +80 projetos.</span>
       <a class="ghost-btn" href="portfolio.html">ver portfólio completo <span>↗</span></a>
     </div>
@@ -854,32 +857,34 @@
 <!-- CLIENTES -->
 <section class="clientes" id="clientes" data-screen-label="05 Clientes">
   <div class="inner">
-    <div class="section-label">[ 05 ] Clientes</div>
-    <h3>marcas que <em>criam</em> com a Muma.</h3>
+    <div class="reveal">
+      <div class="section-label">[ 05 ] Clientes</div>
+      <h3>marcas que <em>criam</em> com a Muma.</h3>
+    </div>
     <div class="client-grid">
-      <div>Spoleto</div>
-      <div><em>China</em> in Box</div>
-      <div>Gendai</div>
-      <div>Koni</div>
-      <div>CIMED</div>
-      <div>Mude</div>
-      <div>Granado</div>
-      <div>DryOn</div>
-      <div><em>Care</em> Beauty</div>
-      <div>Globo</div>
-      <div>SESC</div>
-      <div>Ambev</div>
-      <div>Exc Rio</div>
-      <div style="font-family:var(--sans);font-size:11px;letter-spacing:.18em;text-transform:uppercase;opacity:.5">+ outros</div>
-      <div style="background:var(--green);color:var(--navy)"><em>e</em> você?</div>
-      <div style="background:var(--lavender);color:var(--navy)">↗</div>
+      <div class="reveal">Spoleto</div>
+      <div class="reveal"><em>China</em> in Box</div>
+      <div class="reveal">Gendai</div>
+      <div class="reveal">Koni</div>
+      <div class="reveal">CIMED</div>
+      <div class="reveal">Mude</div>
+      <div class="reveal">Granado</div>
+      <div class="reveal">DryOn</div>
+      <div class="reveal"><em>Care</em> Beauty</div>
+      <div class="reveal">Globo</div>
+      <div class="reveal">SESC</div>
+      <div class="reveal">Ambev</div>
+      <div class="reveal">Exc Rio</div>
+      <div class="reveal" style="font-family:var(--sans);font-size:11px;letter-spacing:.18em;text-transform:uppercase;opacity:.5">+ outros</div>
+      <div class="reveal" style="background:var(--green);color:var(--navy)"><em>e</em> você?</div>
+      <div class="reveal" style="background:var(--lavender);color:var(--navy)">↗</div>
     </div>
   </div>
 </section>
 
 <!-- FOUNDERS -->
 <section class="founders" id="estudio" data-screen-label="06 Estúdio">
-  <div class="inner">
+  <div class="inner reveal">
     <div>
       <div class="section-label" style="color:var(--pink)">[ 06 ] Estúdio</div>
       <h2 style="margin-top:28px">Duas mulheres, <em>uma vontade</em> de criar diferente.</h2>
@@ -911,7 +916,7 @@
 
 <!-- CTA / CONTATO -->
 <section class="cta" id="contato" data-screen-label="07 Contato">
-  <div class="inner">
+  <div class="inner reveal">
     <div class="eyebrow">[ 07 ] Vamos criar juntos</div>
     <h2>
       <span style="display:block">nos conte</span>
@@ -1004,10 +1009,21 @@
   window.addEventListener('scroll', checkNav, {passive:true});
   checkNav();
 
-  // Reveal animations
+  // Reveal animations (staggered & high-performance)
   const io = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }});
-  },{threshold:.15});
+    let delay = 0;
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const el = e.target;
+        if (el.classList.contains('in')) return;
+        setTimeout(() => {
+          el.classList.add('in');
+        }, delay);
+        delay += 70; // Snappy 70ms stagger waterfall
+        io.unobserve(el);
+      }
+    });
+  }, { threshold: 0.05 });
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
   // Modular drag — light-touch: clicking a service highlights it

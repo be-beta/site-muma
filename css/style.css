@@ -1935,4 +1935,11 @@ body.ee-active .ee-close.magnetic-active {
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.8) !important;
 }
 
+/* Proteção de imagens: impede copiar, salvar ou abrir em nova aba */
+img {
+  pointer-events: none !important;
+  user-select: none !important;
+  -webkit-user-drag: none !important;
+}
+
 

@@ -146,23 +146,23 @@
     @keyframes campaignHaloPulse {
       0% {
         box-shadow: 0 0 16px rgba(255, 128, 225, 0.1), 0 0 0px rgba(255, 128, 225, 0);
-        border-color: rgba(255, 128, 225, 0.25) !important;
+        border-color: rgba(255, 128, 225, 0.25);
       }
       50% {
         box-shadow: 0 0 32px rgba(255, 128, 225, 0.4), 0 0 12px rgba(255, 128, 225, 0.20);
-        border-color: rgba(255, 128, 225, 0.70) !important;
+        border-color: rgba(255, 128, 225, 0.70);
       }
       100% {
         box-shadow: 0 0 16px rgba(255, 128, 225, 0.1), 0 0 0px rgba(255, 128, 225, 0);
-        border-color: rgba(255, 128, 225, 0.25) !important;
+        border-color: rgba(255, 128, 225, 0.25);
       }
     }
     
-    .portfolio-grid .case[data-categories*="campanha"] {
+    .portfolio-grid .case.case-campanha {
       transition: all 0.38s cubic-bezier(0.25, 1, 0.5, 1);
       border: 1px solid rgba(255, 255, 255, 0.15) !important;
     }
-    .portfolio-grid .case[data-categories*="campanha"]:hover {
+    .portfolio-grid .case.case-campanha:hover {
       animation: campaignHaloPulse 3s infinite cubic-bezier(0.4, 0, 0.2, 1) !important;
       border-color: var(--pink) !important;
       box-shadow: 0 0 40px rgba(255, 128, 225, 0.6) !important;
@@ -421,7 +421,7 @@
     <div class="case-grid" id="portfolioCases">
       
       <!-- Case 1: Koni (Campanha - Pulsing Halo Glow) -->
-      <div class="case c1" data-categories="direcao,producao,captacao,casting,campanha" data-id="koni" style="cursor: pointer;">
+      <div class="case c1 case-campanha" data-categories="direcao,producao,captacao,casting,campanha" data-id="koni" style="cursor: pointer;">
         <img src="assets/images/clientes/work-koni.png" alt="Koni - Dia do Koni" class="img-front" />
         <img src="assets/images/clientes/bts-koni.jpg" alt="Koni - bastidores" class="img-back" loading="lazy" />
         <div class="scrim"></div>
@@ -476,7 +476,7 @@
       </div>
 
       <!-- Case 6: CIMED (Campanha - Pulsing Halo Glow) -->
-      <div class="case c6" data-categories="direcao,producao,pos,casting,campanha" data-id="cimed" style="cursor: pointer;">
+      <div class="case c6 case-campanha" data-categories="direcao,producao,pos,casting,campanha" data-id="cimed" style="cursor: pointer;">
         <img src="assets/images/clientes/work-cimed.jpg" alt="CIMED" class="img-front" loading="lazy" />
         <img src="assets/images/clientes/bts-cimed.jpg" alt="CIMED - bastidores" class="img-back" loading="lazy" />
         <div class="scrim"></div>

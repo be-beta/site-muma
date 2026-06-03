@@ -2163,6 +2163,8 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
       if (animId) cancelAnimationFrame(animId);
       animId = requestAnimationFrame(tick);
     });
+  });
+
   // Proteção de imagens contra cópia, drag & context menu
   document.addEventListener('contextmenu', e => {
     if (e.target.tagName === 'IMG') {

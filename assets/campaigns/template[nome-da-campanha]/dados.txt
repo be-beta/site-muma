@@ -1,0 +1,54 @@
+==================================================================
+TEMPLATE DE INFORMAÇÕES DA CAMPANHA
+==================================================================
+
+[TITULO_DA_CAMPANHA]
+Nome principal que aparecerá na página.
+Ex: Dia do Koni
+
+[SUBTITULO]
+Uma frase curta descritiva de impacto.
+Ex: Uma experiência gastronômica de fusão em alta velocidade e sofisticação premium.
+
+[MARCA]
+Nome do cliente / marca.
+Ex: Koni Store
+
+[ANO]
+Ano de realização do projeto.
+Ex: 2025
+
+[SERVICOS]
+Quais serviços Muma foram prestados (separados por vírgula).
+Categorias válidas: Direção Criativa, Produção Executiva, Foto & Vídeo, Edição & Pós, Arte & Cenografia, Beauty & Styling, Casting, Catering Set
+Ex: Foto, Set Styling, Casting
+
+[DIRECAO_CRIATIVA]
+Quem assinou a direção criativa.
+Ex: Vicky & Alinne
+
+[FOTOGRAFIA]
+Quem assinou a fotografia.
+Ex: Alinne (Estúdio Muma)
+
+[CATEGORIA_URL]
+Tipo de projeto. Use uma ou mais palavras-chave:
+- campanha (ativa o halo pulsante rosa na galeria!)
+- direcao
+- producao
+- captacao
+- pos
+- arte
+- beauty
+- casting
+- catering
+Ex: campanha, direcao, captacao
+
+[DESCRICAO_E_BRIEFING]
+Texto de apresentação do projeto detalhando o briefing, conceito, desafios e resultados. Pode ter múltiplos parágrafos.
+Ex: O Koni, referência nacional em culinária japonesa rápida e dinâmica, buscou o Estúdio Muma para...
+
+[LINK_VIDEO_VIMEO]
+Se houver vídeo hospedado no Vimeo para indexar, cole o link ou o ID aqui.
+Ex: https://vimeo.com/83940292 ou apenas 83940292
+==================================================================

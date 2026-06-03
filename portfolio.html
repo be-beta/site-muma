@@ -420,6 +420,17 @@
   <main class="portfolio-grid">
     <div class="case-grid" id="portfolioCases">
       
+      <!-- Case 0: Minha Cabana Vidro (Campanha - Pulsing Halo Glow) -->
+      <div class="case c6 case-campanha" data-categories="direcao,captacao,pos,campanha" data-id="minha_cabana" style="cursor: pointer;">
+        <img src="assets/campaigns/Minha Cabana/capa-minha_cabana.webp" alt="Minha Cabana Vidro" class="img-front" />
+        <img src="assets/campaigns/Minha Cabana/bts-minha_cabana-01.jpeg" alt="Minha Cabana - bastidores" class="img-back" loading="lazy" />
+        <div class="scrim"></div>
+        <span class="badge">campanha · still</span>
+        <span class="reveal-hint"><span class="lens"></span> backstage</span>
+        <div class="title">Minha Cabana <em>Vidro</em></div>
+        <div class="meta"><span>Minha Cabana · 2025</span><span>ver bastidor + detalhes ↗</span></div>
+      </div>
+
       <!-- Case 1: Koni (Campanha - Pulsing Halo Glow) -->
       <div class="case c1 case-campanha" data-categories="direcao,producao,captacao,casting,campanha" data-id="koni" style="cursor: pointer;">
         <img src="assets/images/clientes/work-koni.png" alt="Koni - Dia do Koni" class="img-front" />
@@ -678,6 +689,17 @@
         photo: "Alinne (Estúdio Muma)",
         front: "assets/images/clientes/work-cimed.jpg",
         back: "assets/images/clientes/bts-cimed.jpg"
+      },
+      minha_cabana: {
+        title: "Minha Cabana <em>Vidro</em>",
+        badge: "campanha · still",
+        desc: "A Julia Ghilardi podia ter feito só mais uma hospedagem na serra, mas ao invés disso, ela resolveu transformar a Minha Cabana Vidro em um verdadeiro case de hospitalidade. Tudo pensado nos mínimos detalhes: desde a arquitetura integrada à natureza, até cada presente pros hóspedes (e o negócio ficou CHIQUE, viu?). Já nós, contamos o início dessa história em 3 episódios.",
+        client: "Minha Cabana",
+        year: "2025",
+        direction: "Vicky & Alinne",
+        photo: "Alinne (Estúdio Muma)",
+        front: "assets/campaigns/Minha Cabana/capa-minha_cabana.webp",
+        back: "assets/campaigns/Minha Cabana/bts-minha_cabana-01.jpeg"
       }
     };
 
@@ -724,6 +746,10 @@
         const id = card.dataset.id;
         if (id === 'koni') {
           window.location.href = 'case-koni.html';
+          return;
+        }
+        if (id === 'minha_cabana') {
+          window.location.href = 'case-minha_cabana.html';
           return;
         }
         const project = PROJECT_DB[id];

@@ -1,0 +1,43 @@
+==================================================================
+TEMPLATE DE INFORMAÇÕES DA CAMPANHA
+==================================================================
+
+[TITULO_DA_CAMPANHA]
+Minha Cabana Vidro
+
+[SUBTITULO]
+Julia apresenta a MCV
+
+[MARCA]
+Minha Cabana
+
+[ANO]
+2025
+
+[SERVICOS]
+Direção Criativa, Foto, Vídeo, Edição & Pós
+
+[DIRECAO_CRIATIVA]
+Vicky & Alinne
+
+[FOTOGRAFIA]
+Alinne (Estúdio Muma)
+
+[FILMAGEM]
+Gabriel Moraes
+
+[CATEGORIA_URL]
+Tipo de projeto. Use uma ou mais palavras-chave:
+- campanha (ativa o halo pulsante rosa na galeria!)
+- direcao
+- producao
+- captacao
+- pos
+- edicao
+
+[DESCRICAO_E_BRIEFING]
+A Julia Ghilardi podia ter feito só mais uma hospedagem na serra, mas ao invés disso, ela resolveu transformar a Minha Cabana Vidro em um verdadeiro case de hospitalidade. Tudo pensado nos mínimos detalhes: desde a arquitetura integrada à natureza, até cada presente pros hóspedes (e o negócio ficou CHIQUE, viu?). Já nós, contamos o início dessa história em 3 episódios.
+
+[LINK_VIDEO_VIMEO]
+https://vimeo.com/1094205487
+==================================================================

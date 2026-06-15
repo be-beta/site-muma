@@ -1791,6 +1791,8 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
   let spiralRadius = 0;
   let spiralAngle = 0;
   let startDistance = 0;
+  let swellParticles = [];
+  let swellTimer = 0;
 
   // Particle Class for clean updates
   class TrailParticle {
@@ -1872,8 +1874,10 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     explosionParticles = [];
     shockwaves = [];
     orbitingStars = [];
+    swellParticles = [];
     flashOpacity = 0;
     implosionTimer = 0;
+    swellTimer = 0;
     
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
@@ -1935,7 +1939,52 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
 
     ctx.globalCompositeOperation = 'lighter';
 
-    if (phase === 'spiral') {
+    if (phase === 'swell') {
+      if (swellTimer === 0) {
+        const colors = ['#ff80e1', '#a194ff', '#9cff97', '#ffffff', '#edecea'];
+        for (let i = 0; i < 350; i++) {
+          const color = colors[Math.floor(Math.random() * colors.length)];
+          const size = Math.random() * 10 + 2;
+          const x = -Math.random() * canvas.width * 0.8 - 50; 
+          const yBase = Math.random() * canvas.height;
+          const vx = Math.random() * 20 + 25; 
+          const pphase = Math.random() * Math.PI * 2;
+          const freq = Math.random() * 0.04 + 0.01;
+          const amp = Math.random() * 40 + 10;
+          swellParticles.push({ x, yBase, vx, pphase, freq, amp, size, color });
+        }
+      }
+
+      ctx.globalAlpha = 0.9;
+      swellParticles.forEach(p => {
+        p.x += p.vx * speedMul;
+        p.pphase += p.freq * speedMul;
+        const y = p.yBase + Math.sin(p.pphase) * p.amp;
+        
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      ctx.globalAlpha = 1.0;
+
+      swellTimer += speedMul;
+
+      if (swellTimer > 20) {
+        ctx.fillStyle = '#17075c'; // brand royal purple
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.globalAlpha = Math.min((swellTimer - 20) / 15, 1.0);
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.globalAlpha = 1.0;
+      }
+
+      if (swellTimer > 40 && window.redirectTargetUrl) {
+        const target = window.redirectTargetUrl;
+        window.redirectTargetUrl = null;
+        window.location.href = target;
+      }
+    }
+    else if (phase === 'spiral') {
       const progress = 1 - (spiralRadius / startDistance);
       const angleSpeed = (0.02 + progress * 0.08) * speedMul;
       spiralAngle += angleSpeed;
@@ -2151,7 +2200,9 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
       if (window.resetIdleTimerGlobal) window.resetIdleTimerGlobal();
       
       // Reset states
-      phase = 'spiral';
+      phase = 'swell';
+      swellParticles = [];
+      swellTimer = 0;
       trailParticles = [];
       explosionParticles = [];
       shockwaves = [];

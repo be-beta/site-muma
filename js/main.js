@@ -1766,13 +1766,25 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
    EASTER EGG: SUPERNOVA NUMEROLOGIA
    ================================================================= */
 (() => {
-  const trigger = document.getElementById('easterEggTrigger');
-  const overlay = document.getElementById('eeOverlay');
+  let trigger = document.getElementById('easterEggTrigger');
+  let overlay = document.getElementById('eeOverlay');
+
+  // Inject canvas overlay for transitions if it doesn't exist on this page
+  if (!overlay) {
+    const eeHtml = `
+      <div class="ee-overlay" id="eeOverlay">
+        <canvas id="eeCanvas"></canvas>
+      </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', eeHtml);
+    overlay = document.getElementById('eeOverlay');
+  }
+
   const canvas = document.getElementById('eeCanvas');
   const popup = document.getElementById('eePopup');
   const closeBtn = document.getElementById('eeClose');
 
-  if (!trigger || !overlay || !canvas || !popup || !closeBtn) return;
+  if (!canvas) return;
 
   let clicks = 0;
   let clickTimeout;
@@ -1793,6 +1805,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
   let startDistance = 0;
   let swellParticles = [];
   let swellTimer = 0;
+  let swellDirection = 1;
 
   // Particle Class for clean updates
   class TrailParticle {
@@ -1945,9 +1958,11 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
         for (let i = 0; i < 350; i++) {
           const color = colors[Math.floor(Math.random() * colors.length)];
           const size = Math.random() * 10 + 2;
-          const x = -Math.random() * canvas.width * 0.8 - 50; 
+          const x = swellDirection === 1 
+                      ? -Math.random() * canvas.width * 0.8 - 50
+                      : canvas.width + Math.random() * canvas.width * 0.8 + 50;
           const yBase = Math.random() * canvas.height;
-          const vx = Math.random() * 20 + 25; 
+          const vx = (Math.random() * 12 + 15) * swellDirection; 
           const pphase = Math.random() * Math.PI * 2;
           const freq = Math.random() * 0.04 + 0.01;
           const amp = Math.random() * 40 + 10;
@@ -1970,15 +1985,15 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
 
       swellTimer += speedMul;
 
-      if (swellTimer > 20) {
+      if (swellTimer > 25) {
         ctx.fillStyle = '#17075c'; // brand royal purple
         ctx.globalCompositeOperation = 'source-over';
-        ctx.globalAlpha = Math.min((swellTimer - 20) / 15, 1.0);
+        ctx.globalAlpha = Math.min((swellTimer - 25) / 25, 1.0); // slower fade
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.globalAlpha = 1.0;
       }
 
-      if (swellTimer > 40 && window.redirectTargetUrl) {
+      if (swellTimer > 55 && window.redirectTargetUrl) {
         const target = window.redirectTargetUrl;
         window.redirectTargetUrl = null;
         window.location.href = target;
@@ -2158,29 +2173,33 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
   }
 
   // Trigger clicks
-  trigger.addEventListener('click', (e) => {
-    // Disable on mobile/tablet devices
-    if (window.innerWidth <= 768 || window.matchMedia('(pointer: coarse)').matches) return;
+  if (trigger) {
+    trigger.addEventListener('click', (e) => {
+      // Disable on mobile/tablet devices
+      if (window.innerWidth <= 768 || window.matchMedia('(pointer: coarse)').matches) return;
 
-    // Disable if any other modal is active to prevent overlap
-    if (document.querySelector('.modal-overlay.active')) return;
-    
-    clicks++;
-    
-    // Clear and restart click timeout (resets clicks if user stops tapping)
-    clearTimeout(clickTimeout);
-    clickTimeout = setTimeout(() => {
-      clicks = 0;
-    }, 4000); // 4 seconds to click 10 times
-
-    if (clicks >= 10) {
+      // Disable if any other modal is active to prevent overlap
+      if (document.querySelector('.modal-overlay.active')) return;
+      
+      clicks++;
+      
+      // Clear and restart click timeout (resets clicks if user stops tapping)
       clearTimeout(clickTimeout);
-      startEasterEgg();
-    }
-  });
+      clickTimeout = setTimeout(() => {
+        clicks = 0;
+      }, 4000); // 4 seconds to click 10 times
+
+      if (clicks >= 10) {
+        clearTimeout(clickTimeout);
+        startEasterEgg();
+      }
+    });
+  }
 
   // Close triggers
-  closeBtn.addEventListener('click', closeEasterEgg);
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeEasterEgg);
+  }
   overlay.addEventListener('click', (e) => {
     // Only close if clicking the backdrop, not inside the popup itself
     if (e.target === overlay) {
@@ -2188,11 +2207,18 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     }
   });
 
-  // Intercept Portfolio links for the supernova page transition
-  document.querySelectorAll('a[href="portfolio.html"]').forEach(link => {
+  // Intercept Portfolio and Home links for the swell page transition
+  const transitionLinks = document.querySelectorAll('a[href="portfolio.html"], a[href="index.html"], a[href="index.html#contato"]');
+  transitionLinks.forEach(link => {
     link.addEventListener('click', e => {
+      // Exclude simple anchors if they don't navigate
+      if (link.getAttribute('href').startsWith('#')) return;
+
       // Do not run on mobile/tablet devices, coarse pointers, or if a11y-mode is active
       if (window.innerWidth <= 768 || window.matchMedia('(pointer: coarse)').matches || document.documentElement.classList.contains('a11y-mode')) return;
+
+      const targetUrl = link.getAttribute('href');
+      const isToHome = targetUrl.includes('index.html');
 
       e.preventDefault();
       
@@ -2203,6 +2229,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
       phase = 'swell';
       swellParticles = [];
       swellTimer = 0;
+      swellDirection = isToHome ? -1 : 1;
       trailParticles = [];
       explosionParticles = [];
       shockwaves = [];
@@ -2221,11 +2248,11 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
       document.body.classList.add('modal-open');
       document.body.classList.add('ee-active');
       overlay.classList.add('active');
-      popup.classList.remove('active');
+      if (popup) popup.classList.remove('active');
 
       // Set redirect URL & transition speed multiplier (Fluid speed)
-      window.redirectTargetUrl = 'portfolio.html';
-      window.transitionSpeedMultiplier = 1.2;
+      window.redirectTargetUrl = targetUrl;
+      window.transitionSpeedMultiplier = 1.0;
 
       // Start animation loop
       if (animId) cancelAnimationFrame(animId);

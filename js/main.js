@@ -2,6 +2,10 @@
 const nav = document.getElementById('nav');
 const darkSections = document.querySelectorAll('.hero, .servicos, .founders, .cta, footer');
 function checkNav(){
+  if (document.body.classList.contains('is-cases')) {
+    if (nav) nav.classList.add('dark');
+    return;
+  }
   const y = window.scrollY + 80;
   let dark = false;
   darkSections.forEach(s=>{
@@ -10,7 +14,7 @@ function checkNav(){
     const bot = top + s.offsetHeight;
     if(y >= top && y < bot) dark = true;
   });
-  nav.classList.toggle('dark', dark);
+  if (nav) nav.classList.toggle('dark', dark);
 }
 // Scroll Spy & Navigation Bubble Indicator
 const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
@@ -1920,6 +1924,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
   }
 
   function tick() {
+    const speedMul = window.transitionSpeedMultiplier || 1.0;
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.globalCompositeOperation = 'source-over';
@@ -1932,9 +1937,9 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
 
     if (phase === 'spiral') {
       const progress = 1 - (spiralRadius / startDistance);
-      const angleSpeed = 0.02 + progress * 0.08;
+      const angleSpeed = (0.02 + progress * 0.08) * speedMul;
       spiralAngle += angleSpeed;
-      spiralRadius -= (2.5 + progress * 4); // accelerates as it pulls in
+      spiralRadius -= (2.5 + progress * 4) * speedMul; // accelerates as it pulls in
 
       const x1 = center.x + Math.cos(spiralAngle) * spiralRadius;
       const y1 = center.y + Math.sin(spiralAngle) * spiralRadius;
@@ -1980,7 +1985,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
       drawGlowingOrb(center.x, center.y, radius, '#ffffff', 'rgba(161, 148, 255, 0)');
       drawGlowingOrb(center.x, center.y, radius * 0.5, '#a194ff', 'rgba(255, 255, 255, 0)');
 
-      implosionTimer--;
+      implosionTimer -= speedMul;
       if (implosionTimer <= 0) {
         // BOOM! Trigger supernova explosion
         phase = 'explosion';
@@ -2040,7 +2045,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
 
       // Fade-out supernova initial flash
       if (flashOpacity > 0.01) {
-        flashOpacity *= 0.88; // fast decay
+        flashOpacity *= Math.pow(0.88, speedMul); // faster decay
         ctx.fillStyle = '#ffffff';
         ctx.globalAlpha = flashOpacity;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -2137,8 +2142,8 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
   // Intercept Portfolio links for the supernova page transition
   document.querySelectorAll('a[href="portfolio.html"]').forEach(link => {
     link.addEventListener('click', e => {
-      // Do not run on mobile/tablet devices or coarse pointers
-      if (window.innerWidth <= 768 || window.matchMedia('(pointer: coarse)').matches) return;
+      // Do not run on mobile/tablet devices, coarse pointers, or if a11y-mode is active
+      if (window.innerWidth <= 768 || window.matchMedia('(pointer: coarse)').matches || document.documentElement.classList.contains('a11y-mode')) return;
 
       e.preventDefault();
       
@@ -2167,8 +2172,9 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
       overlay.classList.add('active');
       popup.classList.remove('active');
 
-      // Set redirect URL
+      // Set redirect URL & transition speed multiplier (Warp speed!)
       window.redirectTargetUrl = 'portfolio.html';
+      window.transitionSpeedMultiplier = 4.5;
 
       // Start animation loop
       if (animId) cancelAnimationFrame(animId);

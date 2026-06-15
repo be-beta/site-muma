@@ -580,6 +580,103 @@
     footer .inner{grid-template-columns:1fr 1fr;gap:32px}
     .nav-links{display:none}
   }
+  /* — ACCESSIBILITY TOGGLE & MODE (Landing Page) — */
+  .a11y-toggle {
+    background: transparent;
+    border: 1.5px solid currentColor;
+    color: inherit;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: .3s cubic-bezier(.25,1,.5,1);
+    cursor: pointer;
+    flex-shrink: 0;
+    position: relative;
+    padding: 0;
+    line-height: 1;
+  }
+  .a11y-toggle:hover { background: rgba(237,236,234,.1); }
+  .a11y-toggle.active {
+    background: var(--green); color: var(--navy); border-color: var(--green);
+  }
+  .a11y-toggle svg { width: 18px; height: 18px; display: block; margin: 0; transform: translateY(2px); }
+  .a11y-toggle .a11y-tip {
+    position: absolute; top: calc(100% + 10px); left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+    background: var(--navy); color: var(--paper);
+    font-family: var(--sans); font-size: 10px;
+    letter-spacing: .14em; text-transform: uppercase;
+    padding: 6px 10px; border-radius: 6px; white-space: nowrap;
+    opacity: 0; pointer-events: none; transition: .25s;
+    border: 1px solid rgba(237,236,234,.18);
+  }
+  .a11y-toggle:hover .a11y-tip { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  html.a11y-mode,
+  html.a11y-mode body,
+  html.a11y-mode * {
+    cursor: auto !important;
+  }
+  html.a11y-mode input[type=email],
+  html.a11y-mode textarea,
+  html.a11y-mode [contenteditable=true] {
+    cursor: text !important;
+  }
+  html.a11y-mode a,
+  html.a11y-mode button,
+  html.a11y-mode [role=button],
+  html.a11y-mode .mod,
+  html.a11y-mode .case,
+  html.a11y-mode select {
+    cursor: pointer !important;
+  }
+
+  html.a11y-mode #cursor,
+  html.a11y-mode #cursor-halo,
+  html.a11y-mode #cursor-fx-container { display: none !important; }
+  html.a11y-mode .cardume-p { display: none !important; }
+
+  html.a11y-mode *,
+  html.a11y-mode *::before,
+  html.a11y-mode *::after {
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001s !important;
+  }
+  html.a11y-mode .marquee .track { animation: none !important; }
+
+  html.a11y-mode .hero-meta,
+  html.a11y-mode .vstrip,
+  html.a11y-mode .hero-foot .label,
+  html.a11y-mode .section-label,
+  html.a11y-mode .manifesto .caption,
+  html.a11y-mode .servicos .help,
+  html.a11y-mode .mod .num,
+  html.a11y-mode .cta .eyebrow,
+  html.a11y-mode footer h4 {
+    opacity: 1 !important;
+  }
+  html.a11y-mode .hero-foot .col,
+  html.a11y-mode .manifesto .copy p + p,
+  html.a11y-mode .servicos .head .right,
+  html.a11y-mode footer ul a,
+  html.a11y-mode .cta .contact {
+    opacity: 1 !important;
+  }
+  html.a11y-mode :focus-visible {
+    outline: 4px solid var(--green) !important;
+    outline-offset: 3px !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001s !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001s !important;
+    }
+    .marquee .track { animation: none !important; }
+    .cardume-p { display: none !important; }
+  }
 </style>
 </head>
 <body>
@@ -625,8 +722,16 @@
     <div class="nav-links">
       <a href="portfolio.html" class="portfolio-btn"><span>Portfólio</span><span class="arr">↗</span></a>
     </div>
-    <div class="nav-right">
+    <div class="nav-right" style="display:flex;align-items:center;gap:10px;">
       <a class="nav-cta" href="#contato"><span>orçamento</span><span class="arr">↗</span></a>
+      <button class="a11y-toggle" id="a11yToggle" aria-label="Alternar modo acessível" title="Acessibilidade">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="4.5" r="2.5"/>
+          <path d="M12 7.5v5m0 0l-3.5 5.5m3.5-5.5l3.5 5.5"/>
+          <path d="M6.5 10.5h11"/>
+        </svg>
+        <span class="a11y-tip">acessibilidade</span>
+      </button>
     </div>
   </div>
 </nav>
@@ -1775,6 +1880,33 @@
         node.classList.remove('out');
       }, 420);
     }, 4400);
+  })();
+
+  // Accessibility toggle
+  (function a11yToggle() {
+    const btn = document.getElementById('a11yToggle');
+    if (!btn) return;
+    const KEY = 'muma-a11y';
+
+    function applyA11y(enabled) {
+      document.documentElement.classList.toggle('a11y-mode', enabled);
+      btn.classList.toggle('active', enabled);
+      localStorage.setItem(KEY, enabled ? '1' : '0');
+    }
+
+    const stored = localStorage.getItem(KEY);
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (stored === '1' || (stored === null && prefersReduced)) {
+      applyA11y(true);
+    }
+
+    btn.addEventListener('click', () => {
+      const isActive = document.documentElement.classList.contains('a11y-mode');
+      applyA11y(!isActive);
+      if (isActive) {
+        window.location.reload();
+      }
+    });
   })();
 </script>
 

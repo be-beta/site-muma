@@ -975,7 +975,7 @@ body.modal-open { overflow: hidden; }
 /* — ACCESSIBILITY TOGGLE — */
 .a11y-toggle {
   background: transparent;
-  border: 1px solid rgba(237,236,234,.25);
+  border: 1.5px solid currentColor;
   color: inherit;
   width: 36px; height: 36px;
   border-radius: 50%;
@@ -1952,6 +1952,38 @@ img {
 .reveal.in, .reveal.active {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* — VERTICAL VIDEOS GRID & CARDS (Minha Cabana) — */
+.vertical-videos-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 760px;
+  margin: 0 auto 80px;
+  padding: 0 16px;
+}
+.vertical-video-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.45s cubic-bezier(0.25, 1, 0.5, 1);
+  opacity: 0.75;
+  transform: scale(0.97);
+}
+.vertical-videos-grid:hover .vertical-video-card {
+  opacity: 0.55;
+  transform: scale(0.95);
+}
+.vertical-videos-grid .vertical-video-card:hover {
+  opacity: 1 !important;
+  transform: scale(1.03) !important;
+  z-index: 5;
+}
+.vertical-video-card.playing-active {
+  opacity: 1;
+  transform: scale(1.01);
+  border: 1.5px solid var(--pink);
 }
 
 

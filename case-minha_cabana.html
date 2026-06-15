@@ -329,6 +329,17 @@
     .video-control-btn:hover svg {
       transform: scale(1.1);
     }
+
+    /* Additional vertical videos */
+    .vertical-video-card {
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .vertical-video-card:hover,
+    .vertical-video-card.active-playing {
+      opacity: 1 !important;
+      transform: translateY(-4px);
+      border-color: var(--pink) !important;
+    }
   </style>
 </head>
 <body class="is-cases">
@@ -395,6 +406,14 @@
       </div>
       <div class="nav-right" style="display:flex;align-items:center;gap:10px;">
         <a class="nav-cta" href="index.html#contato"><span>orçamento</span><span class="arr">↗</span></a>
+        <button class="a11y-toggle" id="a11yToggle" aria-label="Alternar modo acessível" title="Acessibilidade">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="4.5" r="2.5"/>
+            <path d="M12 7.5v5m0 0l-3.5 5.5m3.5-5.5l3.5 5.5"/>
+            <path d="M6.5 10.5h11"/>
+          </svg>
+          <span class="a11y-tip">acessibilidade</span>
+        </button>
       </div>
     </div>
   </nav>
@@ -455,31 +474,87 @@
 
     <!-- VIDEO SHOWCASE -->
     <section class="reveal" style="margin-bottom: 80px;">
-      <h3 class="showcase-title">Apresentação <em>Cine</em></h3>
-      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
-        <iframe id="vimeoPlayer" src="https://player.vimeo.com/video/1094205487?autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&dnt=1&api=1" 
-                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;" 
-                frameborder="0" 
-                allow="autoplay; fullscreen; picture-in-picture" 
-                allowfullscreen>
-        </iframe>
-        <!-- Overlaid click catcher to keep custom cursor active -->
-        <div id="videoOverlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; cursor: pointer;"></div>
-        <!-- Custom player controls -->
-        <div class="video-controls" style="position: absolute; bottom: 20px; right: 20px; z-index: 10; display: flex; gap: 12px; pointer-events: auto;">
-          <button id="videoPlayPauseBtn" class="video-control-btn" aria-label="Pausar vídeo">
-            <!-- Pause Icon -->
-            <svg id="pauseIcon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg>
-            <!-- Play Icon -->
-            <svg id="playIcon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="display: none; margin-left: 2px;"><path d="M8 5v14l11-7z"></path></svg>
-          </button>
-          <button id="videoMuteBtn" class="video-control-btn" aria-label="Desmutar vídeo">
-            <!-- Muted Speaker Icon -->
-            <svg id="muteIcon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
-            <!-- Unmuted Speaker Icon -->
-            <svg id="unmuteIcon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
-          </button>
+      <h3 class="showcase-title">Apresentação</h3>
+      <div class="video-container-wrapper" style="max-width: 380px; margin: 0 auto;">
+        <div style="position: relative; padding-bottom: 177.78%; height: 0; overflow: hidden; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+          <iframe id="vimeoPlayer" src="https://player.vimeo.com/video/1094205487?autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&dnt=1&api=1" 
+                  style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;" 
+                  frameborder="0" 
+                  allow="autoplay; fullscreen; picture-in-picture" 
+                  allowfullscreen>
+          </iframe>
+          <!-- Overlaid click catcher to keep custom cursor active -->
+          <div id="videoOverlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; cursor: pointer;"></div>
+          <!-- Custom player controls -->
+          <div class="video-controls" style="position: absolute; bottom: 20px; right: 20px; z-index: 10; display: flex; gap: 12px; pointer-events: auto;">
+            <button id="videoPlayPauseBtn" class="video-control-btn" aria-label="Pausar vídeo">
+              <!-- Pause Icon -->
+              <svg id="pauseIcon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg>
+              <!-- Play Icon -->
+              <svg id="playIcon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="display: none; margin-left: 2px;"><path d="M8 5v14l11-7z"></path></svg>
+            </button>
+            <button id="videoMuteBtn" class="video-control-btn" aria-label="Desmutar vídeo">
+              <!-- Muted Speaker Icon -->
+              <svg id="muteIcon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+              <!-- Unmuted Speaker Icon -->
+              <svg id="unmuteIcon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+            </button>
+          </div>
         </div>
+      </div>
+    </section>
+
+    <!-- VERTICAL PILLS GRID -->
+    <section class="reveal" style="margin-bottom: 80px;">
+      <h3 class="showcase-title">Pílulas <em>Verticais</em></h3>
+      <div class="vertical-videos-grid">
+        
+        <!-- Video Extra 1 -->
+        <div class="vertical-video-card" id="extraCard1" data-video-index="1">
+          <div style="position: relative; padding-bottom: 177.78%; height: 0; overflow: hidden; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 15px 30px rgba(0,0,0,0.3);">
+            <iframe id="vimeoExtraPlayer1" src="https://player.vimeo.com/video/1094211254?autoplay=0&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&dnt=1&api=1" 
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;" 
+                    frameborder="0" 
+                    allow="autoplay; fullscreen; picture-in-picture" 
+                    allowfullscreen>
+            </iframe>
+            <div class="video-overlay-catcher" id="videoExtraOverlay1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; cursor: pointer;"></div>
+            <div class="video-controls" style="position: absolute; bottom: 15px; right: 15px; z-index: 10; display: flex; gap: 8px; pointer-events: auto;">
+              <button class="video-control-btn" id="videoExtraPlayPauseBtn1" aria-label="Reproduzir vídeo">
+                <svg id="extraPlayIcon1" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="margin-left: 1px;"><path d="M8 5v14l11-7z"></path></svg>
+                <svg id="extraPauseIcon1" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="display: none;"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg>
+              </button>
+              <button class="video-control-btn" id="videoExtraMuteBtn1" aria-label="Desmutar vídeo">
+                <svg id="extraMuteIcon1" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                <svg id="extraUnmuteIcon1" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Video Extra 2 -->
+        <div class="vertical-video-card" id="extraCard2" data-video-index="2">
+          <div style="position: relative; padding-bottom: 177.78%; height: 0; overflow: hidden; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 15px 30px rgba(0,0,0,0.3);">
+            <iframe id="vimeoExtraPlayer2" src="https://player.vimeo.com/video/1094208876?autoplay=0&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0&dnt=1&api=1" 
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;" 
+                    frameborder="0" 
+                    allow="autoplay; fullscreen; picture-in-picture" 
+                    allowfullscreen>
+            </iframe>
+            <div class="video-overlay-catcher" id="videoExtraOverlay2" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; cursor: pointer;"></div>
+            <div class="video-controls" style="position: absolute; bottom: 15px; right: 15px; z-index: 10; display: flex; gap: 8px; pointer-events: auto;">
+              <button class="video-control-btn" id="videoExtraPlayPauseBtn2" aria-label="Reproduzir vídeo">
+                <svg id="extraPlayIcon2" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="margin-left: 1px;"><path d="M8 5v14l11-7z"></path></svg>
+                <svg id="extraPauseIcon2" viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="display: none;"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg>
+              </button>
+              <button class="video-control-btn" id="videoExtraMuteBtn2" aria-label="Desmutar vídeo">
+                <svg id="extraMuteIcon2" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                <svg id="extraUnmuteIcon2" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -629,11 +704,78 @@
     </div>
   </footer>
 
+  <!-- CONTACT MODAL -->
+  <div class="modal-overlay" id="contactModal">
+    <div class="modal-container">
+      <button class="modal-close" id="modalClose" aria-label="Fechar" type="button">✕</button>
+      <div class="modal-header">
+        <div class="section-label" style="color:var(--pink)">[ contato ]</div>
+        <h3>Nos conte sua <em>ideia</em>.</h3>
+      </div>
+      <form class="modal-form" id="contactForm" novalidate>
+        <!-- Honeypot anti-spam (invisible to humans) -->
+        <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="form-group">
+          <label for="contactName">Nome</label>
+          <input type="text" id="contactName" name="name" required placeholder="Seu nome" autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label for="contactEmail">E-mail</label>
+          <input type="email" id="contactEmail" name="email" required placeholder="seu@email.com" autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="contactProject">Tipo de projeto</label>
+          <select id="contactProject" name="project">
+            <option value="" disabled selected>Selecione</option>
+            <option value="campanha">Campanha</option>
+            <option value="conteudo">Conteúdo</option>
+            <option value="filme">Filme / Vídeo</option>
+            <option value="foto">Fotografia</option>
+            <option value="evento">Evento</option>
+            <option value="outro">Outro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="contactMessage">Mensagem</label>
+          <textarea id="contactMessage" name="message" rows="4" placeholder="Conte um pouco sobre o projeto..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Anexo <span class="optional">(opcional · máx 5MB)</span></label>
+          <div class="drop-zone" id="dropZone">
+            <input type="file" id="contactFile" name="attachment" accept=".pdf,.jpg,.jpeg,.png,.mp4,.mov,.doc,.docx,.ppt,.pptx">
+            <div class="drop-zone-text">
+              <span class="drop-icon">📎</span>
+              <span>Arraste um arquivo ou <em>clique aqui</em></span>
+            </div>
+            <div class="drop-zone-file" id="dropZoneFile" style="display:none">
+              <span class="file-name" id="fileName"></span>
+              <button type="button" class="file-remove" id="fileRemove">✕</button>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="modal-submit" id="modalSubmit">
+          <span class="submit-text">enviar briefing</span>
+          <span class="submit-loading" style="display:none">enviando...</span>
+          <span class="arr">↗</span>
+        </button>
+      </form>
+      <div class="modal-success" id="modalSuccess" style="display:none">
+        <div class="success-icon">✓</div>
+        <h3>Mensagem <em>enviada</em>!</h3>
+        <p>Retornamos em até 24h úteis.</p>
+      </div>
+      <div class="modal-error" id="modalError" style="display:none">
+        <p>Ops, algo deu errado. Tente novamente ou envie para <strong>oi@mumaestudio.com.br</strong></p>
+      </div>
+    </div>
+  </div>
+
   <script src="js/main.js"></script>
   <script>
     // Email link injection inside case study page
     (function injectEmail() {
-      const email = 'contato' + '@' + 'mumaestudiocriativo.com.br';
+      const email = 'oi' + '@' + 'mumaestudio.com.br';
       const link = document.getElementById('emailLink');
       if (link) {
         link.textContent = email;
@@ -641,71 +783,128 @@
       }
     })();
 
-    // Vimeo programmatic controller via postMessage API
+    // Vimeo programmatic controller via postMessage API for multiple synchronized players
     (function initVimeoController() {
-      const player = document.getElementById('vimeoPlayer');
-      const overlay = document.getElementById('videoOverlay');
-      const playPauseBtn = document.getElementById('videoPlayPauseBtn');
-      const muteBtn = document.getElementById('videoMuteBtn');
-      
-      const playIcon = document.getElementById('playIcon');
-      const pauseIcon = document.getElementById('pauseIcon');
-      const muteIcon = document.getElementById('muteIcon');
-      const unmuteIcon = document.getElementById('unmuteIcon');
-      
-      if (!player || !overlay || !playPauseBtn || !muteBtn) return;
-      
-      let isPlaying = true;
-      let isMuted = true;
-      
-      function postVimeo(action, value) {
+      const players = {
+        main: {
+          iframe: document.getElementById('vimeoPlayer'),
+          overlay: document.getElementById('videoOverlay'),
+          playPauseBtn: document.getElementById('videoPlayPauseBtn'),
+          muteBtn: document.getElementById('videoMuteBtn'),
+          playIcon: document.getElementById('playIcon'),
+          pauseIcon: document.getElementById('pauseIcon'),
+          muteIcon: document.getElementById('muteIcon'),
+          unmuteIcon: document.getElementById('unmuteIcon'),
+          card: null,
+          isPlaying: true, // Main starts auto-playing
+          isMuted: true
+        },
+        extra1: {
+          iframe: document.getElementById('vimeoExtraPlayer1'),
+          overlay: document.getElementById('videoExtraOverlay1'),
+          playPauseBtn: document.getElementById('videoExtraPlayPauseBtn1'),
+          muteBtn: document.getElementById('videoExtraMuteBtn1'),
+          playIcon: document.getElementById('extraPlayIcon1'),
+          pauseIcon: document.getElementById('extraPauseIcon1'),
+          muteIcon: document.getElementById('extraMuteIcon1'),
+          unmuteIcon: document.getElementById('extraUnmuteIcon1'),
+          card: document.getElementById('extraCard1'),
+          isPlaying: false,
+          isMuted: true
+        },
+        extra2: {
+          iframe: document.getElementById('vimeoExtraPlayer2'),
+          overlay: document.getElementById('videoExtraOverlay2'),
+          playPauseBtn: document.getElementById('videoExtraPlayPauseBtn2'),
+          muteBtn: document.getElementById('videoExtraMuteBtn2'),
+          playIcon: document.getElementById('extraPlayIcon2'),
+          pauseIcon: document.getElementById('extraPauseIcon2'),
+          muteIcon: document.getElementById('extraMuteIcon2'),
+          unmuteIcon: document.getElementById('extraUnmuteIcon2'),
+          card: document.getElementById('extraCard2'),
+          isPlaying: false,
+          isMuted: true
+        }
+      };
+
+      function postMessageToPlayer(playerConfig, action, value) {
+        if (!playerConfig.iframe) return;
         const data = { method: action };
         if (value !== undefined) {
           data.value = value;
         }
-        player.contentWindow.postMessage(JSON.stringify(data), '*');
+        playerConfig.iframe.contentWindow.postMessage(JSON.stringify(data), '*');
       }
-      
-      function togglePlay() {
-        if (isPlaying) {
-          postVimeo('pause');
-          playIcon.style.display = 'block';
-          pauseIcon.style.display = 'none';
-          playPauseBtn.setAttribute('aria-label', 'Reproduzir vídeo');
-          isPlaying = false;
-        } else {
-          postVimeo('play');
-          playIcon.style.display = 'none';
-          pauseIcon.style.display = 'block';
-          playPauseBtn.setAttribute('aria-label', 'Pausar vídeo');
-          isPlaying = true;
+
+      function pausePlayer(config) {
+        if (!config.isPlaying) return;
+        postMessageToPlayer(config, 'pause');
+        config.playIcon.style.display = 'block';
+        config.pauseIcon.style.display = 'none';
+        config.playPauseBtn.setAttribute('aria-label', 'Reproduzir vídeo');
+        config.isPlaying = false;
+        if (config.card) {
+          config.card.classList.remove('playing-active');
         }
       }
-      
-      function toggleMute() {
-        if (isMuted) {
-          postVimeo('setVolume', 1);
-          muteIcon.style.display = 'none';
-          unmuteIcon.style.display = 'block';
-          muteBtn.setAttribute('aria-label', 'Mutar vídeo');
-          isMuted = false;
-        } else {
-          postVimeo('setVolume', 0);
-          muteIcon.style.display = 'block';
-          unmuteIcon.style.display = 'none';
-          muteBtn.setAttribute('aria-label', 'Desmutar vídeo');
-          isMuted = true;
+
+      function playPlayer(config) {
+        if (config.isPlaying) return;
+        
+        // Pause other active players
+        Object.keys(players).forEach(key => {
+          if (players[key] !== config) {
+            pausePlayer(players[key]);
+          }
+        });
+
+        postMessageToPlayer(config, 'play');
+        config.playIcon.style.display = 'none';
+        config.pauseIcon.style.display = 'block';
+        config.playPauseBtn.setAttribute('aria-label', 'Pausar vídeo');
+        config.isPlaying = true;
+        if (config.card) {
+          config.card.classList.add('playing-active');
         }
       }
-      
-      overlay.addEventListener('click', togglePlay);
-      playPauseBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        togglePlay();
-      });
-      muteBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        toggleMute();
+
+      function togglePlay(config) {
+        if (config.isPlaying) {
+          pausePlayer(config);
+        } else {
+          playPlayer(config);
+        }
+      }
+
+      function toggleMute(config) {
+        if (config.isMuted) {
+          postMessageToPlayer(config, 'setVolume', 1);
+          config.muteIcon.style.display = 'none';
+          config.unmuteIcon.style.display = 'block';
+          config.muteBtn.setAttribute('aria-label', 'Mutar vídeo');
+          config.isMuted = false;
+        } else {
+          postMessageToPlayer(config, 'setVolume', 0);
+          config.muteIcon.style.display = 'block';
+          config.unmuteIcon.style.display = 'none';
+          config.muteBtn.setAttribute('aria-label', 'Desmutar vídeo');
+          config.isMuted = true;
+        }
+      }
+
+      Object.keys(players).forEach(key => {
+        const p = players[key];
+        if (!p.iframe || !p.overlay || !p.playPauseBtn || !p.muteBtn) return;
+
+        p.overlay.addEventListener('click', () => togglePlay(p));
+        p.playPauseBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          togglePlay(p);
+        });
+        p.muteBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleMute(p);
+        });
       });
     })();
   </script>

@@ -80,6 +80,10 @@
       z-index: 2;
       max-width: 1200px;
     }
+    .portfolio-hero .section-label {
+      margin-bottom: 56px;
+      justify-content: center;
+    }
     .portfolio-hero h1 {
       font-family: var(--serif);
       font-size: clamp(48px, 9vw, 96px);
@@ -106,7 +110,7 @@
     .portfolio-filters {
       display: flex;
       justify-content: center;
-      gap: 10px;
+      gap: 6px;
       margin: 40px auto 60px;
       flex-wrap: wrap;
       max-width: 1000px;
@@ -118,11 +122,11 @@
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(237, 236, 234, 0.15);
       color: var(--paper);
-      padding: 10px 24px;
+      padding: 6px 14px;
       border-radius: 999px;
       font-family: var(--sans);
-      font-size: 11px;
-      letter-spacing: 0.1em;
+      font-size: 9px;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
       cursor: pointer;
       transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
@@ -390,6 +394,14 @@
       </div>
       <div class="nav-right" style="display:flex;align-items:center;gap:10px;">
         <a class="nav-cta" href="index.html#contato"><span>orçamento</span><span class="arr">↗</span></a>
+        <button class="a11y-toggle" id="a11yToggle" aria-label="Alternar modo acessível" title="Acessibilidade">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="4.5" r="2.5"/>
+            <path d="M12 7.5v5m0 0l-3.5 5.5m3.5-5.5l3.5 5.5"/>
+            <path d="M6.5 10.5h11"/>
+          </svg>
+          <span class="a11y-tip">acessibilidade</span>
+        </button>
       </div>
     </div>
   </nav>
@@ -412,8 +424,6 @@
     <button class="filter-btn" data-filter="pos">Edição & Pós</button>
     <button class="filter-btn" data-filter="arte">Arte & Cenografia</button>
     <button class="filter-btn" data-filter="beauty">Beauty & Styling</button>
-    <button class="filter-btn" data-filter="casting">Casting</button>
-    <button class="filter-btn" data-filter="catering">Catering Set</button>
   </div>
 
   <!-- PORTFOLIO GRID (Trabalhos Selecionados Reutilizados) -->
@@ -619,6 +629,73 @@
     </div>
   </div>
 
+  <!-- CONTACT MODAL -->
+  <div class="modal-overlay" id="contactModal">
+    <div class="modal-container">
+      <button class="modal-close" id="modalClose" aria-label="Fechar" type="button">✕</button>
+      <div class="modal-header">
+        <div class="section-label" style="color:var(--pink)">[ contato ]</div>
+        <h3>Nos conte sua <em>ideia</em>.</h3>
+      </div>
+      <form class="modal-form" id="contactForm" novalidate>
+        <!-- Honeypot anti-spam (invisible to humans) -->
+        <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+        <div class="form-group">
+          <label for="contactName">Nome</label>
+          <input type="text" id="contactName" name="name" required placeholder="Seu nome" autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label for="contactEmail">E-mail</label>
+          <input type="email" id="contactEmail" name="email" required placeholder="seu@email.com" autocomplete="email">
+        </div>
+        <div class="form-group">
+          <label for="contactProject">Tipo de projeto</label>
+          <select id="contactProject" name="project">
+            <option value="" disabled selected>Selecione</option>
+            <option value="campanha">Campanha</option>
+            <option value="conteudo">Conteúdo</option>
+            <option value="filme">Filme / Vídeo</option>
+            <option value="foto">Fotografia</option>
+            <option value="evento">Evento</option>
+            <option value="outro">Outro</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="contactMessage">Mensagem</label>
+          <textarea id="contactMessage" name="message" rows="4" placeholder="Conte um pouco sobre o projeto..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>Anexo <span class="optional">(opcional · máx 5MB)</span></label>
+          <div class="drop-zone" id="dropZone">
+            <input type="file" id="contactFile" name="attachment" accept=".pdf,.jpg,.jpeg,.png,.mp4,.mov,.doc,.docx,.ppt,.pptx">
+            <div class="drop-zone-text">
+              <span class="drop-icon">📎</span>
+              <span>Arraste um arquivo ou <em>clique aqui</em></span>
+            </div>
+            <div class="drop-zone-file" id="dropZoneFile" style="display:none">
+              <span class="file-name" id="fileName"></span>
+              <button type="button" class="file-remove" id="fileRemove">✕</button>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="modal-submit" id="modalSubmit">
+          <span class="submit-text">enviar briefing</span>
+          <span class="submit-loading" style="display:none">enviando...</span>
+          <span class="arr">↗</span>
+        </button>
+      </form>
+      <div class="modal-success" id="modalSuccess" style="display:none">
+        <div class="success-icon">✓</div>
+        <h3>Mensagem <em>enviada</em>!</h3>
+        <p>Retornamos em até 24h úteis.</p>
+      </div>
+      <div class="modal-error" id="modalError" style="display:none">
+        <p>Ops, algo deu errado. Tente novamente ou envie para <strong>oi@mumaestudio.com.br</strong></p>
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script src="js/main.js"></script>
   <script>
@@ -795,7 +872,7 @@
 
     // Email link injection in portfolio
     (function injectEmail() {
-      const email = 'contato' + '@' + 'mumaestudiocriativo.com.br';
+      const email = 'oi' + '@' + 'mumaestudio.com.br';
       const link = document.getElementById('emailLink');
       if (link) {
         link.textContent = email;

@@ -77,8 +77,17 @@ Texto de apresentação do projeto detalhando o briefing, conceito, desafios e r
 Ex: O Koni, referência nacional em culinária japonesa rápida e dinâmica, buscou o Estúdio Muma para...
 
 \[LINK\_VIDEO\_VIMEO]
-Se houver vídeo hospedado no Vimeo para indexar, cole o link ou o ID aqui.
-Ex: https://vimeo.com/83940292 ou apenas 83940292
+Se houver vídeo principal hospedado no Vimeo para indexar, cole o link ou o ID aqui.
+Ex: https://vimeo.com/1094205487 ou apenas 1094205487
+
+\[ORIENTACAO\_VIDEO\_PRINCIPAL]
+Indique se o vídeo principal é vertical ou horizontal. Se for vertical, ele será exibido em proporção vertical (9:16) centralizado.
+Valores válidos: vertical, horizontal
+Ex: vertical
+
+\[VIDEOS\_EXTRAS\_VIMEO]
+Se a campanha possuir outros vídeos verticais para exibir lado a lado (com destaque no hover e sincronização de play automático), cole os IDs ou links separados por vírgula.
+Ex: https://vimeo.com/1094211254, https://vimeo.com/1094208876
 ==================================================================
 ```
 

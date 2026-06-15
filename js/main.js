@@ -1790,7 +1790,34 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
   let clickTimeout;
   let animId = null;
   let ctx = canvas.getContext('2d');
-  
+
+  const incomingDir = sessionStorage.getItem('incomingSwell');
+  if (incomingDir) {
+    overlay.classList.add('active');
+    document.body.classList.add('modal-open');
+    document.body.classList.add('ee-active');
+
+    const startReveal = () => {
+      document.documentElement.classList.remove('is-swelling');
+      document.documentElement.style.backgroundColor = '';
+      
+      resizeCanvas();
+      phase = 'swellReveal';
+      swellDirection = parseInt(incomingDir, 10) || 1;
+      swellTimer = 0;
+      swellParticles = [];
+      sessionStorage.removeItem('incomingSwell');
+      
+      if (!animId) animId = requestAnimationFrame(tick);
+    };
+
+    if (document.readyState === 'complete') {
+      startReveal();
+    } else {
+      window.addEventListener('load', startReveal);
+    }
+  }
+
   // Particle classes/definitions
   let phase = 'spiral'; // 'spiral', 'implosion', 'explosion', 'drift'
   let trailParticles = [];
@@ -1988,15 +2015,63 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
       if (swellTimer > 25) {
         ctx.fillStyle = '#17075c'; // brand royal purple
         ctx.globalCompositeOperation = 'source-over';
-        ctx.globalAlpha = Math.min((swellTimer - 25) / 25, 1.0); // slower fade
+        ctx.globalAlpha = Math.min((swellTimer - 25) / 10, 1.0); // faster fade
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         ctx.globalAlpha = 1.0;
       }
 
-      if (swellTimer > 55 && window.redirectTargetUrl) {
+      if (swellTimer > 35 && window.redirectTargetUrl) {
+        sessionStorage.setItem('incomingSwell', swellDirection);
         const target = window.redirectTargetUrl;
         window.redirectTargetUrl = null;
         window.location.href = target;
+      }
+    }
+    else if (phase === 'swellReveal') {
+      if (swellTimer === 0) {
+        const colors = ['#ff80e1', '#a194ff', '#9cff97', '#ffffff', '#edecea'];
+        for (let i = 0; i < 350; i++) {
+          const color = colors[Math.floor(Math.random() * colors.length)];
+          const size = Math.random() * 10 + 2;
+          const x = swellDirection === 1
+                      ? Math.random() * canvas.width * 0.5 - canvas.width * 0.2
+                      : canvas.width - Math.random() * canvas.width * 0.5 + canvas.width * 0.2;
+          const yBase = Math.random() * canvas.height;
+          const vx = (Math.random() * 12 + 15) * swellDirection; 
+          const pphase = Math.random() * Math.PI * 2;
+          const freq = Math.random() * 0.04 + 0.01;
+          const amp = Math.random() * 40 + 10;
+          swellParticles.push({ x, yBase, vx, pphase, freq, amp, size, color });
+        }
+      }
+
+      // Draw background fading OUT
+      ctx.fillStyle = '#17075c';
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.globalAlpha = Math.max(1.0 - (swellTimer / 25), 0);
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.globalAlpha = 1.0;
+
+      // Draw particles
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.globalAlpha = 0.9;
+      swellParticles.forEach(p => {
+        p.x += p.vx * speedMul;
+        p.pphase += p.freq * speedMul;
+        const y = p.yBase + Math.sin(p.pphase) * p.amp;
+        
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      ctx.globalAlpha = 1.0;
+
+      swellTimer += speedMul;
+
+      if (swellTimer > 40) {
+        if (typeof closeEasterEgg === 'function') closeEasterEgg();
+        phase = 'drift';
       }
     }
     else if (phase === 'spiral') {

@@ -1,6 +1,11 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
+  <script>
+    if (sessionStorage.getItem("incomingSwell")) {
+      document.documentElement.classList.add("is-swelling");
+    }
+  </script>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Muma Estúdio Criativo</title>

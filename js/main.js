@@ -1791,38 +1791,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
   let animId = null;
   let ctx = canvas.getContext('2d');
 
-  const incomingDir = sessionStorage.getItem('incomingSwell');
-  if (incomingDir) {
-    overlay.classList.add('active');
-    document.body.classList.add('modal-open');
-    document.body.classList.add('ee-active');
 
-    const startReveal = () => {
-      document.documentElement.classList.remove('is-swelling');
-      document.documentElement.style.backgroundColor = '';
-      
-      resizeCanvas();
-      phase = 'swellReveal';
-      swellDirection = parseInt(incomingDir, 10) || 1;
-      swellTimer = 0;
-      swellParticles = [];
-      sessionStorage.removeItem('incomingSwell');
-      
-      ctx.fillStyle = '#17075c';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      
-      const preloader = document.getElementById('swellPreloader');
-      if (preloader) preloader.remove();
-      
-      if (!animId) animId = requestAnimationFrame(tick);
-    };
-
-    if (document.readyState === 'complete') {
-      startReveal();
-    } else {
-      window.addEventListener('load', startReveal);
-    }
-  }
 
   // Particle classes/definitions
   let phase = 'spiral'; // 'spiral', 'implosion', 'explosion', 'drift'
@@ -1979,76 +1948,13 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.globalCompositeOperation = 'source-over';
     
-    // Draw space dust background
+    // Draw space dust background ONLY for easter egg phases
     ctx.fillStyle = 'rgba(5, 5, 12, 0.25)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     ctx.globalCompositeOperation = 'lighter';
 
-    if (phase === 'swell') {
-      if (swellTimer === 0) {
-        const colors = ['#ff80e1', '#a194ff', '#9cff97', '#ffffff', '#edecea'];
-        for (let i = 0; i < 350; i++) {
-          const color = colors[Math.floor(Math.random() * colors.length)];
-          const size = Math.random() * 10 + 2;
-          const x = swellDirection === 1 
-                      ? -Math.random() * canvas.width * 0.8 - 50
-                      : canvas.width + Math.random() * canvas.width * 0.8 + 50;
-          const yBase = Math.random() * canvas.height;
-          const vx = (Math.random() * 12 + 15) * swellDirection; 
-          const pphase = Math.random() * Math.PI * 2;
-          const freq = Math.random() * 0.04 + 0.01;
-          const amp = Math.random() * 40 + 10;
-          swellParticles.push({ x, yBase, vx, pphase, freq, amp, size, color });
-        }
-      }
-
-      ctx.globalAlpha = 0.9;
-      swellParticles.forEach(p => {
-        p.x += p.vx * speedMul;
-        p.pphase += p.freq * speedMul;
-        const y = p.yBase + Math.sin(p.pphase) * p.amp;
-        
-        ctx.fillStyle = p.color;
-        ctx.beginPath();
-        ctx.arc(p.x, y, p.size, 0, Math.PI * 2);
-        ctx.fill();
-      });
-      ctx.globalAlpha = 1.0;
-
-      swellTimer += speedMul;
-
-      if (swellTimer > 25) {
-        ctx.fillStyle = '#17075c'; // brand royal purple
-        ctx.globalCompositeOperation = 'source-over';
-        ctx.globalAlpha = Math.min((swellTimer - 25) / 10, 1.0); // faster fade
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.globalAlpha = 1.0;
-      }
-
-      if (swellTimer > 40 && window.redirectTargetUrl) {
-        sessionStorage.setItem('incomingSwell', swellDirection);
-        const target = window.redirectTargetUrl;
-        window.redirectTargetUrl = null;
-        window.location.href = target;
-      }
-    }
-    else if (phase === 'swellReveal') {
-      // Draw background fading OUT smoothly
-      ctx.fillStyle = '#17075c';
-      ctx.globalCompositeOperation = 'source-over';
-      ctx.globalAlpha = Math.max(1.0 - (swellTimer / 35), 0);
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.globalAlpha = 1.0;
-
-      swellTimer += speedMul;
-
-      if (swellTimer > 40) {
-        if (typeof closeEasterEgg === 'function') closeEasterEgg();
-        phase = 'drift';
-      }
-    }
-    else if (phase === 'spiral') {
+    if (phase === 'spiral') {
       const progress = 1 - (spiralRadius / startDistance);
       const angleSpeed = (0.02 + progress * 0.08) * speedMul;
       spiralAngle += angleSpeed;
@@ -2115,16 +2021,6 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
           const speed = Math.random() * 11 + 2.5;
           const color = colors[Math.floor(Math.random() * colors.length)];
           explosionParticles.push(new ExplodeParticle(center.x, center.y, color, speed, angle));
-        }
-
-        // If redirect target is set, perform redirect during the peak white flash
-        if (window.redirectTargetUrl) {
-          const target = window.redirectTargetUrl;
-          window.redirectTargetUrl = null; // clear state
-          setTimeout(() => {
-            window.location.href = target;
-          }, 80);
-          return;
         }
 
         // Show popup overlay after 1.5s delay
@@ -2256,58 +2152,6 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
     }
   });
 
-  // Intercept Portfolio and Home links for the swell page transition
-  const transitionLinks = document.querySelectorAll('a[href="portfolio.html"], a[href="index.html"], a[href="index.html#contato"]');
-  transitionLinks.forEach(link => {
-    link.addEventListener('click', e => {
-      // Exclude simple anchors if they don't navigate
-      if (link.getAttribute('href').startsWith('#')) return;
-
-      // Do not run on mobile/tablet devices, coarse pointers, or if a11y-mode is active
-      if (window.innerWidth <= 768 || window.matchMedia('(pointer: coarse)').matches || document.documentElement.classList.contains('a11y-mode')) return;
-
-      const targetUrl = link.getAttribute('href');
-      const isToHome = targetUrl.includes('index.html');
-
-      e.preventDefault();
-      
-      // Cancel idle atom animations
-      if (window.resetIdleTimerGlobal) window.resetIdleTimerGlobal();
-      
-      // Reset states
-      phase = 'swell';
-      swellParticles = [];
-      swellTimer = 0;
-      swellDirection = isToHome ? -1 : 1;
-      trailParticles = [];
-      explosionParticles = [];
-      shockwaves = [];
-      orbitingStars = [];
-      flashOpacity = 0;
-      implosionTimer = 0;
-      
-      resizeCanvas();
-      window.addEventListener('resize', resizeCanvas);
-
-      startDistance = Math.min(canvas.width, canvas.height) * 0.42;
-      spiralRadius = startDistance;
-      spiralAngle = 0;
-
-      // Lock scrolling and show canvas overlay
-      document.body.classList.add('modal-open');
-      document.body.classList.add('ee-active');
-      overlay.classList.add('active');
-      if (popup) popup.classList.remove('active');
-
-      // Set redirect URL & transition speed multiplier (Fluid speed)
-      window.redirectTargetUrl = targetUrl;
-      window.transitionSpeedMultiplier = 1.0;
-
-      // Start animation loop
-      if (animId) cancelAnimationFrame(animId);
-      animId = requestAnimationFrame(tick);
-    });
-  });
 
   // Proteção de imagens contra cópia, drag & context menu
   document.addEventListener('contextmenu', e => {

@@ -1957,9 +1957,9 @@ img {
 /* — VERTICAL VIDEOS GRID & CARDS (Minha Cabana) — */
 .vertical-videos-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
-  max-width: 760px;
+  max-width: 1080px;
   margin: 0 auto 80px;
   padding: 0 16px;
 }

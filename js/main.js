@@ -1989,7 +1989,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
       if (implosionTimer <= 0) {
         // BOOM! Trigger supernova explosion
         phase = 'explosion';
-        flashOpacity = 1.0;
+        flashOpacity = 0.0;
         
         // Shockwave rings
         shockwaves.push({ r: 5, vr: 14, color: '#ffffff', maxR: Math.max(canvas.width, canvas.height) * 0.9 });
@@ -2172,9 +2172,9 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
       overlay.classList.add('active');
       popup.classList.remove('active');
 
-      // Set redirect URL & transition speed multiplier (Warp speed!)
+      // Set redirect URL & transition speed multiplier (Fluid speed)
       window.redirectTargetUrl = 'portfolio.html';
-      window.transitionSpeedMultiplier = 4.5;
+      window.transitionSpeedMultiplier = 1.2;
 
       // Start animation loop
       if (animId) cancelAnimationFrame(animId);

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Muma Administradora</title>
+  
+  <link rel="stylesheet" href="admin.css">
+  
+  <!-- CDN Dependencies -->
+  <!-- SortableJS for Drag and Drop Reordering -->
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+  <!-- JSZip for Zip Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+  <div class="admin-layout">
+    <!-- LEFT PANEL: Controls -->
+    <aside class="panel controls-panel">
+      <header>
+        <h1>Muma Administradora</h1>
+        <p>Gerador Headless de Campanhas</p>
+      </header>
+
+      <form id="campaignForm">
+        <div class="form-group">
+          <label for="campaignTitle">Nome da Campanha *</label>
+          <input type="text" id="campaignTitle" placeholder="Ex: Dia do Koni" required>
+        </div>
+
+        <div class="form-group">
+          <label for="campaignClient">Cliente *</label>
+          <input type="text" id="campaignClient" placeholder="Ex: Koni Store" required>
+        </div>
+
+        <div class="form-group">
+          <label for="campaignMode">Modo de Abertura</label>
+          <select id="campaignMode">
+            <option value="popup">Abrir em Popup Modal (Overlay)</option>
+            <option value="page">Abrir em Página Dedicada</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="campaignDesc">Descrição do Projeto</label>
+          <p class="hint">Use *palavra* entre asteriscos para destacar em magenta.</p>
+          <textarea id="campaignDesc" rows="4" placeholder="O Koni buscou o Estúdio Muma para uma *nova* experiência..."></textarea>
+        </div>
+
+        <hr>
+
+        <div class="form-group">
+          <label>Capa (Front) *</label>
+          <p class="hint">A imagem de destaque na galeria principal.</p>
+          <div class="dropzone" id="dropCapa">
+            <span class="placeholder">Arraste a capa (JPG/PNG/GIF)</span>
+            <div class="preview-container"></div>
+            <button type="button" class="remove-btn" title="Remover">✕</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Backstage (BTS)</label>
+          <p class="hint">A foto que se revela no hover ou modal.</p>
+          <div class="dropzone" id="dropBts">
+            <span class="placeholder">Arraste o BTS (JPG/PNG/GIF)</span>
+            <div class="preview-container"></div>
+            <button type="button" class="remove-btn" title="Remover">✕</button>
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="form-group">
+          <div class="gallery-header">
+            <label>Galeria Livre (Grid)</label>
+            <button type="button" id="addVimeoBtn" class="btn-small">+ Add Vimeo</button>
+          </div>
+          <p class="hint">Arraste fotos para adicionar. Arraste os blocos para reordenar.</p>
+          
+          <div class="gallery-grid" id="galleryGrid">
+            <!-- Items will be injected here -->
+          </div>
+          
+          <div class="dropzone gallery-dropzone" id="dropGallery">
+            <span>Arraste mais imagens ou GIFs aqui</span>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-primary" id="exportBtn" disabled>Gerar Pacote ZIP</button>
+        </div>
+      </form>
+    </aside>
+
+    <!-- RIGHT PANEL: Live Preview -->
+    <main class="panel preview-panel">
+      <div class="preview-header">
+        <div class="preview-badge">Live Preview</div>
+      </div>
+      <div class="preview-content">
+        <!-- Mockup of the Muma site aesthetic -->
+        <div class="muma-mockup">
+          <div class="muma-cover" id="previewCover">
+            <!-- Cover image goes here -->
+            <div class="muma-cover-text">
+              <h2 id="previewTitle">Nome da Campanha</h2>
+              <h3 id="previewClient">Cliente</h3>
+            </div>
+          </div>
+          <div class="muma-details">
+            <p id="previewDesc">A descrição aparecerá aqui.</p>
+          </div>
+          <div class="muma-gallery" id="previewGallery">
+            <!-- Grid of gallery items -->
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

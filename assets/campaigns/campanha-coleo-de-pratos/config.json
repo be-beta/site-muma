@@ -1,0 +1,66 @@
+{
+  "id": "coleo-de-pratos",
+  "client": "Spoleto",
+  "title": "Coleção de Pratos",
+  "description": "Para a Coleção de Pratos 2025, do Spoleto, mergulhamos no imaginário do Eurosummer para trazer um pedacinho da Itália para Itacoatiara.<br><br>A campanha celebra a Itália através das cores, sabores e referências do Mediterrâneo. Ficamos responsáveis pela cenografia, produção de arte e styling do filme de lançamento da campanha + shooting, construindo os diferentes moods: da praia à mesa posta, passando pela pequena vendinha de limões sicilianos e souvenirs, um passeio de Vespa e referências da Costa Amalfitana.<br><br>Com uma mistura de objetos, louças, tecidos, flores, frutas e elementos típicos do verão europeu, construímos cada cena para que as ilustrações dos pratos ganhassem vida.",
+  "displayMode": "page",
+  "cover": "capa-coleo-de-pratos.webp",
+  "bts": "bts-coleo-de-pratos.webp",
+  "media": [
+    {
+      "type": "vimeo",
+      "src": "1218049242",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "coleo-de-pratos-01.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "coleo-de-pratos-02.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "coleo-de-pratos-03.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "coleo-de-pratos-04.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "coleo-de-pratos-05.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "coleo-de-pratos-06.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "coleo-de-pratos-07.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "coleo-de-pratos-08.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "coleo-de-pratos-09.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "coleo-de-pratos-10.webp",
+      "orientation": "portrait"
+    }
+  ]
+}

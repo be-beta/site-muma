@@ -82,7 +82,7 @@
       max-width: 1200px;
     }
     .portfolio-hero .section-label {
-      margin-bottom: 56px;
+      margin-bottom: 24px;
       justify-content: center;
     }
     .portfolio-hero h1 {
@@ -396,7 +396,7 @@
       <div class="nav-right" style="display:flex;align-items:center;gap:10px;">
         <a class="nav-cta" href="index.html#contato"><span>orçamento</span><span class="arr">↗</span></a>
         <button class="a11y-toggle" id="a11yToggle" aria-label="Alternar modo acessível" title="Acessibilidade">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="4.5" r="2.5"/>
             <path d="M12 7.5v5m0 0l-3.5 5.5m3.5-5.5l3.5 5.5"/>
             <path d="M6.5 10.5h11"/>
@@ -442,7 +442,51 @@
         <div class="meta"><span>Minha Cabana · 2025</span><span>ver bastidor + detalhes ↗</span></div>
       </div>
 
-      <!-- Case 1: Koni (Campanha - Pulsing Halo Glow) -->
+      <!-- Case 1: Tubing Ultimate Length -->
+      <div class="case c1 reveal" data-categories="campanha" data-id="tubing-ultimate-length" style="cursor: pointer;">
+        <img src="assets/campaigns/campanha-tubing-ultimate-length/capa-tubing-ultimate-length.webp" alt="Tubing Ultimate Length" class="img-front" loading="lazy" />
+        <img src="assets/campaigns/campanha-tubing-ultimate-length/bts-tubing-ultimate-length.webp" alt="Tubing - bastidores" class="img-back" loading="lazy" />
+        <div class="scrim"></div>
+        <span class="badge">campanha</span>
+        <span class="reveal-hint"><span class="lens"></span> backstage</span>
+        <div class="title">Tubing Ultimate Length</div>
+        <div class="meta"><span>Avon · 2025</span><span>ver bastidor + detalhes ↗</span></div>
+      </div>
+
+      <!-- Case 2: Banco de Imagens -->
+      <div class="case c2 reveal" data-categories="campanha" data-id="banco-de-imagens" style="cursor: pointer;">
+        <img src="assets/campaigns/campanha-banco-de-imagens/capa-banco-de-imagens.webp" alt="Banco de Imagens" class="img-front" loading="lazy" />
+        <img src="assets/campaigns/campanha-banco-de-imagens/bts-banco-de-imagens.webp" alt="Banco de Imagens - bastidores" class="img-back" loading="lazy" />
+        <div class="scrim"></div>
+        <span class="badge">campanha</span>
+        <span class="reveal-hint"><span class="lens"></span> backstage</span>
+        <div class="title">Banco de Imagens</div>
+        <div class="meta"><span>DryOn · 2025</span><span>ver bastidor + detalhes ↗</span></div>
+      </div>
+
+      <!-- Case 3: Coleção de Pratos -->
+      <div class="case c3 reveal" data-categories="campanha" data-id="coleo-de-pratos" style="cursor: pointer;">
+        <img src="assets/campaigns/campanha-coleo-de-pratos/capa-coleo-de-pratos.webp" alt="Coleção de Pratos" class="img-front" loading="lazy" />
+        <img src="assets/campaigns/campanha-coleo-de-pratos/bts-coleo-de-pratos.webp" alt="Coleção de Pratos - bastidores" class="img-back" loading="lazy" />
+        <div class="scrim"></div>
+        <span class="badge">campanha</span>
+        <span class="reveal-hint"><span class="lens"></span> backstage</span>
+        <div class="title">Coleção de Pratos</div>
+        <div class="meta"><span>Spoleto · 2025</span><span>ver bastidor + detalhes ↗</span></div>
+      </div>
+
+      <!-- Case 4: Verão com Mike's -->
+      <div class="case c4 reveal" data-categories="campanha" data-id="vero-com-mikes" style="cursor: pointer;">
+        <img src="assets/campaigns/campanha-vero-com-mikes/capa-vero-com-mikes.webp" alt="Verão com Mike's" class="img-front" loading="lazy" />
+        <img src="assets/campaigns/campanha-vero-com-mikes/bts-vero-com-mikes.webp" alt="Verão com Mike's - bastidores" class="img-back" loading="lazy" />
+        <div class="scrim"></div>
+        <span class="badge">campanha</span>
+        <span class="reveal-hint"><span class="lens"></span> backstage</span>
+        <div class="title">Verão com Mike's</div>
+        <div class="meta"><span>Asa Onze + Mike's · 2025</span><span>ver bastidor + detalhes ↗</span></div>
+      </div>
+
+      <!-- Case 5: Koni (Campanha - Pulsing Halo Glow) -->
       <div class="case c1 case-campanha reveal" data-categories="direcao,producao,captacao,casting,campanha" data-id="koni" style="cursor: pointer;">
         <img src="assets/images/clientes/work-koni.png" alt="Koni - Dia do Koni" class="img-front" />
         <img src="assets/images/clientes/bts-koni.jpg" alt="Koni - bastidores" class="img-back" loading="lazy" />
@@ -830,30 +874,85 @@
           window.location.href = 'case-minha_cabana';
           return;
         }
+        if (id === 'banco-de-imagens') {
+          window.location.href = 'case-banco-de-imagens.html';
+          return;
+        }
+        if (id === 'coleo-de-pratos') {
+          window.location.href = 'case-coleo-de-pratos.html';
+          return;
+        }
+
+        const buildModal = (project) => {
+          // Injetar dados
+          modalBadge.textContent = project.badge || 'campanha';
+          modalTitle.innerHTML = project.title;
+          modalDesc.innerHTML = project.desc || project.description;
+          specClient.textContent = project.client;
+          specYear.textContent = project.year || new Date().getFullYear();
+          specDir.textContent = project.direction || 'Vicky & Alinne';
+          specPhoto.textContent = project.photo || 'Alinne (Estúdio Muma)';
+
+          // Injetar imagens (Principal + Bastidores + Galeria)
+          let html = '';
+          
+          // Legacy support or fallback to Cover
+          if (project.front) {
+            html += `<img src="${project.front}" alt="${project.client} - Final" />`;
+          } else if (project.cover) {
+            html += `<img src="assets/campaigns/${project.id}/${project.cover}" alt="Capa" />`;
+          }
+
+          if (project.back) {
+            html += `<span style="font-size:10px;text-transform:uppercase;letter-spacing:0.15em;opacity:0.5;margin-top:12px;display:block">Nos bastidores (backstage):</span>`;
+            html += `<img src="${project.back}" alt="${project.client} - Bastidores" loading="lazy" />`;
+          } else if (project.bts) {
+            html += `<span style="font-size:10px;text-transform:uppercase;letter-spacing:0.15em;opacity:0.5;margin-top:12px;display:block">Nos bastidores (backstage):</span>`;
+            html += `<img src="assets/campaigns/${project.id}/${project.bts}" alt="Bastidores" loading="lazy" />`;
+          }
+
+          // Render Headless Media Array
+          if (project.media && project.media.length > 0) {
+            html += `<div style="display: flex; flex-direction: column; gap: 20px; margin-top: 40px;">`;
+            project.media.forEach(item => {
+              if (item.type === 'image') {
+                html += `<img src="assets/campaigns/${project.id}/${item.src}" loading="lazy" />`;
+              } else if (item.type === 'vimeo') {
+                html += `
+                  <div style="position: relative; padding-bottom: ${item.orientation === 'landscape' ? '56.25%' : '177.78%'}; height: 0; overflow: hidden; border-radius: 16px;">
+                    <iframe src="https://player.vimeo.com/video/${item.src}?autoplay=1&loop=1&background=1&muted=1" 
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;" 
+                            frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                  </div>
+                `;
+              }
+            });
+            html += `</div>`;
+          }
+
+          modalVisuals.innerHTML = html;
+
+          // Abrir Modal
+          modal.classList.add('active');
+          document.body.style.overflow = 'hidden'; // trava scroll da home
+        };
+
+        // If it's a dynamic popup campaign, fetch it
+        if (['tubing-ultimate-length', 'vero-com-mikes'].includes(id)) {
+          fetch(`assets/campaigns/campanha-${id}/config.json`)
+            .then(r => r.json())
+            .then(data => buildModal(data))
+            .catch(e => console.error('Erro ao carregar campanha', e));
+          return;
+        }
+
         const project = PROJECT_DB[id];
         if (!project) return;
-
-        // Injetar dados
-        modalBadge.textContent = project.badge;
-        modalTitle.innerHTML = project.title;
-        modalDesc.innerHTML = project.desc;
-        specClient.textContent = project.client;
-        specYear.textContent = project.year;
-        specDir.textContent = project.direction;
-        specPhoto.textContent = project.photo;
-
-        // Injetar imagens (Principal + Bastidores)
-        modalVisuals.innerHTML = `
-          <img src="${project.front}" alt="${project.client} - Final" />
-          <span style="font-size:10px;text-transform:uppercase;letter-spacing:0.15em;opacity:0.5;margin-top:12px;display:block">Nos bastidores (backstage):</span>
-          <img src="${project.back}" alt="${project.client} - Bastidores" loading="lazy" />
-        `;
-
-        // Abrir Modal
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden'; // trava scroll da home
+        buildModal(project);
       });
     });
+
+
 
     // Close Modal
     function closeModal() {
@@ -883,3 +982,4 @@
   </script>
 </body>
 </html>
+

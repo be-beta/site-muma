@@ -1058,7 +1058,7 @@ if (!document.documentElement.classList.contains('a11y-mode')) {
   }
 
   // Open triggers: all CTA buttons that should open the modal
-  document.querySelectorAll('.nav-cta, .cta .form button, .ghost-btn[href="#contato"], a[href="#contato"]').forEach(el => {
+  document.querySelectorAll('.nav-cta, .cta .form button, a[href*="#contato"]').forEach(el => {
     el.addEventListener('click', e => {
       e.preventDefault();
       openModal();

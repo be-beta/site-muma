@@ -1,0 +1,141 @@
+{
+  "id": "banco-de-imagens",
+  "client": "DryOn",
+  "title": "Banco de Imagens",
+  "description": "A DryOn chegou até a Muma com um desafio: <em></em>como uma marca nova, ainda não existia um repertório fotográfico para contar essa história.<em></em><br><br><em></em>Foi a partir daí que planejamos e produzimos o primeiro banco de imagens da marca<em></em>, criando um repertório diverso e pensado para acompanhar diferentes momentos do cotidiano brasileiro: do caminho pro trabalho à mala de viagem, da praia ao esporte, da rua aos encontros. A proposta era humanizar, retratando pessoas reais e a potência de um dia que não para. <br><br>Cuidamos de todo o processo, do <em></em>planejamento e moodboard à fotografia e produção de conteúdo mobile<em></em>, construindo um repertório visual versátil para os diferentes pontos de contato da DryOn.",
+  "displayMode": "page",
+  "cover": "capa-banco-de-imagens.webp",
+  "bts": "bts-banco-de-imagens.webp",
+  "media": [
+    {
+      "type": "image",
+      "src": "banco-de-imagens-01.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "banco-de-imagens-02.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "banco-de-imagens-03.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "banco-de-imagens-04.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "banco-de-imagens-05.webp",
+      "orientation": "landscape"
+    },
+    {
+      "type": "image",
+      "src": "banco-de-imagens-06.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "banco-de-imagens-07.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "banco-de-imagens-08.webp",
+      "orientation": "landscape"
+    },
+    {
+      "type": "image",
+      "src": "banco-de-imagens-09.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "banco-de-imagens-10.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "banco-de-imagens-11.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "banco-de-imagens-12.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "banco-de-imagens-13.webp",
+      "orientation": "landscape"
+    },
+    {
+      "type": "image",
+      "src": "banco-de-imagens-14.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "banco-de-imagens-15.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "banco-de-imagens-16.webp",
+      "orientation": "landscape"
+    },
+    {
+      "type": "image",
+      "src": "banco-de-imagens-17.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "banco-de-imagens-18.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "banco-de-imagens-19.webp",
+      "orientation": "landscape"
+    },
+    {
+      "type": "image",
+      "src": "banco-de-imagens-20.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "banco-de-imagens-21.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "banco-de-imagens-22.webp",
+      "orientation": "landscape"
+    },
+    {
+      "type": "vimeo",
+      "src": "1218096722",
+      "orientation": "portrait"
+    },
+    {
+      "type": "vimeo",
+      "src": "1218098775",
+      "orientation": "portrait"
+    },
+    {
+      "type": "vimeo",
+      "src": "1218098100",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "banco-de-imagens-23.gif",
+      "orientation": "portrait"
+    }
+  ]
+}

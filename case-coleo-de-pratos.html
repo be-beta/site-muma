@@ -4,10 +4,10 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dia do Koni · Muma Estúdio Criativo</title>
+  <title>Coleção de Pratos · Muma Estúdio Criativo</title>
   
-  <meta name="description" content="Caso de sucesso Dia do Koni. Direção de imagem, stills culinários e conteúdo de alto impacto para Koni Store por Muma Estúdio Criativo.">
-  <meta name="keywords" content="Muma, Koni, comida, still, gastronomia, direção criativa, foto, vídeo">
+  <meta name="description" content="Caso de sucesso Minha Cabana Vidro. Direção de imagem, hospitalidade, fotografia e vídeo editorial para Minha Cabana por Muma Estúdio Criativo.">
+  <meta name="keywords" content="Muma, Minha Cabana, hospitalidade, hotelaria, arquitetura, design, direção criativa, foto, vídeo">
   
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="assets/icons/M.svg">
@@ -192,6 +192,7 @@
       margin-bottom: 40px;
       text-align: left;
       font-weight: 400;
+      margin-top: 40px;
     }
     
     .showcase-title em {
@@ -240,6 +241,24 @@
       letter-spacing: .15em;
     }
 
+    /* Columned image structures */
+    .media-row-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .media-row-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 768px) {
+      .media-row-3, .media-row-2 {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+    }
+
     /* Next Case Button */
     .next-case-wrapper {
       text-align: center;
@@ -279,6 +298,48 @@
       .case-container {
         padding-top: 110px;
       }
+    }
+
+    /* Video custom controls */
+    .video-control-btn {
+      background: rgba(23, 7, 92, 0.75) !important;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15) !important;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white !important;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+      pointer-events: auto;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    .video-control-btn:hover {
+      background: var(--pink) !important;
+      border-color: var(--pink) !important;
+      color: var(--navy) !important;
+      box-shadow: 0 10px 20px rgba(255, 128, 225, 0.3);
+    }
+    .video-control-btn svg {
+      transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    .video-control-btn:hover svg {
+      transform: scale(1.1);
+    }
+
+    /* Additional vertical videos */
+    .vertical-video-card {
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+    .vertical-video-card:hover,
+    .vertical-video-card.active-playing {
+      opacity: 1 !important;
+      transform: translateY(-4px);
+      border-color: var(--pink) !important;
     }
   </style>
 </head>
@@ -364,8 +425,8 @@
     <!-- HERO SECTION -->
     <header class="case-hero reveal">
       <div class="section-label">[ Case Study ]</div>
-      <h1>Dia do <em>Koni</em></h1>
-      <div class="case-tagline">Uma experiência gastronômica de fusão em alta velocidade e sofisticação premium.</div>
+      <h1>Minha Cabana <em>Vidro</em></h1>
+      <div class="case-tagline">Julia apresenta a MCV — Uma imersão de hospitalidade e conexão natural.</div>
     </header>
 
     <!-- INFO GRID: Briefing / Ficha Técnica -->
@@ -373,13 +434,13 @@
       <div class="case-briefing reveal">
         <h3>O Briefing</h3>
         <p>
-          O Koni, referência nacional em culinária japonesa rápida e dinâmica, buscou o Estúdio Muma para criar a identidade visual de sua maior data comemorativa do ano: o <strong>Dia do Koni</strong>.
+          A Julia Ghilardi podia ter feito só mais uma hospedagem na serra, mas ao invés disso, ela resolveu transformar a Minha Cabana Vidro em um verdadeiro case de hospitalidade. Tudo pensado nos mínimos detalhes: desde a arquitetura integrada à natureza, até cada presente pros hóspedes (e o negócio ficou CHIQUE, viu?).
         </p>
         <p>
-          O desafio era duplo: transmitir o frescor imediato e a vivacidade apetitosa de seus ingredientes em formatos still sofisticados e, ao mesmo tempo, capturar o backstage com o rigor estético que define as produções da nossa marca. 
+          O papel da Muma foi traduzir visualmente essa experiência premium de refúgio. Capturamos a leveza do contato com a floresta e a sofisticação da infraestrutura moderna através de fotografia editorial de alto nível e gravação de episódios imersivos.
         </p>
         <p>
-          Trabalhando sob um cronograma ágil e com montagens de set impecáveis, aplicamos uma direção criativa que mesclou a estética de food design minimalista a uma iluminação difusa precisa. O resultado foi um conjunto de peças pop-premium vibrantes que impulsionaram a conversão digital e o engajamento em todos os canais de comunicação da marca.
+          Através de uma identidade estética limpa, focada no verde e nos reflexos do vidro, produzimos um material rico que conta a história de concepção e o início de operação deste projeto único, elevando a percepção da marca nos canais digitais.
         </p>
       </div>
 
@@ -387,7 +448,7 @@
         <h3>Ficha Técnica</h3>
         <div class="spec-item">
           <span class="spec-label">Cliente</span>
-          <span class="spec-value">Koni Store</span>
+          <span class="spec-value">Minha Cabana</span>
         </div>
         <div class="spec-item">
           <span class="spec-label">Ano</span>
@@ -402,30 +463,148 @@
           <span class="spec-value">Alinne (Estúdio Muma)</span>
         </div>
         <div class="spec-item">
-          <span class="spec-label">Serviços</span>
-          <span class="spec-value">Foto, Set Styling, Casting</span>
+          <span class="spec-label">Filmagem</span>
+          <span class="spec-value">Gabriel Moraes</span>
         </div>
+        <div class="spec-item">
+          <span class="spec-label">Serviços</span>
+          <span class="spec-value">Direção Criativa, Foto, Vídeo, Edição & Pós</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIDEO SHOWCASE GRID -->
+    <section class="reveal" style="margin-bottom: 80px;">
+      <h3 class="showcase-title">Apresentação</h3>
+      <div class="vertical-videos-grid">
+        
+        <!-- Video Main -->
+        <div class="vertical-video-card" id="mainCard" data-video-index="0" style="opacity: 1; transform: scale(1);">
+          <div style="position: relative; padding-bottom: 177.78%; height: 0; overflow: hidden; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+            <iframe id="vimeoPlayer" src="https://player.vimeo.com/video/1094205487?autoplay=1&loop=0&muted=1&controls=0&title=0&byline=0&portrait=0&dnt=1&api=1&player_id=vimeoPlayer" 
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;" 
+                    frameborder="0" 
+                    allow="autoplay; fullscreen; picture-in-picture" 
+                    allowfullscreen>
+            </iframe>
+            <!-- Overlaid click catcher to keep custom cursor active -->
+            <div id="videoOverlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; cursor: pointer;"></div>
+            <!-- Custom player controls -->
+            <div class="video-controls" style="position: absolute; bottom: 20px; right: 20px; z-index: 10; display: flex; gap: 12px; pointer-events: auto;">
+              <button id="videoPlayPauseBtn" class="video-control-btn" aria-label="Pausar vídeo">
+                <!-- Pause Icon -->
+                <svg id="pauseIcon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg>
+                <!-- Play Icon -->
+                <svg id="playIcon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="display: none; margin-left: 2px;"><path d="M8 5v14l11-7z"></path></svg>
+              </button>
+              <button id="videoMuteBtn" class="video-control-btn" aria-label="Desmutar vídeo">
+                <!-- Muted Speaker Icon -->
+                <svg id="muteIcon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                <!-- Unmuted Speaker Icon -->
+                <svg id="unmuteIcon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Video Extra 1 -->
+        <div class="vertical-video-card" id="extraCard1" data-video-index="1">
+          <div style="position: relative; padding-bottom: 177.78%; height: 0; overflow: hidden; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 15px 30px rgba(0,0,0,0.3);">
+            <iframe id="vimeoExtraPlayer1" src="https://player.vimeo.com/video/1094211254?autoplay=0&loop=0&muted=1&controls=0&title=0&byline=0&portrait=0&dnt=1&api=1&player_id=vimeoExtraPlayer1" 
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;" 
+                    frameborder="0" 
+                    allow="autoplay; fullscreen; picture-in-picture" 
+                    allowfullscreen>
+            </iframe>
+            <div class="video-overlay-catcher" id="videoExtraOverlay1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; cursor: pointer;"></div>
+            <div class="video-controls" style="position: absolute; bottom: 20px; right: 20px; z-index: 10; display: flex; gap: 12px; pointer-events: auto;">
+              <button class="video-control-btn" id="videoExtraPlayPauseBtn1" aria-label="Reproduzir vídeo">
+                <svg id="extraPlayIcon1" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="margin-left: 2px;"><path d="M8 5v14l11-7z"></path></svg>
+                <svg id="extraPauseIcon1" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="display: none;"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg>
+              </button>
+              <button class="video-control-btn" id="videoExtraMuteBtn1" aria-label="Desmutar vídeo">
+                <svg id="extraMuteIcon1" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                <svg id="extraUnmuteIcon1" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Video Extra 2 -->
+        <div class="vertical-video-card" id="extraCard2" data-video-index="2">
+          <div style="position: relative; padding-bottom: 177.78%; height: 0; overflow: hidden; border-radius: 16px; border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 15px 30px rgba(0,0,0,0.3);">
+            <iframe id="vimeoExtraPlayer2" src="https://player.vimeo.com/video/1094208876?autoplay=0&loop=0&muted=1&controls=0&title=0&byline=0&portrait=0&dnt=1&api=1&player_id=vimeoExtraPlayer2" 
+                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;" 
+                    frameborder="0" 
+                    allow="autoplay; fullscreen; picture-in-picture" 
+                    allowfullscreen>
+            </iframe>
+            <div class="video-overlay-catcher" id="videoExtraOverlay2" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; cursor: pointer;"></div>
+            <div class="video-controls" style="position: absolute; bottom: 20px; right: 20px; z-index: 10; display: flex; gap: 12px; pointer-events: auto;">
+              <button class="video-control-btn" id="videoExtraPlayPauseBtn2" aria-label="Reproduzir vídeo">
+                <svg id="extraPlayIcon2" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="margin-left: 2px;"><path d="M8 5v14l11-7z"></path></svg>
+                <svg id="extraPauseIcon2" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="display: none;"><rect x="6" y="4" width="4" height="16" rx="1"></rect><rect x="14" y="4" width="4" height="16" rx="1"></rect></svg>
+              </button>
+              <button class="video-control-btn" id="videoExtraMuteBtn2" aria-label="Desmutar vídeo">
+                <svg id="extraMuteIcon2" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                <svg id="extraUnmuteIcon2" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
     <!-- MEDIA SHOWCASE -->
-    <section class="case-showcase-section">
-      <h3 class="showcase-title reveal">Showcase <em>Visual</em></h3>
+    <section class="case-gallery"><div class="inner">
+        <div class="gallery-item portrait reveal">
+          <div class="vimeo-wrapper">
+            <iframe src="https://player.vimeo.com/video/1218049242?autoplay=1&loop=1&background=1&muted=1" 
+                    frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        </div>
       
-      <div class="case-media-showcase">
-        <!-- Foto Final -->
-        <div class="media-card reveal">
-          <img src="assets/images/clientes/work-koni.png" alt="Dia do Koni - Campanha Final" />
-          <span class="media-caption">Campanha Final · Fotografia Still</span>
+        <div class="gallery-item portrait reveal">
+          <img src="assets/campaigns/coleo-de-pratos/coleo-de-pratos-01.webp" alt="Media 1" loading="lazy" />
         </div>
-
-        <!-- Bastidor -->
-        <div class="media-card reveal">
-          <img src="assets/images/clientes/bts-koni.jpg" alt="Dia do Koni - Backstage Set" />
-          <span class="media-caption">Backstage · O Processo Muma</span>
+      
+        <div class="gallery-item portrait reveal">
+          <img src="assets/campaigns/coleo-de-pratos/coleo-de-pratos-02.webp" alt="Media 2" loading="lazy" />
         </div>
-      </div>
-    </section>
+      
+        <div class="gallery-item portrait reveal">
+          <img src="assets/campaigns/coleo-de-pratos/coleo-de-pratos-03.webp" alt="Media 3" loading="lazy" />
+        </div>
+      
+        <div class="gallery-item portrait reveal">
+          <img src="assets/campaigns/coleo-de-pratos/coleo-de-pratos-04.webp" alt="Media 4" loading="lazy" />
+        </div>
+      
+        <div class="gallery-item portrait reveal">
+          <img src="assets/campaigns/coleo-de-pratos/coleo-de-pratos-05.webp" alt="Media 5" loading="lazy" />
+        </div>
+      
+        <div class="gallery-item portrait reveal">
+          <img src="assets/campaigns/coleo-de-pratos/coleo-de-pratos-06.webp" alt="Media 6" loading="lazy" />
+        </div>
+      
+        <div class="gallery-item portrait reveal">
+          <img src="assets/campaigns/coleo-de-pratos/coleo-de-pratos-07.webp" alt="Media 7" loading="lazy" />
+        </div>
+      
+        <div class="gallery-item portrait reveal">
+          <img src="assets/campaigns/coleo-de-pratos/coleo-de-pratos-08.webp" alt="Media 8" loading="lazy" />
+        </div>
+      
+        <div class="gallery-item portrait reveal">
+          <img src="assets/campaigns/coleo-de-pratos/coleo-de-pratos-09.webp" alt="Media 9" loading="lazy" />
+        </div>
+      
+        <div class="gallery-item portrait reveal">
+          <img src="assets/campaigns/coleo-de-pratos/coleo-de-pratos-10.webp" alt="Media 10" loading="lazy" />
+        </div>
+      </div></section>
 
     <!-- NEXT CASE BUTTON -->
     <div class="next-case-wrapper reveal">
@@ -439,7 +618,7 @@
 
   <!-- CTA / CONTACT FORM -->
   <section class="cta" id="contato" data-screen-label="07 Contato">
-    <div class="inner reveal">
+    <div class="inner">
       <div class="eyebrow">[ 07 ] Vamos criar juntos</div>
       <h2>
         <span style="display:block">nos conte</span>
@@ -510,7 +689,7 @@
       <span>© 2024 Muma Estúdio Criativo</span>
       <div class="legal-right">
         <span class="legal-phrase">feito com método + brilho no olho</span>
-        <span class="legal-version">site_muma-v6_final_case_koni.html</span>
+        <span class="legal-version">site_muma-v6_final_case_minha_cabana.html</span>
       </div>
     </div>
   </footer>
@@ -592,6 +771,171 @@
         link.textContent = email;
         link.href = 'mailto:' + email + '?subject=Orçamento%20Muma';
       }
+    })();
+
+    // Vimeo programmatic controller via postMessage API for multiple synchronized players
+    (function initVimeoController() {
+      const players = {
+        main: {
+          iframe: document.getElementById('vimeoPlayer'),
+          overlay: document.getElementById('videoOverlay'),
+          playPauseBtn: document.getElementById('videoPlayPauseBtn'),
+          muteBtn: document.getElementById('videoMuteBtn'),
+          playIcon: document.getElementById('playIcon'),
+          pauseIcon: document.getElementById('pauseIcon'),
+          muteIcon: document.getElementById('muteIcon'),
+          unmuteIcon: document.getElementById('unmuteIcon'),
+          card: null,
+          isPlaying: true, // Main starts auto-playing
+          isMuted: true
+        },
+        extra1: {
+          iframe: document.getElementById('vimeoExtraPlayer1'),
+          overlay: document.getElementById('videoExtraOverlay1'),
+          playPauseBtn: document.getElementById('videoExtraPlayPauseBtn1'),
+          muteBtn: document.getElementById('videoExtraMuteBtn1'),
+          playIcon: document.getElementById('extraPlayIcon1'),
+          pauseIcon: document.getElementById('extraPauseIcon1'),
+          muteIcon: document.getElementById('extraMuteIcon1'),
+          unmuteIcon: document.getElementById('extraUnmuteIcon1'),
+          card: document.getElementById('extraCard1'),
+          isPlaying: false,
+          isMuted: true
+        },
+        extra2: {
+          iframe: document.getElementById('vimeoExtraPlayer2'),
+          overlay: document.getElementById('videoExtraOverlay2'),
+          playPauseBtn: document.getElementById('videoExtraPlayPauseBtn2'),
+          muteBtn: document.getElementById('videoExtraMuteBtn2'),
+          playIcon: document.getElementById('extraPlayIcon2'),
+          pauseIcon: document.getElementById('extraPauseIcon2'),
+          muteIcon: document.getElementById('extraMuteIcon2'),
+          unmuteIcon: document.getElementById('extraUnmuteIcon2'),
+          card: document.getElementById('extraCard2'),
+          isPlaying: false,
+          isMuted: true
+        }
+      };
+
+      function postMessageToPlayer(playerConfig, action, value) {
+        if (!playerConfig.iframe) return;
+        const data = { method: action };
+        if (value !== undefined) {
+          data.value = value;
+        }
+        playerConfig.iframe.contentWindow.postMessage(JSON.stringify(data), '*');
+      }
+
+      function pausePlayer(config) {
+        if (!config.isPlaying) return;
+        postMessageToPlayer(config, 'pause');
+        config.playIcon.style.display = 'block';
+        config.pauseIcon.style.display = 'none';
+        config.playPauseBtn.setAttribute('aria-label', 'Reproduzir vídeo');
+        config.isPlaying = false;
+        if (config.card) {
+          config.card.classList.remove('playing-active');
+        }
+      }
+
+      function playPlayer(config) {
+        if (config.isPlaying) return;
+        
+        // Pause other active players
+        Object.keys(players).forEach(key => {
+          if (players[key] !== config) {
+            pausePlayer(players[key]);
+          }
+        });
+
+        postMessageToPlayer(config, 'play');
+        config.playIcon.style.display = 'none';
+        config.pauseIcon.style.display = 'block';
+        config.playPauseBtn.setAttribute('aria-label', 'Pausar vídeo');
+        config.isPlaying = true;
+        if (config.card) {
+          config.card.classList.add('playing-active');
+        }
+      }
+
+      function togglePlay(config) {
+        if (config.isPlaying) {
+          pausePlayer(config);
+        } else {
+          playPlayer(config);
+        }
+      }
+
+      function toggleMute(config) {
+        if (config.isMuted) {
+          postMessageToPlayer(config, 'setVolume', 1);
+          config.muteIcon.style.display = 'none';
+          config.unmuteIcon.style.display = 'block';
+          config.muteBtn.setAttribute('aria-label', 'Mutar vídeo');
+          config.isMuted = false;
+        } else {
+          postMessageToPlayer(config, 'setVolume', 0);
+          config.muteIcon.style.display = 'block';
+          config.unmuteIcon.style.display = 'none';
+          config.muteBtn.setAttribute('aria-label', 'Desmutar vídeo');
+          config.isMuted = true;
+        }
+      }
+
+      Object.keys(players).forEach(key => {
+        const p = players[key];
+        if (!p.iframe || !p.overlay || !p.playPauseBtn || !p.muteBtn) return;
+
+        p.overlay.addEventListener('click', () => togglePlay(p));
+        p.playPauseBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          togglePlay(p);
+        });
+        p.muteBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleMute(p);
+        });
+      });
+
+      // Handle Vimeo PostMessage Events for Sequential Playback
+      window.addEventListener('message', function(event) {
+        if (!/^https?:\/\/player.vimeo.com/.test(event.origin)) return;
+        var data;
+        try {
+          // Some messages are objects, some are JSON strings
+          data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+        } catch (e) {
+          return;
+        }
+
+        let sourceConfig = null;
+        Object.keys(players).forEach(key => {
+          if (players[key].iframe.contentWindow === event.source) {
+            sourceConfig = players[key];
+          }
+        });
+        if (!sourceConfig) return;
+
+        if (data.event === 'ready') {
+          // Tell Vimeo player to start sending 'ended' events
+          postMessageToPlayer(sourceConfig, 'addEventListener', 'ended');
+        }
+
+        if (data.event === 'ended') {
+          // Determine next video in sequence
+          let nextConfig = null;
+          if (sourceConfig === players.main) nextConfig = players.extra1;
+          else if (sourceConfig === players.extra1) nextConfig = players.extra2;
+          else if (sourceConfig === players.extra2) nextConfig = players.main;
+          
+          if (nextConfig) {
+            playPlayer(nextConfig);
+            // Optional: reset the ended video so it goes back to start
+            postMessageToPlayer(sourceConfig, 'seekTo', 0);
+          }
+        }
+      });
+
     })();
   </script>
 </body>

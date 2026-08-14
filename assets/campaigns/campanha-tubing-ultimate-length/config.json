@@ -1,0 +1,41 @@
+{
+  "id": "tubing-ultimate-length",
+  "client": "CARE Natural Beauty",
+  "title": "Tubing Ultimate Length",
+  "description": "Para o lançamento da Máscara de Cílios Tubing Ultimate Length, da CARE Natural Beauty, criamos a produção de arte da campanha, transformando o estúdio branco em diferentes recortes da rotina de uma mulher em movimento.<br><br>A partir de pequenas ambientações, construímos os cenários dos vídeos e também as composições dos stills de produto, explorando objetos, texturas e detalhes que ajudam a contar essa rotina de forma leve, dinâmica e visual.",
+  "displayMode": "popup",
+  "cover": "capa-tubing-ultimate-length.webp",
+  "bts": "bts-tubing-ultimate-length.webp",
+  "media": [
+    {
+      "type": "vimeo",
+      "src": "1217765278",
+      "orientation": "portrait"
+    },
+    {
+      "type": "vimeo",
+      "src": "1217769389",
+      "orientation": "portrait"
+    },
+    {
+      "type": "vimeo",
+      "src": "1217766555",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "tubing-ultimate-length-01.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "tubing-ultimate-length-02.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "tubing-ultimate-length-03.webp",
+      "orientation": "portrait"
+    }
+  ]
+}

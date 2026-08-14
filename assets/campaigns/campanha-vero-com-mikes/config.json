@@ -1,0 +1,76 @@
+{
+  "id": "vero-com-mikes",
+  "client": "Asa Onze + Mike's",
+  "title": "Verão com Mike's",
+  "description": "O verão carioca ficou ainda melhor com a chegada de Mike’s. Através de objetos que são puro suco da cidade maravilhosa, cenários que remetem aos momentos inesquecíveis da galera na praia e um figurino fresh & cool, traduzimos toda a vibe de uma bebida que chegou para expandir horizontes e brilhar em um dos maiores cartões-postais do Brasil. Em parceria com a Asa Onze, ficamos responsáveis pela produção, cenografia, beauty e styling do ensaio, além de produzir vídeos mobile para as redes sociais da marca. <br><br>Agência: Asa Onze<br>Cliente: Mike's<br>Fotografia e Pós-produção: Asa Onze<br>Captação mobile: Asa Onze + Alinne Marques<br>Produção: Vicky Müller e Alinne Marques<br>Assistente de produção: Vitória Sodré e Paulo Lima<br>Stylist: Anna Clara Müller<br>Beauty: Duda Döhnert",
+  "displayMode": "popup",
+  "cover": "capa-vero-com-mikes.webp",
+  "bts": "bts-vero-com-mikes.webp",
+  "media": [
+    {
+      "type": "image",
+      "src": "vero-com-mikes-01.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "vero-com-mikes-02.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "vero-com-mikes-03.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "vero-com-mikes-04.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "vero-com-mikes-05.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "vero-com-mikes-06.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "image",
+      "src": "vero-com-mikes-07.webp",
+      "orientation": "portrait"
+    },
+    {
+      "type": "vimeo",
+      "src": "1218063888",
+      "orientation": "portrait"
+    },
+    {
+      "type": "vimeo",
+      "src": "1218063889",
+      "orientation": "portrait"
+    },
+    {
+      "type": "vimeo",
+      "src": "1218063890",
+      "orientation": "portrait"
+    },
+    {
+      "type": "vimeo",
+      "src": "1218063891",
+      "orientation": "portrait"
+    },
+    {
+      "type": "vimeo",
+      "src": "1218063910",
+      "orientation": "portrait"
+    },
+    {
+      "type": "vimeo",
+      "src": "1218063906",
+      "orientation": "portrait"
+    }
+  ]
+}

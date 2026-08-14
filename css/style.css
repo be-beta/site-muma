@@ -195,6 +195,7 @@ img{max-width:100%;display:block}
   border-bottom:1px solid var(--hair);
 }
 .nav.dark{background:rgba(12,9,51,.55);border-bottom-color:var(--hair-l);color:var(--paper)}
+body.is-cases .nav.dark{background:var(--navy);}
 .nav-row{display:flex;align-items:center;justify-content:space-between;height:64px;gap:24px;position:relative}
 .nav-left{display:flex;align-items:center;gap:24px;flex:0 0 auto}
 .nav-right{flex:0 0 auto}

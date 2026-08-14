@@ -5,6 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
     client: '',
     mode: 'popup',
     desc: '',
+    year: '',
+    direction: '',
+    photo: '',
+    badge: '',
     cover: null, // { file: Blob, type: 'image/webp'|'image/gif', ext: 'webp'|'gif', url: string, orientation: 'landscape'|'portrait' }
     bts: null,
     gallery: [] // Array of { id: string, type: 'image'|'vimeo', file?: Blob, ext?: string, url: string, vimeoId?: string, orientation: 'landscape'|'portrait' }
@@ -19,6 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const clientInput = document.getElementById('campaignClient');
   const modeSelect = document.getElementById('campaignMode');
   const descInput = document.getElementById('campaignDesc');
+  const yearInput = document.getElementById('campaignYear');
+  const dirInput = document.getElementById('campaignDirection');
+  const photoInput = document.getElementById('campaignPhoto');
+  const badgeInput = document.getElementById('campaignBadge');
   const exportBtn = document.getElementById('exportBtn');
 
   // Preview Elements
@@ -48,6 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
     campaign.client = clientInput.value;
     campaign.mode = modeSelect.value;
     campaign.desc = descInput.value;
+    campaign.year = yearInput.value;
+    campaign.direction = dirInput.value;
+    campaign.photo = photoInput.value;
+    campaign.badge = badgeInput.value;
 
     prevTitle.textContent = campaign.title || 'Nome da Campanha';
     prevClient.textContent = campaign.client || 'Cliente';
@@ -60,6 +72,10 @@ document.addEventListener('DOMContentLoaded', () => {
   clientInput.addEventListener('input', updatePreview);
   modeSelect.addEventListener('change', updatePreview);
   descInput.addEventListener('input', updatePreview);
+  yearInput.addEventListener('input', updatePreview);
+  dirInput.addEventListener('input', updatePreview);
+  photoInput.addEventListener('input', updatePreview);
+  badgeInput.addEventListener('input', updatePreview);
 
   // Validate form for Export
   const checkValidity = () => {
@@ -363,6 +379,10 @@ document.addEventListener('DOMContentLoaded', () => {
         title: campaign.title.trim(),
         description: parseMarkdown(campaign.desc),
         displayMode: campaign.mode,
+        year: campaign.year.trim(),
+        direction: campaign.direction.trim(),
+        photo: campaign.photo.trim(),
+        badge: campaign.badge.trim(),
         cover: '',
         bts: '',
         media: []

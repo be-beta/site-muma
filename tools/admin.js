@@ -166,11 +166,9 @@ document.addEventListener('DOMContentLoaded', () => {
             <option value="vertical" ${item.orientacao === 'vertical' ? 'selected' : ''}>Vertical 9:16</option>
             <option value="horizontal" ${item.orientacao === 'horizontal' ? 'selected' : ''}>Horizontal 16:9</option>
           </select>
-          <label><input type="checkbox" class="vimeo-player" ${item.player ? 'checked' : ''}> com som e controles</label>
         </div>
         <button type="button" class="remove-item">✕</button>`;
       el.querySelector('.vimeo-orientation').addEventListener('change', (e) => { item.orientacao = e.target.value; });
-      el.querySelector('.vimeo-player').addEventListener('change', (e) => { item.player = e.target.checked; });
     }
 
     el.querySelector('.remove-item').addEventListener('click', () => {
@@ -269,7 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (item.tipo === 'imagem') {
           projeto.midias.push({ tipo: 'imagem', arquivo: addImage(String(n++).padStart(2, '0'), item) });
         } else {
-          projeto.midias.push({ tipo: 'vimeo', id: item.id_vimeo, orientacao: item.orientacao, ...(item.player ? { player: true } : {}) });
+          projeto.midias.push({ tipo: 'vimeo', id: item.id_vimeo, orientacao: item.orientacao });
         }
       }
 

@@ -1,0 +1,89 @@
+<dialog class="modal" id="modal-orcamento" aria-labelledby="orcamento-title">
+  <div class="modal-inner">
+    <button class="modal-close" type="button" data-close aria-label="Fechar">✕</button>
+    <form class="modal-form" data-form data-endpoint="{{formEndpoint}}" data-subject="[Site Muma] Orçamento · {tipo} · {nome}" novalidate>
+      <p class="eyebrow">(orçamento)</p>
+      <h2 class="modal-title" id="orcamento-title">Nos conte sua <em>ideia</em>.</h2>
+      <p class="modal-lead">Quanto mais detalhes, melhor. Respondemos em até 24h úteis.</p>
+      <div class="fields">
+        <label class="field"><span>Nome *</span><input name="nome" required autocomplete="name" data-label="Nome"></label>
+        <label class="field"><span>E-mail *</span><input type="email" name="email" required autocomplete="email" data-label="E-mail"></label>
+        <label class="field"><span>Empresa ou marca</span><input name="empresa" autocomplete="organization" data-label="Empresa ou marca"></label>
+        <label class="field"><span>WhatsApp</span><input type="tel" name="whatsapp" autocomplete="tel" data-label="WhatsApp"></label>
+        <label class="field field--full"><span>Tipo de projeto *</span>
+          <select name="tipo" required data-label="Tipo de projeto">
+            <option value="" selected disabled>Selecione</option>
+            <option>Campanha</option>
+            <option>Conteúdo para redes</option>
+            <option>Filme ou vídeo</option>
+            <option>Fotografia still</option>
+            <option>Banco de imagens</option>
+            <option>Evento</option>
+            <option>Outro</option>
+          </select>
+        </label>
+        <fieldset class="chips field--full">
+          <legend>Do que você precisa?</legend>
+          {{servicosChips}}
+        </fieldset>
+        <label class="field field--full"><span>Prazo ou data prevista</span><input name="prazo" placeholder="Ex: gravação na primeira semana de março" data-label="Prazo"></label>
+        <label class="field field--full"><span>Conte sobre o projeto *</span><textarea name="mensagem" rows="4" required data-label="Mensagem"></textarea></label>
+      </div>
+      <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="modal-actions">
+        <button class="btn btn--navy" type="submit">Enviar briefing <span aria-hidden="true">↗</span></button>
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+    <div class="modal-done" hidden>
+      <span class="done-icon" aria-hidden="true">✓</span>
+      <h2 class="modal-title">Briefing <em>recebido</em>.</h2>
+      <p class="modal-lead">Obrigada por contar sua ideia. Retornamos em até 24h úteis.</p>
+      <button class="btn btn--navy" type="button" data-close>Fechar</button>
+    </div>
+  </div>
+</dialog>
+
+<dialog class="modal" id="modal-trabalhe" aria-labelledby="trabalhe-title">
+  <div class="modal-inner">
+    <button class="modal-close" type="button" data-close aria-label="Fechar">✕</button>
+    <form class="modal-form" data-form data-endpoint="{{formEndpoint}}" data-subject="[Site Muma] Trabalhe conosco · {area} · {nome}" novalidate>
+      <p class="eyebrow">(trabalhe com a gente)</p>
+      <h2 class="modal-title" id="trabalhe-title">Faça parte da <em>rede</em>.</h2>
+      <p class="modal-lead">A Muma cria em rede, com especialistas que vibram com o que fazem. Mostre o seu trabalho.</p>
+      <div class="fields">
+        <label class="field"><span>Nome *</span><input name="nome" required autocomplete="name" data-label="Nome"></label>
+        <label class="field"><span>E-mail *</span><input type="email" name="email" required autocomplete="email" data-label="E-mail"></label>
+        <label class="field"><span>Área de atuação *</span>
+          <select name="area" required data-label="Área de atuação">
+            <option value="" selected disabled>Selecione</option>
+            <option>Fotografia</option>
+            <option>Vídeo</option>
+            <option>Direção de arte e cenografia</option>
+            <option>Produção</option>
+            <option>Beauty</option>
+            <option>Styling</option>
+            <option>Edição e pós</option>
+            <option>Casting</option>
+            <option>Catering</option>
+            <option>Outra</option>
+          </select>
+        </label>
+        <label class="field"><span>Cidade</span><input name="cidade" autocomplete="address-level2" data-label="Cidade"></label>
+        <label class="field field--full"><span>Portfólio ou perfil *</span><input name="portfolio" required inputmode="url" placeholder="Link do site, Behance, Instagram, Drive…" data-label="Portfólio"></label>
+        <label class="field field--full"><span>Conte um pouco sobre você</span><textarea name="mensagem" rows="4" data-label="Mensagem"></textarea></label>
+      </div>
+      <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="modal-actions">
+        <button class="btn btn--navy" type="submit">Enviar <span aria-hidden="true">↗</span></button>
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+    <div class="modal-done" hidden>
+      <span class="done-icon" aria-hidden="true">✓</span>
+      <h2 class="modal-title">Recebemos o seu <em>portfólio</em>.</h2>
+      <p class="modal-lead">Obrigada pelo interesse! Ele fica no nosso radar para os próximos projetos.</p>
+      <button class="btn btn--navy" type="button" data-close>Fechar</button>
+    </div>
+  </div>
+</dialog>

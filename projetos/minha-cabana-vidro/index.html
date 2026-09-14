@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Minha Cabana Vidro — Minha Cabana · Muma Estúdio Criativo</title>
 <meta name="description" content="A Julia Ghilardi podia ter feito só mais uma hospedagem na serra, mas ao invés disso, ela resolveu transformar a Minha Cabana Vidro em um verdadeiro case…">
+<meta name="robots" content="noimageindex">
+<meta name="pinterest" content="nopin">
 <link rel="canonical" href="https://mumaestudio.com.br/projetos/minha-cabana-vidro/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Muma Estúdio Criativo">
@@ -18,9 +20,9 @@
 <link rel="icon" type="image/svg+xml" href="../../assets/icons/M.svg">
 <link rel="preload" href="../../assets/fonts/ws-paradose.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../../assets/fonts/twk-lausanne-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../css/site.css?v=2d81cf7c">
+<link rel="stylesheet" href="../../css/site.css?v=53fc47ac">
 <script>document.documentElement.classList.add('js')</script>
-<script src="../../js/site.js?v=2d81cf7c" defer></script>
+<script src="../../js/site.js?v=53fc47ac" defer></script>
 
 </head>
 <body>
@@ -36,8 +38,9 @@
       </svg>
     </a>
     <a class="nav-link" href="../.././#projetos">Projetos</a>
+    <a class="nav-link nav-link--optional" href="../.././#servicos">Serviços</a>
     <a class="nav-link nav-link--optional" href="../.././#estudio">Estúdio</a>
-    <a class="nav-cta" href="#contato">Orçamento <span aria-hidden="true">↗</span></a>
+    <a class="nav-cta" href="#contato" data-modal="orcamento">Orçamento <span aria-hidden="true">↗</span></a>
   </nav>
 </header>
 
@@ -55,7 +58,7 @@
     </header>
 
     <figure class="project-cover wrap">
-      <img src="../../assets/projetos/minha-cabana-vidro/capa-sm.webp" srcset="../../assets/projetos/minha-cabana-vidro/capa-sm.webp 900w, ../../assets/projetos/minha-cabana-vidro/capa.webp 2400w" sizes="100vw" width="2400" height="1350" alt="Minha Cabana Vidro — Minha Cabana" fetchpriority="high" decoding="async">
+      <img src="../../assets/projetos/minha-cabana-vidro/capa-sm.webp" srcset="../../assets/projetos/minha-cabana-vidro/capa-sm.webp 900w, ../../assets/projetos/minha-cabana-vidro/capa.webp 2400w" sizes="100vw" width="2400" height="1350" alt="Minha Cabana Vidro — Minha Cabana" fetchpriority="high" decoding="async" draggable="false">
     </figure>
 
     <section class="project-body wrap" aria-label="Sobre o projeto">
@@ -76,28 +79,61 @@
     <section class="block wrap" aria-labelledby="videos-title">
       <h2 class="block-title" id="videos-title">Filmes</h2>
       <div class="videos videos--3">
-        <div class="video video--v" data-reveal>
-          <iframe src="https://player.vimeo.com/video/1094205487?title=0&amp;byline=0&amp;portrait=0&amp;dnt=1" title="Minha Cabana Vidro — vídeo 1" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        <div class="video video--v" data-video>
+          <iframe src="https://player.vimeo.com/video/1094205487?autoplay=1&amp;muted=1&amp;loop=0&amp;autopause=0&amp;controls=0&amp;title=0&amp;byline=0&amp;portrait=0&amp;playsinline=1&amp;dnt=1" title="Minha Cabana Vidro — vídeo 1" allow="autoplay; fullscreen; picture-in-picture"></iframe>
+          <span class="video-shade" aria-hidden="true"></span>
+          <button class="video-hit" type="button" data-action="toggle" aria-label="Reproduzir ou pausar o vídeo 1"></button>
+          <div class="video-bar">
+            <button class="vbtn" type="button" data-action="toggle" aria-label="Reproduzir"><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor" stroke="none"/></svg><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5.5v13M15.5 5.5v13"/></svg></button>
+            <div class="vsound">
+              <button class="vbtn" type="button" data-action="mute" aria-label="Ativar som"><svg class="i-mute" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m16.5 9.5 5 5m0-5-5 5"/></svg><svg class="i-sound" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>
+              <input class="vvolume" type="range" min="0" max="1" step="0.05" value="0.8" aria-label="Volume">
+            </div>
+            <div class="vprogress" data-action="seek" aria-hidden="true"><span></span></div>
+            <a class="vbtn" href="https://vimeo.com/1094205487" target="_blank" rel="noopener" aria-label="Abrir no Vimeo" title="Abrir no Vimeo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          </div>
         </div>
-        <div class="video video--v" data-reveal>
-          <iframe src="https://player.vimeo.com/video/1094211254?title=0&amp;byline=0&amp;portrait=0&amp;dnt=1" title="Minha Cabana Vidro — vídeo 2" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        <div class="video video--v" data-video>
+          <iframe src="https://player.vimeo.com/video/1094211254?autoplay=0&amp;muted=1&amp;loop=0&amp;autopause=0&amp;controls=0&amp;title=0&amp;byline=0&amp;portrait=0&amp;playsinline=1&amp;dnt=1" title="Minha Cabana Vidro — vídeo 2" loading="lazy" allow="autoplay; fullscreen; picture-in-picture"></iframe>
+          <span class="video-shade" aria-hidden="true"></span>
+          <button class="video-hit" type="button" data-action="toggle" aria-label="Reproduzir ou pausar o vídeo 2"></button>
+          <div class="video-bar">
+            <button class="vbtn" type="button" data-action="toggle" aria-label="Reproduzir"><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor" stroke="none"/></svg><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5.5v13M15.5 5.5v13"/></svg></button>
+            <div class="vsound">
+              <button class="vbtn" type="button" data-action="mute" aria-label="Ativar som"><svg class="i-mute" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m16.5 9.5 5 5m0-5-5 5"/></svg><svg class="i-sound" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>
+              <input class="vvolume" type="range" min="0" max="1" step="0.05" value="0.8" aria-label="Volume">
+            </div>
+            <div class="vprogress" data-action="seek" aria-hidden="true"><span></span></div>
+            <a class="vbtn" href="https://vimeo.com/1094211254" target="_blank" rel="noopener" aria-label="Abrir no Vimeo" title="Abrir no Vimeo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          </div>
         </div>
-        <div class="video video--v" data-reveal>
-          <iframe src="https://player.vimeo.com/video/1094208876?title=0&amp;byline=0&amp;portrait=0&amp;dnt=1" title="Minha Cabana Vidro — vídeo 3" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        <div class="video video--v" data-video>
+          <iframe src="https://player.vimeo.com/video/1094208876?autoplay=0&amp;muted=1&amp;loop=0&amp;autopause=0&amp;controls=0&amp;title=0&amp;byline=0&amp;portrait=0&amp;playsinline=1&amp;dnt=1" title="Minha Cabana Vidro — vídeo 3" loading="lazy" allow="autoplay; fullscreen; picture-in-picture"></iframe>
+          <span class="video-shade" aria-hidden="true"></span>
+          <button class="video-hit" type="button" data-action="toggle" aria-label="Reproduzir ou pausar o vídeo 3"></button>
+          <div class="video-bar">
+            <button class="vbtn" type="button" data-action="toggle" aria-label="Reproduzir"><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor" stroke="none"/></svg><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 5.5v13M15.5 5.5v13"/></svg></button>
+            <div class="vsound">
+              <button class="vbtn" type="button" data-action="mute" aria-label="Ativar som"><svg class="i-mute" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m16.5 9.5 5 5m0-5-5 5"/></svg><svg class="i-sound" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>
+              <input class="vvolume" type="range" min="0" max="1" step="0.05" value="0.8" aria-label="Volume">
+            </div>
+            <div class="vprogress" data-action="seek" aria-hidden="true"><span></span></div>
+            <a class="vbtn" href="https://vimeo.com/1094208876" target="_blank" rel="noopener" aria-label="Abrir no Vimeo" title="Abrir no Vimeo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="block wrap" aria-labelledby="galeria-title">
       <h2 class="block-title" id="galeria-title">Imagens</h2>
-      <div class="gallery gallery--grid">
-        <figure class="gallery-item" data-reveal><img src="../../assets/projetos/minha-cabana-vidro/01-sm.webp" srcset="../../assets/projetos/minha-cabana-vidro/01-sm.webp 900w, ../../assets/projetos/minha-cabana-vidro/01.webp 1333w" sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 33vw" width="1333" height="2000" alt="Minha Cabana Vidro — imagem 1" loading="lazy" decoding="async"></figure>
-        <figure class="gallery-item" data-reveal><img src="../../assets/projetos/minha-cabana-vidro/02-sm.webp" srcset="../../assets/projetos/minha-cabana-vidro/02-sm.webp 900w, ../../assets/projetos/minha-cabana-vidro/02.webp 1333w" sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 33vw" width="1333" height="2000" alt="Minha Cabana Vidro — imagem 2" loading="lazy" decoding="async"></figure>
-        <figure class="gallery-item" data-reveal><img src="../../assets/projetos/minha-cabana-vidro/03-sm.webp" srcset="../../assets/projetos/minha-cabana-vidro/03-sm.webp 900w, ../../assets/projetos/minha-cabana-vidro/03.webp 1333w" sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 33vw" width="1333" height="2000" alt="Minha Cabana Vidro — imagem 3" loading="lazy" decoding="async"></figure>
-        <figure class="gallery-item" data-reveal><img src="../../assets/projetos/minha-cabana-vidro/04-sm.webp" srcset="../../assets/projetos/minha-cabana-vidro/04-sm.webp 900w, ../../assets/projetos/minha-cabana-vidro/04.webp 1342w" sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 33vw" width="1342" height="2000" alt="Minha Cabana Vidro — imagem 4" loading="lazy" decoding="async"></figure>
-        <figure class="gallery-item" data-reveal><img src="../../assets/projetos/minha-cabana-vidro/05-sm.webp" srcset="../../assets/projetos/minha-cabana-vidro/05-sm.webp 900w, ../../assets/projetos/minha-cabana-vidro/05.webp 1333w" sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 33vw" width="1333" height="2000" alt="Minha Cabana Vidro — imagem 5" loading="lazy" decoding="async"></figure>
-        <figure class="gallery-item" data-reveal><img src="../../assets/projetos/minha-cabana-vidro/06-sm.webp" srcset="../../assets/projetos/minha-cabana-vidro/06-sm.webp 900w, ../../assets/projetos/minha-cabana-vidro/06.webp 1333w" sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 33vw" width="1333" height="2000" alt="Minha Cabana Vidro — imagem 6" loading="lazy" decoding="async"></figure>
-        <figure class="gallery-item" data-reveal><img src="../../assets/projetos/minha-cabana-vidro/07-sm.webp" srcset="../../assets/projetos/minha-cabana-vidro/07-sm.webp 900w, ../../assets/projetos/minha-cabana-vidro/07.webp 1333w" sizes="(max-width: 560px) 100vw, (max-width: 1000px) 50vw, 33vw" width="1333" height="2000" alt="Minha Cabana Vidro — imagem 7" loading="lazy" decoding="async"></figure>
+      <div class="gallery justified">
+        <figure class="gallery-item" style="--ar:0.6665" data-reveal><img src="../../assets/projetos/minha-cabana-vidro/01-sm.webp" srcset="../../assets/projetos/minha-cabana-vidro/01-sm.webp 900w, ../../assets/projetos/minha-cabana-vidro/01.webp 1333w" sizes="(max-width: 600px) 100vw, 50vw" width="1333" height="2000" alt="Minha Cabana Vidro — imagem 1" loading="lazy" decoding="async" draggable="false"></figure>
+        <figure class="gallery-item" style="--ar:0.6665" data-reveal><img src="../../assets/projetos/minha-cabana-vidro/02-sm.webp" srcset="../../assets/projetos/minha-cabana-vidro/02-sm.webp 900w, ../../assets/projetos/minha-cabana-vidro/02.webp 1333w" sizes="(max-width: 600px) 100vw, 50vw" width="1333" height="2000" alt="Minha Cabana Vidro — imagem 2" loading="lazy" decoding="async" draggable="false"></figure>
+        <figure class="gallery-item" style="--ar:0.6665" data-reveal><img src="../../assets/projetos/minha-cabana-vidro/03-sm.webp" srcset="../../assets/projetos/minha-cabana-vidro/03-sm.webp 900w, ../../assets/projetos/minha-cabana-vidro/03.webp 1333w" sizes="(max-width: 600px) 100vw, 50vw" width="1333" height="2000" alt="Minha Cabana Vidro — imagem 3" loading="lazy" decoding="async" draggable="false"></figure>
+        <figure class="gallery-item" style="--ar:0.6710" data-reveal><img src="../../assets/projetos/minha-cabana-vidro/04-sm.webp" srcset="../../assets/projetos/minha-cabana-vidro/04-sm.webp 900w, ../../assets/projetos/minha-cabana-vidro/04.webp 1342w" sizes="(max-width: 600px) 100vw, 50vw" width="1342" height="2000" alt="Minha Cabana Vidro — imagem 4" loading="lazy" decoding="async" draggable="false"></figure>
+        <figure class="gallery-item" style="--ar:0.6665" data-reveal><img src="../../assets/projetos/minha-cabana-vidro/05-sm.webp" srcset="../../assets/projetos/minha-cabana-vidro/05-sm.webp 900w, ../../assets/projetos/minha-cabana-vidro/05.webp 1333w" sizes="(max-width: 600px) 100vw, 50vw" width="1333" height="2000" alt="Minha Cabana Vidro — imagem 5" loading="lazy" decoding="async" draggable="false"></figure>
+        <figure class="gallery-item" style="--ar:0.6665" data-reveal><img src="../../assets/projetos/minha-cabana-vidro/06-sm.webp" srcset="../../assets/projetos/minha-cabana-vidro/06-sm.webp 900w, ../../assets/projetos/minha-cabana-vidro/06.webp 1333w" sizes="(max-width: 600px) 100vw, 50vw" width="1333" height="2000" alt="Minha Cabana Vidro — imagem 6" loading="lazy" decoding="async" draggable="false"></figure>
+        <figure class="gallery-item" style="--ar:0.6665" data-reveal><img src="../../assets/projetos/minha-cabana-vidro/07-sm.webp" srcset="../../assets/projetos/minha-cabana-vidro/07-sm.webp 900w, ../../assets/projetos/minha-cabana-vidro/07.webp 1333w" sizes="(max-width: 600px) 100vw, 50vw" width="1333" height="2000" alt="Minha Cabana Vidro — imagem 7" loading="lazy" decoding="async" draggable="false"></figure>
       </div>
     </section>
 
@@ -106,10 +142,10 @@
         <h2 class="block-title" id="bts-title">O backstage também é <em>cena</em>.</h2>
         <p>Por trás de cada imagem, um time orquestrado.</p>
       </div>
-      <div class="bts-grid">
-        <figure class="bts-item" data-reveal><img src="../../assets/projetos/minha-cabana-vidro/bts-01-sm.webp" srcset="../../assets/projetos/minha-cabana-vidro/bts-01-sm.webp 900w, ../../assets/projetos/minha-cabana-vidro/bts-01.webp 960w" sizes="(max-width: 600px) 100vw, 33vw" width="960" height="1280" alt="Bastidores de Minha Cabana Vidro — 1" loading="lazy" decoding="async"></figure>
-        <figure class="bts-item" data-reveal><img src="../../assets/projetos/minha-cabana-vidro/bts-02-sm.webp" srcset="../../assets/projetos/minha-cabana-vidro/bts-02-sm.webp 900w, ../../assets/projetos/minha-cabana-vidro/bts-02.webp 960w" sizes="(max-width: 600px) 100vw, 33vw" width="960" height="1280" alt="Bastidores de Minha Cabana Vidro — 2" loading="lazy" decoding="async"></figure>
-        <figure class="bts-item" data-reveal><img src="../../assets/projetos/minha-cabana-vidro/bts-03-sm.webp" srcset="../../assets/projetos/minha-cabana-vidro/bts-03-sm.webp 900w, ../../assets/projetos/minha-cabana-vidro/bts-03.webp 960w" sizes="(max-width: 600px) 100vw, 33vw" width="960" height="1280" alt="Bastidores de Minha Cabana Vidro — 3" loading="lazy" decoding="async"></figure>
+      <div class="bts-grid justified">
+        <figure class="bts-item" style="--ar:0.7500" data-reveal><img src="../../assets/projetos/minha-cabana-vidro/bts-01-sm.webp" srcset="../../assets/projetos/minha-cabana-vidro/bts-01-sm.webp 900w, ../../assets/projetos/minha-cabana-vidro/bts-01.webp 960w" sizes="(max-width: 600px) 100vw, 50vw" width="960" height="1280" alt="Bastidores de Minha Cabana Vidro — 1" loading="lazy" decoding="async" draggable="false"></figure>
+        <figure class="bts-item" style="--ar:0.7500" data-reveal><img src="../../assets/projetos/minha-cabana-vidro/bts-02-sm.webp" srcset="../../assets/projetos/minha-cabana-vidro/bts-02-sm.webp 900w, ../../assets/projetos/minha-cabana-vidro/bts-02.webp 960w" sizes="(max-width: 600px) 100vw, 50vw" width="960" height="1280" alt="Bastidores de Minha Cabana Vidro — 2" loading="lazy" decoding="async" draggable="false"></figure>
+        <figure class="bts-item" style="--ar:0.7500" data-reveal><img src="../../assets/projetos/minha-cabana-vidro/bts-03-sm.webp" srcset="../../assets/projetos/minha-cabana-vidro/bts-03-sm.webp 900w, ../../assets/projetos/minha-cabana-vidro/bts-03.webp 960w" sizes="(max-width: 600px) 100vw, 50vw" width="960" height="1280" alt="Bastidores de Minha Cabana Vidro — 3" loading="lazy" decoding="async" draggable="false"></figure>
       </div>
     </section>
 
@@ -121,7 +157,7 @@
           <span class="next-client">DryOn <span aria-hidden="true">→</span></span>
         </div>
         <div class="next-media">
-          <img src="../../assets/projetos/banco-de-imagens/07-sm.webp" srcset="../../assets/projetos/banco-de-imagens/07-sm.webp 900w, ../../assets/projetos/banco-de-imagens/07.webp 1333w" sizes="(max-width: 760px) 100vw, 50vw" width="1333" height="2000" alt="Banco de Imagens — DryOn" loading="lazy" decoding="async">
+          <img src="../../assets/projetos/banco-de-imagens/07-sm.webp" srcset="../../assets/projetos/banco-de-imagens/07-sm.webp 900w, ../../assets/projetos/banco-de-imagens/07.webp 1333w" sizes="(max-width: 760px) 100vw, 50vw" width="1333" height="2000" alt="Banco de Imagens — DryOn" loading="lazy" decoding="async" draggable="false">
         </div>
       </a>
     </nav>
@@ -135,8 +171,11 @@
         <h2 class="contact-title">Nos conte sua <em>ideia</em><svg class="comma" viewBox="0 0 320.23 538.51" aria-hidden="true"><path d="M315.5,203.29L283.8,0H0v283.8h173.8c0,73.34-13.7,140.23-115.61,151.47v103.24c135.51-13.76,291.32-117.03,257.3-335.23Z"/></svg></h2>
         <p class="contact-lead">Toda boa história visual começa com uma boa conversa. Respondemos em até 24h úteis.</p>
         <div class="contact-actions">
-          <a class="btn btn--pink" href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#111;&#105;&#64;&#109;&#117;&#109;&#97;&#101;&#115;&#116;&#117;&#100;&#105;&#111;&#46;&#99;&#111;&#109;&#46;&#98;&#114;?subject=Or%C3%A7amento%20pelo%20site">&#111;&#105;&#64;&#109;&#117;&#109;&#97;&#101;&#115;&#116;&#117;&#100;&#105;&#111;&#46;&#99;&#111;&#109;&#46;&#98;&#114; <span aria-hidden="true">↗</span></a>
-          <button class="btn btn--ghost" type="button" data-copy="&#111;&#105;&#64;&#109;&#117;&#109;&#97;&#101;&#115;&#116;&#117;&#100;&#105;&#111;&#46;&#99;&#111;&#109;&#46;&#98;&#114;">copiar e-mail</button>
+          <button class="btn btn--pink" type="button" data-modal="orcamento">Enviar briefing <span aria-hidden="true">↗</span></button>
+          <button class="btn btn--ghost" type="button" data-copy="&#111;&#105;&#64;&#109;&#117;&#109;&#97;&#101;&#115;&#116;&#117;&#100;&#105;&#111;&#46;&#99;&#111;&#109;&#46;&#98;&#114;" aria-label="Copiar e-mail">
+            <span class="copy-label">&#111;&#105;&#64;&#109;&#117;&#109;&#97;&#101;&#115;&#116;&#117;&#100;&#105;&#111;&#46;&#99;&#111;&#109;&#46;&#98;&#114;</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+          </button>
         </div>
       </div>
       <div class="contact-side">
@@ -146,7 +185,7 @@
           <li><a href="https://www.linkedin.com/company/mumaestudiocriativo" target="_blank" rel="noopener">LinkedIn</a></li>
           <li><a href="https://www.tiktok.com/@mumaestudiocriativo" target="_blank" rel="noopener">TikTok</a></li>
         </ul>
-        <a class="contact-jobs" href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#111;&#105;&#64;&#109;&#117;&#109;&#97;&#101;&#115;&#116;&#117;&#100;&#105;&#111;&#46;&#99;&#111;&#109;&#46;&#98;&#114;?subject=Trabalhe%20com%20a%20gente">Quer fazer parte? Trabalhe com a gente <span aria-hidden="true">↗</span></a>
+        <button class="contact-jobs" type="button" data-modal="trabalhe">Quer fazer parte? Trabalhe com a gente <span aria-hidden="true">↗</span></button>
       </div>
     </div>
     <svg class="wordmark" viewBox="0 0 1201.6 236.68" role="img" aria-label="muma"><path d="M295.04,8.93c-23.55-13.24-58.03-17.69-93.63,29.71-7.13-11.96-17-22.19-30.37-29.71-26.66-14.99-67.3-18.73-107.72,51.21L51.08,5.18H8.12s0,0,0,0C8.97,146.32,0,230.62,0,230.61h69.41V65.77c22.7-48.79,70.32-55.88,82.43-20.11,21.44,63.32-53.45,185.04-53.39,184.95h89.16c13.12-21.16,47.71-121.76,17.85-184.41,24.49-30.39,60.14-30.8,70.39-.54,21.44,63.32-53.45,185.04-53.39,184.95h89.16c16.31-26.3,65.82-175.36-16.57-221.68Z"/><path d="M580.04,5.18h-42.94s-7.13,143.6-47.19,192.25c-71.7,87.06-100.29-77.31.31-192.25h-108.03s-54.39,172.75,20.73,219.87c69.09,43.34,112.86-48.93,112.86-48.93l3.12,54.48h69.26c-11.21-95.48-8.12-225.43-8.12-225.43Z"/><path d="M913.76,8.93c-23.55-13.24-58.03-17.69-93.63,29.71-7.13-11.96-17.01-22.19-30.37-29.71-26.66-14.99-67.3-18.73-107.72,51.21l-12.25-54.96h-42.95s0,0,0,0c.85,141.14-8.12,225.43-8.12,225.43h69.41V65.77c22.7-48.79,70.32-55.88,82.43-20.11,21.44,63.32-53.45,185.04-53.39,184.95h89.16c13.12-21.16,47.71-121.76,17.85-184.41,24.49-30.39,60.14-30.8,70.39-.54,21.44,63.32-53.45,185.04-53.39,184.95h89.16c16.31-26.3,65.82-175.36-16.57-221.68Z"/><path d="M1193.69,84.65c1.08-113.11-168.89-100.62-183.5-33.98-8.38,38.22,32.15,48.75,51.28,40.47,16.3-7.05,23.47-28.4,3.39-41.66-21.54-14.23-6.21-40.49,16.58-42.78,35.22-3.55,72.22,39.31,5.31,90.34-44.87,34.22-111.66,31.83-118.99,86.6-7.84,58.58,103.16,76.59,156.58,13.03l7.94,33.95h69.32c-8.82-76.06-7.91-145.96-7.91-145.97ZM1110.2,196.43c-13.63,12.18-41.47,13.68-55.81,2.77-13.55-10.31-21.11-29.27-14.5-45.37,10.38-25.27,72.18-52.54,93.61-91.35l.33,45.58c-1.3,50.84-2.58,69.54-23.64,88.36Z"/></svg>
@@ -156,6 +195,103 @@
     </div>
   </div>
 </footer>
+
+<dialog class="modal" id="modal-orcamento" aria-labelledby="orcamento-title">
+  <div class="modal-inner">
+    <button class="modal-close" type="button" data-close aria-label="Fechar">✕</button>
+    <form class="modal-form" data-form data-endpoint="&#104;&#116;&#116;&#112;&#115;&#58;&#47;&#47;&#102;&#111;&#114;&#109;&#115;&#117;&#98;&#109;&#105;&#116;&#46;&#99;&#111;&#47;&#97;&#106;&#97;&#120;&#47;&#111;&#105;&#64;&#109;&#117;&#109;&#97;&#101;&#115;&#116;&#117;&#100;&#105;&#111;&#46;&#99;&#111;&#109;&#46;&#98;&#114;" data-subject="[Site Muma] Orçamento · {tipo} · {nome}" novalidate>
+      <p class="eyebrow">(orçamento)</p>
+      <h2 class="modal-title" id="orcamento-title">Nos conte sua <em>ideia</em>.</h2>
+      <p class="modal-lead">Quanto mais detalhes, melhor. Respondemos em até 24h úteis.</p>
+      <div class="fields">
+        <label class="field"><span>Nome *</span><input name="nome" required autocomplete="name" data-label="Nome"></label>
+        <label class="field"><span>E-mail *</span><input type="email" name="email" required autocomplete="email" data-label="E-mail"></label>
+        <label class="field"><span>Empresa ou marca</span><input name="empresa" autocomplete="organization" data-label="Empresa ou marca"></label>
+        <label class="field"><span>WhatsApp</span><input type="tel" name="whatsapp" autocomplete="tel" data-label="WhatsApp"></label>
+        <label class="field field--full"><span>Tipo de projeto *</span>
+          <select name="tipo" required data-label="Tipo de projeto">
+            <option value="" selected disabled>Selecione</option>
+            <option>Campanha</option>
+            <option>Conteúdo para redes</option>
+            <option>Filme ou vídeo</option>
+            <option>Fotografia still</option>
+            <option>Banco de imagens</option>
+            <option>Evento</option>
+            <option>Outro</option>
+          </select>
+        </label>
+        <fieldset class="chips field--full">
+          <legend>Do que você precisa?</legend>
+          <label class="chip"><input type="checkbox" name="servicos" value="Direção criativa" data-label="Serviços de interesse"><span>Direção criativa</span></label>
+          <label class="chip"><input type="checkbox" name="servicos" value="Produção executiva" data-label="Serviços de interesse"><span>Produção executiva</span></label>
+          <label class="chip"><input type="checkbox" name="servicos" value="Foto &amp; vídeo" data-label="Serviços de interesse"><span>Foto &amp; vídeo</span></label>
+          <label class="chip"><input type="checkbox" name="servicos" value="Edição &amp; pós" data-label="Serviços de interesse"><span>Edição &amp; pós</span></label>
+          <label class="chip"><input type="checkbox" name="servicos" value="Arte &amp; cenografia" data-label="Serviços de interesse"><span>Arte &amp; cenografia</span></label>
+          <label class="chip"><input type="checkbox" name="servicos" value="Beauty &amp; styling" data-label="Serviços de interesse"><span>Beauty &amp; styling</span></label>
+          <label class="chip"><input type="checkbox" name="servicos" value="Casting" data-label="Serviços de interesse"><span>Casting</span></label>
+          <label class="chip"><input type="checkbox" name="servicos" value="Catering" data-label="Serviços de interesse"><span>Catering</span></label>
+        </fieldset>
+        <label class="field field--full"><span>Prazo ou data prevista</span><input name="prazo" placeholder="Ex: gravação na primeira semana de março" data-label="Prazo"></label>
+        <label class="field field--full"><span>Conte sobre o projeto *</span><textarea name="mensagem" rows="4" required data-label="Mensagem"></textarea></label>
+      </div>
+      <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="modal-actions">
+        <button class="btn btn--navy" type="submit">Enviar briefing <span aria-hidden="true">↗</span></button>
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+    <div class="modal-done" hidden>
+      <span class="done-icon" aria-hidden="true">✓</span>
+      <h2 class="modal-title">Briefing <em>recebido</em>.</h2>
+      <p class="modal-lead">Obrigada por contar sua ideia. Retornamos em até 24h úteis.</p>
+      <button class="btn btn--navy" type="button" data-close>Fechar</button>
+    </div>
+  </div>
+</dialog>
+
+<dialog class="modal" id="modal-trabalhe" aria-labelledby="trabalhe-title">
+  <div class="modal-inner">
+    <button class="modal-close" type="button" data-close aria-label="Fechar">✕</button>
+    <form class="modal-form" data-form data-endpoint="&#104;&#116;&#116;&#112;&#115;&#58;&#47;&#47;&#102;&#111;&#114;&#109;&#115;&#117;&#98;&#109;&#105;&#116;&#46;&#99;&#111;&#47;&#97;&#106;&#97;&#120;&#47;&#111;&#105;&#64;&#109;&#117;&#109;&#97;&#101;&#115;&#116;&#117;&#100;&#105;&#111;&#46;&#99;&#111;&#109;&#46;&#98;&#114;" data-subject="[Site Muma] Trabalhe conosco · {area} · {nome}" novalidate>
+      <p class="eyebrow">(trabalhe com a gente)</p>
+      <h2 class="modal-title" id="trabalhe-title">Faça parte da <em>rede</em>.</h2>
+      <p class="modal-lead">A Muma cria em rede, com especialistas que vibram com o que fazem. Mostre o seu trabalho.</p>
+      <div class="fields">
+        <label class="field"><span>Nome *</span><input name="nome" required autocomplete="name" data-label="Nome"></label>
+        <label class="field"><span>E-mail *</span><input type="email" name="email" required autocomplete="email" data-label="E-mail"></label>
+        <label class="field"><span>Área de atuação *</span>
+          <select name="area" required data-label="Área de atuação">
+            <option value="" selected disabled>Selecione</option>
+            <option>Fotografia</option>
+            <option>Vídeo</option>
+            <option>Direção de arte e cenografia</option>
+            <option>Produção</option>
+            <option>Beauty</option>
+            <option>Styling</option>
+            <option>Edição e pós</option>
+            <option>Casting</option>
+            <option>Catering</option>
+            <option>Outra</option>
+          </select>
+        </label>
+        <label class="field"><span>Cidade</span><input name="cidade" autocomplete="address-level2" data-label="Cidade"></label>
+        <label class="field field--full"><span>Portfólio ou perfil *</span><input name="portfolio" required inputmode="url" placeholder="Link do site, Behance, Instagram, Drive…" data-label="Portfólio"></label>
+        <label class="field field--full"><span>Conte um pouco sobre você</span><textarea name="mensagem" rows="4" data-label="Mensagem"></textarea></label>
+      </div>
+      <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="modal-actions">
+        <button class="btn btn--navy" type="submit">Enviar <span aria-hidden="true">↗</span></button>
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+    <div class="modal-done" hidden>
+      <span class="done-icon" aria-hidden="true">✓</span>
+      <h2 class="modal-title">Recebemos o seu <em>portfólio</em>.</h2>
+      <p class="modal-lead">Obrigada pelo interesse! Ele fica no nosso radar para os próximos projetos.</p>
+      <button class="btn btn--navy" type="button" data-close>Fechar</button>
+    </div>
+  </div>
+</dialog>
 
 </body>
 </html>

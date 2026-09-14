@@ -1,6 +1,7 @@
 {
   "url": "https://mumaestudio.com.br",
   "email": "oi@mumaestudio.com.br",
+  "formulario": "https://formsubmit.co/ajax/oi@mumaestudio.com.br",
   "destaques": [
     { "projeto": "verao-com-mikes", "imagem": "05.webp" },
     { "projeto": "dia-do-koni", "imagem": "capa.webp" },
@@ -8,6 +9,56 @@
     { "projeto": "minha-cabana-vidro", "imagem": "05.webp" },
     { "projeto": "banco-de-imagens", "imagem": "15.webp" },
     { "projeto": "gendai", "imagem": "capa.webp" }
+  ],
+  "servicos": [
+    {
+      "nome": "Direção criativa",
+      "descricao": "Conceito, narrativa e linguagem visual para campanhas, lançamentos e conteúdos editoriais.",
+      "projeto": "minha-cabana-vidro",
+      "imagem": "01.webp"
+    },
+    {
+      "nome": "Produção executiva",
+      "descricao": "Cronograma, locação, fornecedores e logística. Você só pensa no resultado.",
+      "projeto": "verao-com-mikes",
+      "imagem": "bts-01.webp"
+    },
+    {
+      "nome": "Foto & vídeo",
+      "descricao": "Captação still e em movimento, com equipe técnica e direção alinhadas ao briefing.",
+      "projeto": "banco-de-imagens",
+      "imagem": "09.webp"
+    },
+    {
+      "nome": "Edição & pós",
+      "descricao": "Color, sound design, motion e tratamento de imagem. Acabamento do primeiro ao último frame.",
+      "projeto": "tubing-ultimate-length",
+      "imagem": "03.webp"
+    },
+    {
+      "nome": "Arte & cenografia",
+      "descricao": "Cenários vivos, props, ambientação e construção. Da pesquisa ao set montado e pronto.",
+      "projeto": "colecao-de-pratos",
+      "imagem": "03.webp"
+    },
+    {
+      "nome": "Beauty & styling",
+      "descricao": "Styling, makeup, hair e figurino. Coerência estética em cada quadro.",
+      "projeto": "gendai",
+      "imagem": "bts-01.webp"
+    },
+    {
+      "nome": "Casting",
+      "descricao": "Seleção de elenco, modelos e talentos com curadoria de imagem e diversidade real.",
+      "projeto": "verao-com-mikes",
+      "imagem": "04.webp"
+    },
+    {
+      "nome": "Catering",
+      "descricao": "Alimentação para equipe e elenco, com cardápios pensados para cada dia de set.",
+      "projeto": "colecao-de-pratos",
+      "imagem": "07.webp"
+    }
   ],
   "projetos": [
     "minha-cabana-vidro",

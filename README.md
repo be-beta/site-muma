@@ -67,5 +67,19 @@ Para visualizar localmente: `python -m http.server 8321` e abra http://localhost
 - `*texto*` vira destaque na cor da marca.
 - `card` é opcional (imagem vertical da grade da home); sem ele, usa a capa.
 - O primeiro item de `bastidores` aparece na lente da home.
-- Vídeos do Vimeo tocam em loop mudo; com `"player": true` aparecem com som e controles.
+- Vídeos do Vimeo usam o player do site (play/pause, volume, abrir no Vimeo): o primeiro começa sozinho sem som e, ao terminar, o próximo toca. O `controls=0` do Vimeo só esconde a interface deles em contas pagas (Plus ou superior).
 - Imagens em `.webp`; cada uma pode ter a versão leve `nome-sm.webp` ao lado (o admin gera as duas).
+- A galeria monta as linhas sozinha, mantendo a proporção original de cada foto.
+
+## Serviços da home
+
+Ficam em `data/site.json` → `servicos`: nome, descrição curta e, opcionalmente, `projeto` + `imagem` para a foto que acompanha o cursor.
+
+## Formulários (orçamento e trabalhe conosco)
+
+Os popups enviam para o endereço em `data/site.json` → `formulario`, hoje o [FormSubmit](https://formsubmit.co) apontando para `oi@mumaestudio.com.br` (sem conta nem mensalidade).
+
+- **Ativação:** no primeiro envio, o FormSubmit manda um e-mail de confirmação para `oi@mumaestudio.com.br`. É preciso clicar em "Activate Form"; só depois disso as mensagens passam a chegar.
+- **Filtros:** os assuntos começam com `[Site Muma] Orçamento` ou `[Site Muma] Trabalhe conosco`, prontos para regras de caixa de entrada. Responder o e-mail responde direto para quem enviou.
+- **Anti-spam:** campo invisível, tempo mínimo de preenchimento e limite de 3 envios a cada 10 minutos por navegador.
+- Após ativar, o FormSubmit oferece um endereço aleatório que substitui o e-mail em `formulario`, para ele não aparecer no código.

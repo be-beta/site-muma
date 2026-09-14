@@ -36,26 +36,21 @@
         <p>Modular de verdade: montamos times especialistas para cada demanda e orquestramos cada peça. Criar não é caótico, é orquestrado.</p>
       </div>
     </div>
-
-    <div class="services" data-reveal>
-      <h2 class="fact-title">Tudo, ou só a parte que faltar.</h2>
-      <ol class="services-list">
-        <li><span>01</span>Direção criativa</li>
-        <li><span>02</span>Produção executiva</li>
-        <li><span>03</span>Foto &amp; vídeo</li>
-        <li><span>04</span>Edição &amp; pós</li>
-        <li><span>05</span>Arte &amp; cenografia</li>
-        <li><span>06</span>Beauty &amp; styling</li>
-        <li><span>07</span>Casting</li>
-        <li><span>08</span>Catering</li>
-      </ol>
-    </div>
   </section>
 
-  <section class="statement wrap" aria-label="Tagline">
-    <div class="statement-pill">
-      <p>Do detalhe<br>ao todo.</p>
+  <section class="services wrap" id="servicos" aria-labelledby="servicos-title">
+    <div class="services-grid">
+      <div class="services-intro" data-reveal>
+        <p class="eyebrow">(serviços)</p>
+        <h2 class="section-title" id="servicos-title">Tudo, ou só a parte <em>que faltar</em>.</h2>
+        <p class="services-lead">Cada serviço funciona como uma peça independente. Você contrata o projeto completo ou só o módulo que falta no seu time, e a gente orquestra o resto.</p>
+        <button class="btn btn--navy" type="button" data-modal="orcamento">Montar meu orçamento <span aria-hidden="true">↗</span></button>
+      </div>
+      <ol class="services-list">
+        {{servicos}}
+      </ol>
     </div>
+    <div class="service-float" aria-hidden="true"><div class="service-float-inner"><img alt="" draggable="false"></div></div>
   </section>
 
   <section class="projects wrap" id="projetos" aria-labelledby="projetos-title">
@@ -93,7 +88,7 @@
   <section class="studio wrap" id="estudio" aria-labelledby="estudio-title">
     <div class="studio-grid">
       <figure class="studio-photo" data-reveal>
-        <img src="{{root}}assets/estudio/fundadoras-sm.webp" srcset="{{root}}assets/estudio/fundadoras-sm.webp 900w, {{root}}assets/estudio/fundadoras.webp 1200w" sizes="(max-width: 860px) 100vw, 45vw" width="1200" height="1800" alt="As fundadoras da Muma no estúdio" loading="lazy">
+        <img src="{{root}}assets/estudio/fundadoras-sm.webp" srcset="{{root}}assets/estudio/fundadoras-sm.webp 900w, {{root}}assets/estudio/fundadoras.webp 1200w" sizes="(max-width: 860px) 100vw, 45vw" width="1200" height="1800" alt="As fundadoras da Muma no estúdio" loading="lazy" draggable="false">
       </figure>
       <div class="studio-copy">
         <p class="eyebrow">(estúdio)</p>
@@ -106,17 +101,17 @@
         </div>
         <ul class="team">
           <li data-reveal>
-            <img src="{{root}}assets/estudio/alinne-sm.webp" width="900" height="1350" alt="Alinne Marques" loading="lazy">
+            <div class="team-photo"><img src="{{root}}assets/estudio/alinne-sm.webp" width="900" height="1350" alt="Alinne Marques" loading="lazy" draggable="false"></div>
             <p class="team-name">Alinne Marques</p>
             <p class="team-role">Fundadora</p>
           </li>
           <li data-reveal>
-            <img src="{{root}}assets/estudio/vicky-sm.webp" width="900" height="1350" alt="Vicky Müller" loading="lazy">
+            <div class="team-photo"><img src="{{root}}assets/estudio/vicky-sm.webp" width="900" height="1350" alt="Vicky Müller" loading="lazy" draggable="false"></div>
             <p class="team-name">Vicky Müller</p>
             <p class="team-role">Fundadora</p>
           </li>
           <li data-reveal>
-            <img src="{{root}}assets/estudio/maria-eduarda-sm.webp" width="900" height="1125" alt="Maria Eduarda" loading="lazy">
+            <div class="team-photo"><img src="{{root}}assets/estudio/maria-eduarda-sm.webp" width="900" height="1125" alt="Maria Eduarda" loading="lazy" draggable="false"></div>
             <p class="team-name">Maria Eduarda</p>
             <p class="team-role">Social media &amp; designer</p>
           </li>
@@ -127,5 +122,6 @@
 
 </main>
 {{> contato}}
+{{> modais}}
 </body>
 </html>

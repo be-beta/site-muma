@@ -489,13 +489,15 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
 .videos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; gap: clamp(12px, 1.6vw, 24px); padding-block: 12px; }
 .videos--1 { grid-template-columns: minmax(0, 440px); }
 .videos--2 { grid-template-columns: repeat(2, minmax(0, 440px)); }
+/* o slot guarda o espaço na grade; o vídeo sai dele no modo destaque */
+.video-slot { position: relative; }
+.video-slot--v { aspect-ratio: 9 / 16; }
+.video-slot--h { grid-column: 1 / -1; aspect-ratio: 16 / 9; }
 .video {
-  position: relative; overflow: hidden; isolation: isolate;
+  position: absolute; inset: 0; overflow: hidden; isolation: isolate;
   border-radius: var(--radius); background: var(--navy);
   transition: transform .7s var(--ease), box-shadow .7s var(--ease);
 }
-.video--v { aspect-ratio: 9 / 16; }
-.video--h { grid-column: 1 / -1; aspect-ratio: 16 / 9; }
 .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; pointer-events: none; }
 .video.is-playing { z-index: 2; transform: scale(1.035); box-shadow: 0 32px 64px -28px rgba(12, 9, 51, .6); }
 
@@ -519,16 +521,31 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
 }
 .vbtn:hover { background: rgba(255, 255, 255, .2); }
 .vbtn svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.video .i-pause, .video.is-playing .i-play, .video .i-sound, .video.is-unmuted .i-mute { display: none; }
-.video.is-playing .i-pause, .video.is-unmuted .i-sound { display: block; }
+.video .i-pause, .video.is-playing .i-play, .video .i-sound, .video.is-unmuted .i-mute, .video .i-collapse, .video.is-featured .i-expand { display: none; }
+.video.is-playing .i-pause, .video.is-unmuted .i-sound, .video.is-featured .i-collapse { display: block; }
 .vsound { display: flex; align-items: center; }
 .vvolume { width: 0; opacity: 0; margin: 0; accent-color: var(--pink); transition: width .3s var(--ease), opacity .3s, margin .3s; }
 .vsound:hover .vvolume, .vsound:focus-within .vvolume { width: 64px; margin: 0 6px 0 2px; opacity: 1; }
 @media (hover: none) { .vvolume { display: none; } }
-.vprogress { position: relative; flex: 1; height: 16px; cursor: pointer; }
-.vprogress::before, .vprogress span { content: ""; position: absolute; left: 0; top: 50%; height: 3px; margin-top: -1.5px; border-radius: 3px; }
-.vprogress::before { right: 0; background: rgba(255, 255, 255, .3); }
-.vprogress span { width: calc(var(--p, 0) * 100%); background: var(--pink); }
+.vspacer { flex: 1; }
+
+/* destaque: o vídeo cresce na página sobre um fundo escurecido */
+.video-backdrop {
+  position: fixed; inset: 0; z-index: 150;
+  background: rgba(12, 9, 51, .82); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  opacity: 0; pointer-events: none; transition: opacity .45s var(--ease);
+}
+.video-backdrop.is-on { opacity: 1; pointer-events: auto; }
+body.has-featured { overflow: hidden; }
+.video.is-featured {
+  position: fixed; inset: 0; z-index: 160; margin: auto;
+  transform: none; box-shadow: 0 40px 120px -40px rgba(0, 0, 0, .7);
+  animation: feature-in .55s var(--ease);
+}
+.video-slot--v .video.is-featured { width: min(92vw, calc(86svh * 9 / 16)); height: min(86svh, calc(92vw * 16 / 9)); }
+.video-slot--h .video.is-featured { width: min(92vw, calc(86svh * 16 / 9)); height: min(86svh, calc(92vw * 9 / 16)); }
+.video.is-featured .video-shade { opacity: 0; }
+@keyframes feature-in { from { opacity: 0; transform: scale(.94); } }
 
 @media (max-width: 760px) {
   .videos {
@@ -536,9 +553,9 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
     overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
   }
   .videos::-webkit-scrollbar { display: none; }
-  .video { flex: 0 0 76%; scroll-snap-align: center; }
-  .videos--1 .video, .video--h { flex-basis: 100%; }
-  .video.is-playing { transform: scale(1.02); }
+  .video-slot { flex: 0 0 76%; scroll-snap-align: center; }
+  .videos--1 .video-slot, .video-slot--h { flex-basis: 100%; }
+  .video.is-playing:not(.is-featured) { transform: scale(1.02); }
 }
 
 /* — Galeria justificada: proporções originais, linhas equilibradas (js/site.js) — */

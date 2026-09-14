@@ -1,148 +1,243 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
-  <title>Muma — Novo projeto</title>
-
+  <title>Muma · Admin de projetos</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/icons/M.svg">
   <link rel="stylesheet" href="admin.css">
-
-  <!-- SortableJS (reordenar a galeria) e JSZip (gerar o pacote) -->
+  <!-- SortableJS (reordenar listas) e JSZip (ler e gerar pacotes) -->
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script type="module" src="admin.js"></script>
 </head>
 <body>
-  <div class="admin-layout">
-    <!-- Formulário -->
-    <aside class="panel controls-panel">
-      <header>
-        <h1>Muma — Novo projeto</h1>
-        <p>Gera o pacote (.zip) com as imagens otimizadas e o projeto.json do site.</p>
-      </header>
+  <p class="file-warning" id="fileWarning" hidden>
+    O admin precisa ser aberto pelo endereço do site: <strong>mumaestudio.com.br/tools/admin.html</strong>.
+    Aberto direto do computador, o navegador bloqueia partes dele.
+  </p>
+  <script>if (location.protocol === 'file:') document.getElementById('fileWarning').hidden = false;</script>
 
-      <form id="campaignForm">
-        <div class="form-group">
-          <label for="titulo">Título do projeto *</label>
-          <p class="hint">Use *palavra* entre asteriscos para destacar.</p>
-          <input type="text" id="titulo" placeholder="Ex: Dia do *Koni*" required>
+  <header class="topbar">
+    <a class="brand" href="../" target="_blank" rel="noopener" title="Abrir o site">
+      <img src="../assets/logos/logo-muma.svg" alt="Muma" width="92" height="18">
+      <span>projetos</span>
+    </a>
+    <p class="save-state" id="saveState"></p>
+    <p class="busy" id="busy" hidden></p>
+    <div class="top-actions">
+      <button class="btn btn--ghost" type="button" id="btnNovo">Novo</button>
+      <div class="menu">
+        <button class="btn btn--ghost" type="button" id="btnAbrir" aria-haspopup="true" aria-expanded="false">Abrir <span aria-hidden="true">▾</span></button>
+        <div class="menu-list" id="menuAbrir" hidden>
+          <button type="button" data-open="site">Projeto publicado no site</button>
+          <button type="button" data-open="zip">Pacote .zip</button>
         </div>
-
-        <div class="form-group">
-          <label for="cliente">Cliente *</label>
-          <input type="text" id="cliente" placeholder="Ex: Koni" required>
-        </div>
-
-        <div class="form-group">
-          <label for="ano">Ano</label>
-          <input type="text" id="ano" placeholder="Ex: 2025">
-        </div>
-
-        <div class="form-group">
-          <label for="categoria">Categoria</label>
-          <input type="text" id="categoria" placeholder="Ex: campanha · filme + still">
-        </div>
-
-        <div class="form-group">
-          <label for="subtitulo">Frase de impacto</label>
-          <input type="text" id="subtitulo" placeholder="Ex: Um pedacinho da Itália em Itacoatiara.">
-        </div>
-
-        <div class="form-group">
-          <label for="descricao">Descrição</label>
-          <p class="hint">Separe parágrafos com uma linha em branco. *palavra* destaca.</p>
-          <textarea id="descricao" rows="7" placeholder="O Koni buscou a Muma para..."></textarea>
-        </div>
-
-        <hr>
-
-        <div class="form-group">
-          <label for="servicos">Serviços</label>
-          <p class="hint">Separados por vírgula.</p>
-          <input type="text" id="servicos" placeholder="Ex: Direção criativa, Fotografia, Casting">
-        </div>
-
-        <div class="form-group">
-          <label for="creditos">Ficha técnica</label>
-          <p class="hint">Uma pessoa por linha, no formato Função: Nome.</p>
-          <textarea id="creditos" rows="4" placeholder="Direção criativa: Vicky &amp; Alinne&#10;Fotografia: Alinne (Estúdio Muma)"></textarea>
-        </div>
-
-        <hr>
-
-        <div class="form-group">
-          <label>Capa *</label>
-          <p class="hint">Imagem principal da página do projeto (de preferência horizontal).</p>
-          <div class="dropzone" id="dropCapa">
-            <span class="placeholder">Arraste a capa (JPG/PNG/WebP)</span>
-            <div class="preview-container"></div>
-            <button type="button" class="remove-btn" title="Remover">✕</button>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Imagem do card</label>
-          <p class="hint">Opcional. Imagem vertical usada na grade de projetos da home. Sem ela, a capa é usada.</p>
-          <div class="dropzone" id="dropCard">
-            <span class="placeholder">Arraste a imagem do card</span>
-            <div class="preview-container"></div>
-            <button type="button" class="remove-btn" title="Remover">✕</button>
-          </div>
-        </div>
-
-        <hr>
-
-        <div class="form-group">
-          <label>Bastidores</label>
-          <p class="hint">A primeira aparece na lente da home. Todas aparecem na página do projeto.</p>
-          <div class="gallery-grid" id="btsGrid"></div>
-          <div class="dropzone gallery-dropzone" id="dropBts">
-            <span>Arraste fotos de bastidor aqui</span>
-          </div>
-        </div>
-
-        <hr>
-
-        <div class="form-group">
-          <div class="gallery-header">
-            <label>Galeria</label>
-            <button type="button" id="addVimeoBtn" class="btn-small">+ Vimeo</button>
-          </div>
-          <p class="hint">Arraste fotos para adicionar e arraste os blocos para reordenar.</p>
-          <div class="gallery-grid" id="galleryGrid"></div>
-          <div class="dropzone gallery-dropzone" id="dropGallery">
-            <span>Arraste imagens aqui</span>
-          </div>
-        </div>
-
-        <div class="form-actions">
-          <button type="submit" class="btn-primary" id="exportBtn" disabled>Gerar pacote .zip</button>
-        </div>
-      </form>
-    </aside>
-
-    <!-- Pré-visualização -->
-    <main class="panel preview-panel">
-      <div class="preview-header">
-        <div class="preview-badge">Pré-visualização</div>
       </div>
-      <div class="preview-content">
-        <div class="muma-mockup">
-          <div class="muma-cover" id="previewCover">
-            <div class="muma-cover-text">
-              <h2 id="previewTitle">Título do projeto</h2>
-              <h3 id="previewClient">Cliente</h3>
+      <button class="btn btn--pink" type="button" data-export>Gerar pacote</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <main class="editor">
+
+      <section class="panel">
+        <h2 class="panel-title"><span class="step">1</span> Sobre o projeto</h2>
+
+        <div class="field">
+          <div class="field-head">
+            <label for="f-titulo">Título *</label>
+            <button class="mini" type="button" data-highlight="f-titulo">destacar seleção</button>
+          </div>
+          <input class="input" id="f-titulo" data-field="titulo" placeholder="Ex: Dia do Koni" autocomplete="off">
+          <p class="hint">Selecione uma palavra e clique em “destacar seleção” para ela aparecer em roxo.</p>
+        </div>
+
+        <div class="field">
+          <label for="f-slug">Endereço da página</label>
+          <input class="input input--mono" id="f-slug" placeholder="gerado a partir do título" autocomplete="off" spellcheck="false">
+          <p class="hint" id="slugPreview">mumaestudio.com.br/projetos/…/</p>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="f-cliente">Cliente *</label>
+            <input class="input" id="f-cliente" data-field="cliente" placeholder="Ex: Koni" autocomplete="off" list="lista-clientes">
+          </div>
+          <div class="field">
+            <label for="f-ano">Ano</label>
+            <input class="input" id="f-ano" data-field="ano" inputmode="numeric" maxlength="4" autocomplete="off">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-categoria">Categoria</label>
+          <input class="input" id="f-categoria" data-field="categoria" placeholder="Ex: campanha · filme + still" autocomplete="off" list="lista-categorias">
+          <p class="hint">Aparece no card da home e no topo da página.</p>
+        </div>
+
+        <div class="field">
+          <div class="field-head">
+            <label for="f-subtitulo">Frase de impacto</label>
+            <button class="mini" type="button" data-highlight="f-subtitulo">destacar seleção</button>
+          </div>
+          <input class="input" id="f-subtitulo" data-field="subtitulo" placeholder="Ex: Um pedacinho da Itália em Itacoatiara." autocomplete="off">
+        </div>
+
+        <div class="field">
+          <div class="field-head">
+            <label for="f-descricao">Descrição</label>
+            <button class="mini" type="button" data-highlight="f-descricao">destacar seleção</button>
+          </div>
+          <textarea class="input" id="f-descricao" data-field="descricao" rows="8" placeholder="Conte o desafio, o conceito e o que a Muma fez no projeto."></textarea>
+          <p class="hint">Deixe uma linha em branco entre os parágrafos.</p>
+        </div>
+
+        <datalist id="lista-clientes"></datalist>
+        <datalist id="lista-categorias">
+          <option value="campanha · still">
+          <option value="campanha · filme + still">
+          <option value="campanha · still + mobile">
+          <option value="conteúdo · still">
+          <option value="filme · campanha">
+          <option value="banco de imagens · still + mobile">
+          <option value="produção de arte · filme + still">
+        </datalist>
+      </section>
+
+      <section class="panel">
+        <h2 class="panel-title"><span class="step">2</span> Serviços e ficha técnica</h2>
+
+        <div class="field">
+          <span class="label">Serviços prestados</span>
+          <div class="chips" id="servicos"></div>
+          <div class="inline-add">
+            <input class="input input--sm" id="novoServico" placeholder="Outro serviço" autocomplete="off">
+            <button class="mini" type="button" id="btnServico">adicionar</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="label">Ficha técnica</span>
+          <div class="credits" id="creditos"></div>
+          <div class="quick">
+            <span>Adicionar:</span>
+            <button class="mini" type="button" data-credito="Direção criativa">Direção criativa</button>
+            <button class="mini" type="button" data-credito="Fotografia">Fotografia</button>
+            <button class="mini" type="button" data-credito="Filmagem">Filmagem</button>
+            <button class="mini" type="button" data-credito="Produção">Produção</button>
+            <button class="mini" type="button" data-credito="Styling">Styling</button>
+            <button class="mini" type="button" data-credito="">outro</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 class="panel-title"><span class="step">3</span> Capa, card e bastidores</h2>
+
+        <div class="slots">
+          <div class="slot" data-slot="capa" tabindex="0" role="button" aria-label="Escolher a imagem de capa">
+            <div class="slot-preview"></div>
+            <div class="slot-empty">
+              <strong>Capa *</strong>
+              <span>Topo da página · horizontal</span>
+              <small>Arraste ou clique</small>
+            </div>
+            <div class="slot-bar">
+              <span class="slot-meta"></span>
+              <button class="mini mini--light" type="button" data-slot-remove>remover</button>
             </div>
           </div>
-          <div class="muma-details">
-            <p id="previewDesc">A descrição aparecerá aqui.</p>
+          <div class="slot" data-slot="card" tabindex="0" role="button" aria-label="Escolher a imagem do card">
+            <div class="slot-preview"></div>
+            <div class="slot-empty">
+              <strong>Card</strong>
+              <span>Grade da home · vertical · opcional</span>
+              <small>Arraste ou clique</small>
+            </div>
+            <div class="slot-bar">
+              <span class="slot-meta"></span>
+              <button class="mini mini--light" type="button" data-slot-remove>remover</button>
+            </div>
           </div>
-          <div class="muma-gallery" id="previewGallery"></div>
+        </div>
+
+        <div class="field">
+          <span class="label">Bastidores <span class="count" data-count="bastidores"></span></span>
+          <p class="hint">A primeira foto aparece na lente “backstage” do card na home. Arraste para reordenar.</p>
+          <ol class="items" data-list="bastidores"></ol>
+          <div class="drop" data-drop="bastidores" tabindex="0" role="button">Arraste fotos de bastidor ou clique para escolher</div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 class="panel-title"><span class="step">4</span> Galeria e vídeos <span class="count" data-count="galeria"></span></h2>
+        <p class="hint">Vídeos entram na seção de filmes e fotos na galeria, nesta ordem. Arraste para reordenar.</p>
+        <ol class="items" data-list="galeria"></ol>
+        <div class="drop" data-drop="galeria" tabindex="0" role="button">Arraste fotos ou clique para escolher</div>
+        <div class="inline-add">
+          <input class="input" id="vimeoLink" placeholder="Cole o link do vídeo no Vimeo" autocomplete="off">
+          <button class="btn btn--navy" type="button" id="btnVimeo">Adicionar vídeo</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2 class="panel-title"><span class="step">5</span> Revisão <span class="count" id="checkCount"></span></h2>
+        <ul class="checklist" id="checklist"></ul>
+        <button class="btn btn--pink btn--block" type="button" data-export>Gerar pacote</button>
+      </section>
+
+    </main>
+
+    <aside class="preview" aria-label="Pré-visualização">
+      <div class="preview-bar">
+        <div class="seg">
+          <button type="button" class="is-on" data-view="pagina">Página do projeto</button>
+          <button type="button" data-view="card">Card na home</button>
+        </div>
+        <div class="seg">
+          <button type="button" class="is-on" data-device="desktop">Computador</button>
+          <button type="button" data-device="mobile">Celular</button>
         </div>
       </div>
-    </main>
+      <div class="preview-stage">
+        <iframe id="previewFrame" title="Pré-visualização do projeto"></iframe>
+      </div>
+    </aside>
   </div>
 
-  <script src="admin.js"></script>
+  <input type="file" id="zipInput" accept=".zip,application/zip" hidden>
+
+  <dialog class="dlg" id="dlgSite">
+    <h2>Abrir projeto do site</h2>
+    <p>O projeto é carregado com textos e imagens para você editar e gerar um pacote atualizado.</p>
+    <input class="input" id="siteSearch" placeholder="Buscar por título ou cliente" autocomplete="off">
+    <ul class="site-list" id="siteList"></ul>
+    <div class="dlg-actions"><button class="btn btn--ghost" type="button" data-close>Cancelar</button></div>
+  </dialog>
+
+  <dialog class="dlg" id="dlgExport">
+    <h2 id="exportTitle">Antes de gerar</h2>
+    <ul class="checklist" id="exportList"></ul>
+    <div class="dlg-actions">
+      <button class="btn btn--ghost" type="button" data-close>Voltar e ajustar</button>
+      <button class="btn btn--pink" type="button" id="btnForce">Gerar mesmo assim</button>
+    </div>
+  </dialog>
+
+  <dialog class="dlg" id="dlgDone">
+    <span class="done-icon" aria-hidden="true">✓</span>
+    <h2>Pacote gerado</h2>
+    <p>O arquivo <strong id="doneName"></strong> foi baixado com tudo o que o site precisa: imagens otimizadas e o projeto.json.</p>
+    <ol class="steps">
+      <li>Envie o arquivo para quem publica o site.</li>
+      <li>Na pasta do site, rode <code id="doneCmd"></code></li>
+      <li>Confira a página e publique (commit + push).</li>
+    </ol>
+    <div class="dlg-actions"><button class="btn btn--navy" type="button" data-close>Fechar</button></div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>

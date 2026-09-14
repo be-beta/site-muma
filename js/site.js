@@ -200,7 +200,7 @@
       const message = value === undefined ? { method } : { method, value };
       player.iframe.contentWindow?.postMessage(JSON.stringify(message), VIMEO);
     };
-    const listen = (player) => ['play', 'pause', 'ended', 'timeupdate'].forEach((ev) => send(player, 'addEventListener', ev));
+    const listen = (player) => ['play', 'pause', 'ended'].forEach((ev) => send(player, 'addEventListener', ev));
 
     const setPlaying = (player, playing) => {
       player.playing = playing;
@@ -216,6 +216,28 @@
       player.el.querySelector('.vvolume').value = muted ? 0 : player.volume;
     };
 
+    // Destaque: o vídeo cresce na página com o fundo escurecido
+    let featured = null;
+    const backdrop = document.createElement('div');
+    backdrop.className = 'video-backdrop';
+    document.body.append(backdrop);
+    const feature = (player, on) => {
+      if (on && featured && featured !== player) feature(featured, false);
+      player.el.classList.toggle('is-featured', on);
+      backdrop.classList.toggle('is-on', on);
+      document.body.classList.toggle('has-featured', on);
+      player.el.querySelector('[data-action="feature"]').setAttribute('aria-label', on ? 'Sair do destaque' : 'Destacar vídeo');
+      featured = on ? player : null;
+      if (on) {
+        send(player, 'play');
+        if (player.muted) setMuted(player, false);
+      }
+    };
+    backdrop.addEventListener('click', () => featured && feature(featured, false));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && featured) feature(featured, false);
+    });
+
     players.forEach((player) => {
       player.iframe.addEventListener('load', () => listen(player));
       listen(player);
@@ -226,10 +248,7 @@
         const action = control.dataset.action;
         if (action === 'toggle') send(player, player.playing ? 'pause' : 'play');
         if (action === 'mute') setMuted(player, !player.muted);
-        if (action === 'seek' && player.duration) {
-          const rect = control.getBoundingClientRect();
-          send(player, 'setCurrentTime', ((event.clientX - rect.left) / rect.width) * player.duration);
-        }
+        if (action === 'feature') feature(player, !player.el.classList.contains('is-featured'));
       });
 
       player.el.querySelector('.vvolume').addEventListener('input', (event) => {
@@ -265,16 +284,11 @@
           if (players.length > 1) {
             const next = players[(player.index + 1) % players.length];
             setMuted(next, player.muted);
-            send(next, 'play');
+            if (featured === player) feature(next, true);
+            else send(next, 'play');
           }
           break;
         }
-        case 'timeupdate':
-          if (data.data) {
-            player.duration = data.data.duration;
-            player.el.style.setProperty('--p', data.data.percent);
-          }
-          break;
         default:
       }
     });
@@ -376,9 +390,11 @@
       submit.disabled = true;
       status.textContent = 'Enviando…';
       try {
+        // Google Apps Script recebe texto simples (evita a checagem de CORS); FormSubmit recebe JSON
+        const google = form.dataset.endpoint.includes('script.google.com');
         const response = await fetch(form.dataset.endpoint, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          headers: google ? { 'Content-Type': 'text/plain;charset=utf-8' } : { 'Content-Type': 'application/json', Accept: 'application/json' },
           body: JSON.stringify(payload),
         });
         const result = await response.json().catch(() => ({}));

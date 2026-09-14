@@ -35,12 +35,15 @@ node tools/build.mjs
 
 Para visualizar localmente: `python -m http.server 8321` e abra http://localhost:8321.
 
-## Adicionar um projeto
+## Adicionar ou editar um projeto
 
-1. Abra `tools/admin.html` no navegador, preencha os dados, arraste capa, bastidores e galeria e clique em **Gerar pacote .zip**.
-2. Descompacte o pacote em `assets/projetos/` (vira `assets/projetos/<slug>/`).
-3. Adicione o `<slug>` na lista `projetos` de `data/site.json`, na posição desejada. Para aparecer no topo da home, inclua também em `destaques`.
-4. Rode `node tools/build.mjs`, confira localmente e faça commit + push.
+1. Abra o admin em **mumaestudio.com.br/tools/admin.html** (ou `http://localhost:8321/tools/admin.html` com o servidor local). Aberto direto do disco ele não funciona.
+2. Preencha as informações e arraste capa, card, bastidores, fotos e links do Vimeo. A prévia ao lado usa o CSS real do site, e o rascunho fica salvo no navegador.
+3. Clique em **Gerar pacote**. A revisão aponta pendências e avisos antes de baixar o `.zip`, que já traz tudo: imagens otimizadas (normal + leve) e o `projeto.json`.
+4. Na pasta do site: `node tools/importar.mjs projeto-<slug>.zip` (com `--substituir` para atualizar um projeto existente). O script valida o pacote, copia para `assets/projetos/<slug>/` e roda o build.
+5. Confira e faça commit + push.
+
+Projetos novos entram no início da grade, do mais recente ao mais antigo, sem editar nada. Para fixar uma ordem, liste os slugs em `data/site.json` → `projetos`. Para corrigir um projeto publicado, use **Abrir → Projeto publicado no site** no admin.
 
 ### Formato do `projeto.json`
 
@@ -77,7 +80,16 @@ Ficam em `data/site.json` → `servicos`: nome, descrição curta e, opcionalmen
 
 ## Formulários (orçamento e trabalhe conosco)
 
-Os popups enviam para o endereço em `data/site.json` → `formulario`, hoje o [FormSubmit](https://formsubmit.co) apontando para `oi@mumaestudio.com.br` (sem conta nem mensalidade).
+Os popups enviam para o endereço em `data/site.json` → `formulario`.
+
+**Google Apps Script (recomendado — o e-mail da Muma é Google Workspace).** O envio sai da própria conta da Muma, sem serviço de terceiros:
+
+1. Entre em [script.google.com](https://script.google.com) com a conta `oi@mumaestudio.com.br` e crie um projeto.
+2. Cole o conteúdo de `tools/formulario/google-apps-script.gs` e salve.
+3. **Implantar → Nova implantação → App da Web**, executar como **Eu**, acesso **Qualquer pessoa**. Autorize o Gmail.
+4. Copie a URL terminada em `/exec` para `formulario` em `data/site.json`, rode o build e publique.
+
+**FormSubmit (em uso até a troca)** — endereço `https://formsubmit.co/ajax/oi@mumaestudio.com.br`, sem conta:
 
 - **Ativação:** no primeiro envio, o FormSubmit manda um e-mail de confirmação para `oi@mumaestudio.com.br`. É preciso clicar em "Activate Form"; só depois disso as mensagens passam a chegar.
 - **Filtros:** os assuntos começam com `[Site Muma] Orçamento` ou `[Site Muma] Trabalhe conosco`, prontos para regras de caixa de entrada. Responder o e-mail responde direto para quem enviou.

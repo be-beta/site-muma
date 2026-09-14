@@ -1,0 +1,68 @@
+[
+  {
+    "slug": "minha-cabana-vidro",
+    "titulo": "Minha Cabana *Vidro*",
+    "cliente": "Minha Cabana",
+    "ano": "2025"
+  },
+  {
+    "slug": "banco-de-imagens",
+    "titulo": "Banco de *Imagens*",
+    "cliente": "DryOn",
+    "ano": "2025"
+  },
+  {
+    "slug": "colecao-de-pratos",
+    "titulo": "Coleção de *Pratos*",
+    "cliente": "Spoleto",
+    "ano": "2025"
+  },
+  {
+    "slug": "verao-com-mikes",
+    "titulo": "Verão com *Mike's*",
+    "cliente": "Mike's",
+    "ano": "2025"
+  },
+  {
+    "slug": "tubing-ultimate-length",
+    "titulo": "Tubing *Ultimate Length*",
+    "cliente": "CARE Natural Beauty",
+    "ano": "2025"
+  },
+  {
+    "slug": "dia-do-koni",
+    "titulo": "Dia do *Koni*",
+    "cliente": "Koni",
+    "ano": "2025"
+  },
+  {
+    "slug": "cimed-superpoderosa",
+    "titulo": "CIMED *SuperPoderosa*",
+    "cliente": "CIMED",
+    "ano": "2024"
+  },
+  {
+    "slug": "granado",
+    "titulo": "*Granado*",
+    "cliente": "Granado",
+    "ano": "2024"
+  },
+  {
+    "slug": "gendai",
+    "titulo": "*Gendai*",
+    "cliente": "Gendai",
+    "ano": "2024"
+  },
+  {
+    "slug": "care-beauty",
+    "titulo": "*Care* Beauty",
+    "cliente": "CARE Natural Beauty",
+    "ano": "2025"
+  },
+  {
+    "slug": "spoleto",
+    "titulo": "*Spoleto*",
+    "cliente": "Spoleto",
+    "ano": "2025"
+  }
+]

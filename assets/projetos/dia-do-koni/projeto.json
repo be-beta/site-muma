@@ -1,0 +1,20 @@
+{
+  "titulo": "Dia do *Koni*",
+  "cliente": "Koni",
+  "ano": "2025",
+  "categoria": "campanha · still",
+  "subtitulo": "Frescor, velocidade e uma estética pop-premium.",
+  "servicos": ["Direção criativa", "Fotografia", "Set styling", "Casting"],
+  "creditos": [
+    { "funcao": "Direção criativa", "nome": "Vicky & Alinne" },
+    { "funcao": "Fotografia", "nome": "Alinne (Estúdio Muma)" }
+  ],
+  "descricao": [
+    "O Koni, referência nacional em culinária japonesa rápida, buscou a Muma para criar a campanha de sua maior data comemorativa do ano: o *Dia do Koni*.",
+    "O desafio era duplo: transmitir o frescor e a vivacidade dos ingredientes em stills sofisticados e, ao mesmo tempo, registrar o backstage com o mesmo rigor estético.",
+    "Trabalhando com um cronograma ágil, aplicamos uma direção criativa que mesclou food design minimalista a uma iluminação precisa, em peças pop-premium vibrantes para os canais da marca."
+  ],
+  "capa": "capa.webp",
+  "bastidores": ["bts-01.webp"],
+  "midias": []
+}

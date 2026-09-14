@@ -1,0 +1,18 @@
+{
+  "titulo": "*Gendai*",
+  "cliente": "Gendai",
+  "ano": "2024",
+  "categoria": "food · still",
+  "subtitulo": "",
+  "servicos": ["Foto & vídeo", "Arte & cenografia"],
+  "creditos": [
+    { "funcao": "Direção criativa", "nome": "Alinne" },
+    { "funcao": "Fotografia", "nome": "Vicky (Estúdio Muma)" }
+  ],
+  "descricao": [
+    "Produção still gastronômica e cenografia para o Gendai, com composições coloridas que dão destaque ao frescor dos pratos e elevam a percepção visual do cardápio digital."
+  ],
+  "capa": "capa.webp",
+  "bastidores": ["bts-01.webp"],
+  "midias": []
+}

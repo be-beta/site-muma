@@ -1,0 +1,18 @@
+{
+  "titulo": "CIMED *SuperPoderosa*",
+  "cliente": "CIMED",
+  "ano": "2024",
+  "categoria": "filme · campanha",
+  "subtitulo": "",
+  "servicos": ["Direção criativa", "Produção executiva", "Edição & pós", "Casting"],
+  "creditos": [
+    { "funcao": "Direção criativa", "nome": "Vicky" },
+    { "funcao": "Fotografia", "nome": "Alinne (Estúdio Muma)" }
+  ],
+  "descricao": [
+    "Uma produção audiovisual e still de altíssimo impacto para o lançamento da linha de cosméticos SuperPoderosa da farmacêutica CIMED. Orquestramos a produção executiva de ponta a ponta, desde a cenografia dos sets até a captura de vídeos. O resultado é um filme dinâmico, com movimentos fluidos e brilho no olho."
+  ],
+  "capa": "capa.webp",
+  "bastidores": ["bts-01.webp"],
+  "midias": []
+}

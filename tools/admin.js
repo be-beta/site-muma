@@ -1,455 +1,293 @@
+// Muma — gera o pacote de um projeto (imagens otimizadas + projeto.json) para o site
 document.addEventListener('DOMContentLoaded', () => {
-  // State
-  let campaign = {
-    title: '',
-    client: '',
-    mode: 'popup',
-    desc: '',
-    year: '',
-    direction: '',
-    photo: '',
-    badge: '',
-    cover: null, // { file: Blob, type: 'image/webp'|'image/gif', ext: 'webp'|'gif', url: string, orientation: 'landscape'|'portrait' }
-    bts: null,
-    gallery: [] // Array of { id: string, type: 'image'|'vimeo', file?: Blob, ext?: string, url: string, vimeoId?: string, orientation: 'landscape'|'portrait' }
-  };
+  const MAX_SIDE = 2000; // lado maior da imagem completa
+  const SM_SIDE = 900; // versão leve usada nas grades
+  const QUALITY = 0.82;
 
-  const MAX_WIDTH = 2560;
-  const WEBP_QUALITY = 0.82;
+  const $ = (id) => document.getElementById(id);
+  const state = { capa: null, card: null, bastidores: [], galeria: [] };
 
-  // DOM Elements
-  const form = document.getElementById('campaignForm');
-  const titleInput = document.getElementById('campaignTitle');
-  const clientInput = document.getElementById('campaignClient');
-  const modeSelect = document.getElementById('campaignMode');
-  const descInput = document.getElementById('campaignDesc');
-  const yearInput = document.getElementById('campaignYear');
-  const dirInput = document.getElementById('campaignDirection');
-  const photoInput = document.getElementById('campaignPhoto');
-  const badgeInput = document.getElementById('campaignBadge');
-  const exportBtn = document.getElementById('exportBtn');
+  const form = $('campaignForm');
+  const exportBtn = $('exportBtn');
 
-  // Preview Elements
-  const prevTitle = document.getElementById('previewTitle');
-  const prevClient = document.getElementById('previewClient');
-  const prevDesc = document.getElementById('previewDesc');
-  const prevCover = document.getElementById('previewCover');
-  const prevGallery = document.getElementById('previewGallery');
+  const slugify = (text) =>
+    text
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, '')
+      .replace(/\*/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
 
-  // Helper: Slugify
-  const slugify = text => text.toString().toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/[^\w\-]+/g, '')
-    .replace(/\-\-+/g, '-')
-    .replace(/^-+/, '')
-    .replace(/-+$/, '');
+  const escapeHtml = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
+  const highlight = (s) => escapeHtml(s).replace(/\*(.+?)\*/g, '<em>$1</em>');
+  const paragraphs = (s) => s.split(/\n\s*\n/).map((p) => p.trim().replace(/\s*\n\s*/g, ' ')).filter(Boolean);
+  const uid = () => Math.random().toString(36).slice(2, 11);
 
-  // Helper: Parse Markdown
-  const parseMarkdown = text => {
-    if (!text) return '';
-    return text.replace(/\*(.*?)\*/g, '<em>$1</em>').replace(/\n/g, '<br>');
-  };
-
-  // Update Live Preview Texts
-  const updatePreview = () => {
-    campaign.title = titleInput.value;
-    campaign.client = clientInput.value;
-    campaign.mode = modeSelect.value;
-    campaign.desc = descInput.value;
-    campaign.year = yearInput.value;
-    campaign.direction = dirInput.value;
-    campaign.photo = photoInput.value;
-    campaign.badge = badgeInput.value;
-
-    prevTitle.textContent = campaign.title || 'Nome da Campanha';
-    prevClient.textContent = campaign.client || 'Cliente';
-    prevDesc.innerHTML = parseMarkdown(campaign.desc) || 'A descrição aparecerá aqui.';
-
-    checkValidity();
-  };
-
-  titleInput.addEventListener('input', updatePreview);
-  clientInput.addEventListener('input', updatePreview);
-  modeSelect.addEventListener('change', updatePreview);
-  descInput.addEventListener('input', updatePreview);
-  yearInput.addEventListener('input', updatePreview);
-  dirInput.addEventListener('input', updatePreview);
-  photoInput.addEventListener('input', updatePreview);
-  badgeInput.addEventListener('input', updatePreview);
-
-  // Validate form for Export
-  const checkValidity = () => {
-    const isValid = campaign.title.trim() !== '' && campaign.client.trim() !== '' && campaign.cover !== null;
-    exportBtn.disabled = !isValid;
-  };
-
-  // Image Processor
-  const processImage = (file) => {
-    return new Promise((resolve, reject) => {
-      const isGif = file.type === 'image/gif';
-      
-      if (isGif) {
-        if (file.size > 4 * 1024 * 1024) {
-          alert('Atenção: O GIF tem mais de 4MB. Recomenda-se otimizar antes de subir.');
-        }
-        
-        const img = new Image();
-        const objectUrl = URL.createObjectURL(file);
-        img.onload = () => {
-          const orientation = img.width > img.height ? 'landscape' : 'portrait';
-          resolve({ file: file, ext: 'gif', url: objectUrl, orientation });
-        };
-        img.onerror = reject;
-        img.src = objectUrl;
-        return;
-      }
-
-      // Convert JPG/PNG to WebP
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const img = new Image();
-        img.onload = () => {
-          let width = img.width;
-          let height = img.height;
-          const orientation = width > height ? 'landscape' : 'portrait';
-
-          if (width > MAX_WIDTH) {
-            height = Math.round((height * MAX_WIDTH) / width);
-            width = MAX_WIDTH;
-          }
-
-          const canvas = document.createElement('canvas');
-          canvas.width = width;
-          canvas.height = height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
-
-          canvas.toBlob((blob) => {
-            const objectUrl = URL.createObjectURL(blob);
-            resolve({ file: blob, ext: 'webp', url: objectUrl, orientation });
-          }, 'image/webp', WEBP_QUALITY);
-        };
-        img.onerror = reject;
-        img.src = e.target.result;
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  };
-
-  // Setup Dropzones (Cover & BTS)
-  const setupSingleDropzone = (id, stateKey, onUpdate) => {
-    const el = document.getElementById(id);
-    const previewContainer = el.querySelector('.preview-container');
-    const removeBtn = el.querySelector('.remove-btn');
-
-    const handleFile = async (file) => {
-      if (!file.type.startsWith('image/')) return;
-      
-      // UI Loading state
-      el.style.opacity = '0.5';
-      
-      try {
-        const processed = await processImage(file);
-        campaign[stateKey] = processed;
-        
-        previewContainer.innerHTML = `<img src="${processed.url}" />`;
-        el.classList.add('has-file');
-        el.style.opacity = '1';
-        
-        if (onUpdate) onUpdate(processed);
-        checkValidity();
-      } catch (err) {
-        console.error(err);
-        alert('Erro ao processar a imagem.');
-        el.style.opacity = '1';
-      }
-    };
-
-    el.addEventListener('dragover', e => { e.preventDefault(); el.classList.add('dragover'); });
-    el.addEventListener('dragleave', () => el.classList.remove('dragover'));
-    el.addEventListener('drop', e => {
-      e.preventDefault();
-      el.classList.remove('dragover');
-      if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+  // ——— Imagens: redimensiona e converte para WebP ———
+  const loadImage = (file) =>
+    new Promise((resolve, reject) => {
+      const img = new Image();
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = URL.createObjectURL(file);
     });
 
-    removeBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      campaign[stateKey] = null;
-      el.classList.remove('has-file');
-      previewContainer.innerHTML = '';
-      if (onUpdate) onUpdate(null);
-      checkValidity();
+  const toWebp = (img, maxSide) =>
+    new Promise((resolve) => {
+      const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(img.width * scale);
+      canvas.height = Math.round(img.height * scale);
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob(resolve, 'image/webp', QUALITY);
     });
 
-    // Click to upload
-    el.addEventListener('click', (e) => {
-      if (e.target === removeBtn) return;
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = 'image/*';
-      input.onchange = e => { if (e.target.files.length) handleFile(e.target.files[0]); };
-      input.click();
-    });
-  };
-
-  setupSingleDropzone('dropCapa', 'cover', (processed) => {
-    if (processed) {
-      prevCover.style.backgroundImage = `url(${processed.url})`;
-    } else {
-      prevCover.style.backgroundImage = 'none';
+  async function processImage(file) {
+    if (file.type === 'image/gif') {
+      alert('GIFs animados viram imagem estática aqui. Para movimento, suba o vídeo no Vimeo e adicione pelo botão "+ Vimeo".');
     }
-  });
+    const img = await loadImage(file);
+    const full = await toWebp(img, MAX_SIDE);
+    const sm = await toWebp(img, SM_SIDE);
+    return { full, sm, url: URL.createObjectURL(full), orientacao: img.width > img.height ? 'horizontal' : 'vertical' };
+  }
 
-  setupSingleDropzone('dropBts', 'bts');
-
-  // Setup Gallery Grid (Sortable)
-  const galleryGrid = document.getElementById('galleryGrid');
-  const dropGallery = document.getElementById('dropGallery');
-  
-  const sortable = new Sortable(galleryGrid, {
-    animation: 150,
-    ghostClass: 'sortable-ghost',
-    onEnd: () => {
-      syncGalleryOrder();
-    }
-  });
-
-  const syncGalleryOrder = () => {
-    const newGallery = [];
-    const items = galleryGrid.querySelectorAll('.gallery-item');
-    items.forEach(item => {
-      const id = item.dataset.id;
-      const found = campaign.gallery.find(g => g.id === id);
-      if (found) newGallery.push(found);
-    });
-    campaign.gallery = newGallery;
-    renderGalleryPreview();
-  };
-
-  const addGalleryItemToDOM = (item) => {
-    const div = document.createElement('div');
-    div.className = 'gallery-item';
-    div.dataset.id = item.id;
-
-    if (item.type === 'image') {
-      div.innerHTML = `
-        <img class="thumb" src="${item.url}" />
-        <div class="info">
-          <span class="type">IMAGEM (${item.ext.toUpperCase()})</span>
-          <span>Orientação: ${item.orientation === 'landscape' ? 'Horizontal' : 'Vertical'}</span>
-        </div>
-        <button type="button" class="remove-item">✕</button>
-      `;
-    } else if (item.type === 'vimeo') {
-      div.innerHTML = `
-        <img class="thumb" src="${item.url || ''}" />
-        <div class="info">
-          <span class="type">VIMEO</span>
-          <span>ID: ${item.vimeoId}</span>
-          <select class="vimeo-orientation" style="width:120px; padding:2px; font-size:11px;">
-            <option value="landscape" ${item.orientation === 'landscape' ? 'selected' : ''}>Horizontal 16:9</option>
-            <option value="portrait" ${item.orientation === 'portrait' ? 'selected' : ''}>Vertical 9:16</option>
-          </select>
-        </div>
-        <button type="button" class="remove-item">✕</button>
-      `;
-      
-      div.querySelector('.vimeo-orientation').addEventListener('change', (e) => {
-        item.orientation = e.target.value;
-        renderGalleryPreview();
-      });
-    }
-
-    div.querySelector('.remove-item').addEventListener('click', () => {
-      campaign.gallery = campaign.gallery.filter(g => g.id !== item.id);
-      div.remove();
-      renderGalleryPreview();
-    });
-
-    galleryGrid.appendChild(div);
-  };
-
-  const handleGalleryFiles = async (files) => {
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      if (!file.type.startsWith('image/')) continue;
-      
-      const processed = await processImage(file);
-      const item = {
-        id: 'img_' + Math.random().toString(36).substr(2, 9),
-        type: 'image',
-        ...processed
-      };
-      campaign.gallery.push(item);
-      addGalleryItemToDOM(item);
-    }
-    renderGalleryPreview();
-  };
-
-  dropGallery.addEventListener('dragover', e => { e.preventDefault(); dropGallery.classList.add('dragover'); });
-  dropGallery.addEventListener('dragleave', () => dropGallery.classList.remove('dragover'));
-  dropGallery.addEventListener('drop', e => {
-    e.preventDefault();
-    dropGallery.classList.remove('dragover');
-    if (e.dataTransfer.files.length) handleGalleryFiles(e.dataTransfer.files);
-  });
-  dropGallery.addEventListener('click', () => {
+  const pickFiles = (multiple, onFiles) => {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = 'image/*';
-    input.multiple = true;
-    input.onchange = e => { if (e.target.files.length) handleGalleryFiles(e.target.files); };
+    input.multiple = multiple;
+    input.onchange = () => input.files.length && onFiles(input.files);
     input.click();
-  });
+  };
 
-  // Add Vimeo Button
-  document.getElementById('addVimeoBtn').addEventListener('click', async () => {
-    let input = prompt('Cole o link do Vimeo ou o ID do vídeo:');
-    if (!input) return;
-    
-    // Extract ID
-    const match = input.match(/(?:vimeo\.com\/|^)(\d+)/);
-    const vimeoId = match ? match[1] : input.trim();
-    
-    if (!/^\d+$/.test(vimeoId)) {
-      alert('ID inválido.');
-      return;
-    }
+  // ——— Capa e card (uma imagem cada) ———
+  function setupSingle(id, key, onChange) {
+    const zone = $(id);
+    const preview = zone.querySelector('.preview-container');
+    const removeBtn = zone.querySelector('.remove-btn');
 
-    const item = {
-      id: 'vimeo_' + Math.random().toString(36).substr(2, 9),
-      type: 'vimeo',
-      vimeoId: vimeoId,
-      orientation: 'horizontal', // default
-      url: '' // will hold thumbnail
+    const handle = async (file) => {
+      if (!file.type.startsWith('image/')) return;
+      zone.style.opacity = '.5';
+      try {
+        state[key] = await processImage(file);
+        preview.innerHTML = `<img src="${state[key].url}" alt="">`;
+        zone.classList.add('has-file');
+        onChange && onChange();
+      } catch (err) {
+        console.error(err);
+        alert('Não foi possível processar a imagem.');
+      }
+      zone.style.opacity = '1';
+      refresh();
     };
 
-    // Try fetch thumbnail
+    zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('dragover'); });
+    zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+    zone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      zone.classList.remove('dragover');
+      if (e.dataTransfer.files.length) handle(e.dataTransfer.files[0]);
+    });
+    zone.addEventListener('click', (e) => {
+      if (e.target !== removeBtn) pickFiles(false, (files) => handle(files[0]));
+    });
+    removeBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      state[key] = null;
+      preview.innerHTML = '';
+      zone.classList.remove('has-file');
+      onChange && onChange();
+      refresh();
+    });
+  }
+
+  setupSingle('dropCapa', 'capa');
+  setupSingle('dropCard', 'card');
+
+  // ——— Listas: bastidores e galeria ———
+  function setupList(gridId, dropId, key) {
+    const grid = $(gridId);
+    const zone = $(dropId);
+
+    new Sortable(grid, {
+      animation: 150,
+      ghostClass: 'sortable-ghost',
+      onEnd: () => {
+        const order = [...grid.children].map((el) => el.dataset.id);
+        state[key].sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+        refresh();
+      },
+    });
+
+    const addFiles = async (files) => {
+      for (const file of files) {
+        if (!file.type.startsWith('image/')) continue;
+        const item = { id: uid(), tipo: 'imagem', ...(await processImage(file)) };
+        state[key].push(item);
+        grid.appendChild(renderItem(item, key));
+      }
+      refresh();
+    };
+
+    zone.addEventListener('dragover', (e) => { e.preventDefault(); zone.classList.add('dragover'); });
+    zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+    zone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      zone.classList.remove('dragover');
+      if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
+    });
+    zone.addEventListener('click', () => pickFiles(true, addFiles));
+
+    return grid;
+  }
+
+  function renderItem(item, key) {
+    const el = document.createElement('div');
+    el.className = 'gallery-item';
+    el.dataset.id = item.id;
+
+    if (item.tipo === 'imagem') {
+      el.innerHTML = `
+        <img class="thumb" src="${item.url}" alt="">
+        <div class="info">
+          <span class="type">IMAGEM</span>
+          <span>${item.orientacao === 'horizontal' ? 'Horizontal' : 'Vertical'}</span>
+        </div>
+        <button type="button" class="remove-item">✕</button>`;
+    } else {
+      el.innerHTML = `
+        <img class="thumb" src="${item.url || ''}" alt="">
+        <div class="info">
+          <span class="type">VIMEO · ${item.id_vimeo}</span>
+          <select class="vimeo-orientation">
+            <option value="vertical" ${item.orientacao === 'vertical' ? 'selected' : ''}>Vertical 9:16</option>
+            <option value="horizontal" ${item.orientacao === 'horizontal' ? 'selected' : ''}>Horizontal 16:9</option>
+          </select>
+          <label><input type="checkbox" class="vimeo-player" ${item.player ? 'checked' : ''}> com som e controles</label>
+        </div>
+        <button type="button" class="remove-item">✕</button>`;
+      el.querySelector('.vimeo-orientation').addEventListener('change', (e) => { item.orientacao = e.target.value; });
+      el.querySelector('.vimeo-player').addEventListener('change', (e) => { item.player = e.target.checked; });
+    }
+
+    el.querySelector('.remove-item').addEventListener('click', () => {
+      state[key] = state[key].filter((i) => i.id !== item.id);
+      el.remove();
+      refresh();
+    });
+    return el;
+  }
+
+  setupList('btsGrid', 'dropBts', 'bastidores');
+  const galleryGrid = setupList('galleryGrid', 'dropGallery', 'galeria');
+
+  $('addVimeoBtn').addEventListener('click', async () => {
+    const input = prompt('Cole o link ou o ID do vídeo no Vimeo:');
+    if (!input) return;
+    const match = input.match(/(\d{6,})/);
+    if (!match) {
+      alert('Não encontrei o ID do vídeo nesse link.');
+      return;
+    }
+    const item = { id: uid(), tipo: 'vimeo', id_vimeo: match[1], orientacao: 'vertical', player: false, url: '' };
     try {
-      const res = await fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${vimeoId}`);
+      const res = await fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${item.id_vimeo}`);
       if (res.ok) {
         const data = await res.json();
         item.url = data.thumbnail_url;
-        item.orientation = data.width > data.height ? 'landscape' : 'portrait';
+        item.orientacao = data.width > data.height ? 'horizontal' : 'vertical';
       }
-    } catch (e) { console.warn('Could not fetch vimeo thumb', e); }
-
-    campaign.gallery.push(item);
-    addGalleryItemToDOM(item);
-    renderGalleryPreview();
+    } catch (err) {
+      console.warn('Sem miniatura do Vimeo', err);
+    }
+    state.galeria.push(item);
+    galleryGrid.appendChild(renderItem(item, 'galeria'));
+    refresh();
   });
 
-  // Render Gallery Preview
-  const renderGalleryPreview = () => {
-    prevGallery.innerHTML = '';
-    campaign.gallery.forEach(item => {
-      const wrap = document.createElement('div');
-      wrap.className = 'img-wrap ' + (item.orientation === 'landscape' ? 'landscape' : 'portrait');
-      
-      if (item.type === 'image') {
-        wrap.innerHTML = `<img src="${item.url}">`;
-      } else if (item.type === 'vimeo') {
-        if (item.url) {
-          wrap.innerHTML = `<img src="${item.url}"><div class="vimeo-placeholder">VIMEO PLAY</div>`;
-        } else {
-          wrap.innerHTML = `<div class="vimeo-placeholder">VIMEO: ${item.vimeoId}</div>`;
-        }
-      }
-      prevGallery.appendChild(wrap);
-    });
-  };
+  // ——— Pré-visualização e validação ———
+  function refresh() {
+    const titulo = $('titulo').value.trim();
+    const cliente = $('cliente').value.trim();
 
-  // Export Logic
+    $('previewTitle').innerHTML = titulo ? highlight(titulo) : 'Título do projeto';
+    $('previewClient').textContent = cliente || 'Cliente';
+    const desc = paragraphs($('descricao').value);
+    $('previewDesc').innerHTML = desc.length ? desc.map(highlight).join('<br><br>') : 'A descrição aparecerá aqui.';
+    $('previewCover').style.backgroundImage = state.capa ? `url(${state.capa.url})` : 'none';
+    $('previewGallery').innerHTML = state.galeria
+      .map((item) => `<div class="img-wrap ${item.orientacao === 'horizontal' ? 'landscape' : 'portrait'}">${item.url ? `<img src="${item.url}" alt="">` : ''}${item.tipo === 'vimeo' ? '<div class="vimeo-placeholder">VIMEO</div>' : ''}</div>`)
+      .join('');
+
+    exportBtn.disabled = !(titulo && cliente && state.capa);
+  }
+
+  form.addEventListener('input', refresh);
+  form.addEventListener('change', refresh);
+
+  // ——— Exportação ———
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (exportBtn.disabled) return;
-
     exportBtn.disabled = true;
-    exportBtn.innerHTML = '<span class="loader"></span> Gerando ZIP...';
+    exportBtn.textContent = 'Gerando pacote…';
 
     try {
+      const slug = slugify($('titulo').value);
       const zip = new JSZip();
-      const slug = slugify(campaign.title);
-      
-      const config = {
-        id: slug,
-        client: campaign.client.trim(),
-        title: campaign.title.trim(),
-        description: parseMarkdown(campaign.desc),
-        displayMode: campaign.mode,
-        year: campaign.year.trim(),
-        direction: campaign.direction.trim(),
-        photo: campaign.photo.trim(),
-        badge: campaign.badge.trim(),
-        cover: '',
-        bts: '',
-        media: []
+      const folder = zip.folder(slug);
+      const addImage = (name, item) => {
+        folder.file(`${name}.webp`, item.full);
+        folder.file(`${name}-sm.webp`, item.sm);
+        return `${name}.webp`;
       };
 
-      // Helper to add blob
-      const addBlob = (blob, filename) => {
-        return new Promise(resolve => {
-          const reader = new FileReader();
-          reader.onload = () => {
-            zip.file(filename, reader.result.split(',')[1], {base64: true});
-            resolve();
-          };
-          reader.readAsDataURL(blob);
-        });
+      const projeto = {
+        titulo: $('titulo').value.trim(),
+        cliente: $('cliente').value.trim(),
+        ano: $('ano').value.trim(),
+        categoria: $('categoria').value.trim(),
+        subtitulo: $('subtitulo').value.trim(),
+        servicos: $('servicos').value.split(',').map((s) => s.trim()).filter(Boolean),
+        creditos: $('creditos').value
+          .split('\n')
+          .map((line) => line.split(':'))
+          .filter((parts) => parts.length > 1)
+          .map(([funcao, ...nome]) => ({ funcao: funcao.trim(), nome: nome.join(':').trim() })),
+        descricao: paragraphs($('descricao').value),
+        capa: addImage('capa', state.capa),
+        bastidores: state.bastidores.map((item, i) => addImage(`bts-${String(i + 1).padStart(2, '0')}`, item)),
+        midias: [],
       };
+      if (state.card) projeto.card = addImage('card', state.card);
 
-      // Add Cover
-      if (campaign.cover) {
-        config.cover = `capa-${slug}.${campaign.cover.ext}`;
-        await addBlob(campaign.cover.file, config.cover);
-      }
-
-      // Add BTS
-      if (campaign.bts) {
-        config.bts = `bts-${slug}.${campaign.bts.ext}`;
-        await addBlob(campaign.bts.file, config.bts);
-      }
-
-      // Add Gallery
-      let imgCounter = 1;
-      for (const item of campaign.gallery) {
-        if (item.type === 'image') {
-          const filename = `${slug}-${String(imgCounter).padStart(2, '0')}.${item.ext}`;
-          imgCounter++;
-          await addBlob(item.file, filename);
-          config.media.push({
-            type: 'image',
-            src: filename,
-            orientation: item.orientation
-          });
-        } else if (item.type === 'vimeo') {
-          config.media.push({
-            type: 'vimeo',
-            src: item.vimeoId,
-            orientation: item.orientation
-          });
+      let n = 1;
+      for (const item of state.galeria) {
+        if (item.tipo === 'imagem') {
+          projeto.midias.push({ tipo: 'imagem', arquivo: addImage(String(n++).padStart(2, '0'), item) });
+        } else {
+          projeto.midias.push({ tipo: 'vimeo', id: item.id_vimeo, orientacao: item.orientacao, ...(item.player ? { player: true } : {}) });
         }
       }
 
-      // Add Config JSON
-      zip.file('config.json', JSON.stringify(config, null, 2));
+      folder.file('projeto.json', `${JSON.stringify(projeto, null, 2)}\n`);
 
-      // Generate Zip and Download
-      const content = await zip.generateAsync({type:"blob"});
+      const blob = await zip.generateAsync({ type: 'blob' });
       const link = document.createElement('a');
-      link.href = URL.createObjectURL(content);
-      link.download = `campanha-${slug}.zip`;
+      link.href = URL.createObjectURL(blob);
+      link.download = `projeto-${slug}.zip`;
       link.click();
-
     } catch (err) {
       console.error(err);
-      alert('Erro ao gerar o arquivo ZIP. Veja o console.');
+      alert('Erro ao gerar o pacote. Veja o console.');
     } finally {
       exportBtn.disabled = false;
-      exportBtn.innerHTML = 'Gerar Pacote ZIP';
+      exportBtn.textContent = 'Gerar pacote .zip';
     }
   });
 
+  refresh();
 });

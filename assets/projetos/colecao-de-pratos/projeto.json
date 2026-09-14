@@ -1,0 +1,30 @@
+{
+  "titulo": "Coleção de *Pratos*",
+  "cliente": "Spoleto",
+  "ano": "2025",
+  "categoria": "campanha · filme + still",
+  "subtitulo": "Um pedacinho da Itália em Itacoatiara.",
+  "servicos": ["Cenografia", "Produção de arte", "Styling"],
+  "creditos": [],
+  "descricao": [
+    "Para a Coleção de Pratos 2025, do Spoleto, mergulhamos no imaginário do Eurosummer para trazer *um pedacinho da Itália para Itacoatiara*.",
+    "A campanha celebra a Itália através das cores, sabores e referências do Mediterrâneo. Ficamos responsáveis pela *cenografia, produção de arte e styling* do filme de lançamento da campanha + shooting, construindo os diferentes moods: da praia à mesa posta, passando pela pequena vendinha de limões sicilianos e souvenirs, um passeio de Vespa e referências da Costa Amalfitana.",
+    "Com uma mistura de objetos, louças, tecidos, flores, frutas e elementos típicos do verão europeu, construímos cada cena para que as ilustrações dos pratos ganhassem vida."
+  ],
+  "capa": "capa.webp",
+  "card": "04.webp",
+  "bastidores": ["bts-01.webp"],
+  "midias": [
+    { "tipo": "vimeo", "id": "1218049242", "orientacao": "vertical" },
+    { "tipo": "imagem", "arquivo": "01.webp" },
+    { "tipo": "imagem", "arquivo": "02.webp" },
+    { "tipo": "imagem", "arquivo": "03.webp" },
+    { "tipo": "imagem", "arquivo": "04.webp" },
+    { "tipo": "imagem", "arquivo": "05.webp" },
+    { "tipo": "imagem", "arquivo": "06.webp" },
+    { "tipo": "imagem", "arquivo": "07.webp" },
+    { "tipo": "imagem", "arquivo": "08.webp" },
+    { "tipo": "imagem", "arquivo": "09.webp" },
+    { "tipo": "imagem", "arquivo": "10.webp" }
+  ]
+}

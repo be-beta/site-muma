@@ -1,0 +1,39 @@
+{
+  "titulo": "Verão com *Mike's*",
+  "cliente": "Mike's",
+  "ano": "2025",
+  "categoria": "campanha · still + mobile",
+  "subtitulo": "Puro suco da cidade maravilhosa.",
+  "servicos": ["Produção", "Cenografia", "Beauty", "Styling", "Vídeos mobile"],
+  "creditos": [
+    { "funcao": "Agência", "nome": "Asa Onze" },
+    { "funcao": "Fotografia e pós-produção", "nome": "Asa Onze" },
+    { "funcao": "Captação mobile", "nome": "Asa Onze + Alinne Marques" },
+    { "funcao": "Produção", "nome": "Vicky Müller e Alinne Marques" },
+    { "funcao": "Assistente de produção", "nome": "Vitória Sodré e Paulo Lima" },
+    { "funcao": "Stylist", "nome": "Anna Clara Müller" },
+    { "funcao": "Beauty", "nome": "Duda Döhnert" }
+  ],
+  "descricao": [
+    "O verão carioca ficou ainda melhor com a chegada de Mike’s. Através de objetos que são puro suco da cidade maravilhosa, cenários que remetem aos momentos inesquecíveis da galera na praia e um figurino fresh & cool, traduzimos toda a vibe de uma bebida que chegou para expandir horizontes e brilhar em um dos maiores cartões-postais do Brasil.",
+    "Em parceria com a Asa Onze, ficamos responsáveis pela *produção, cenografia, beauty e styling* do ensaio, além de produzir vídeos mobile para as redes sociais da marca."
+  ],
+  "capa": "capa.webp",
+  "card": "04.webp",
+  "bastidores": ["bts-01.webp"],
+  "midias": [
+    { "tipo": "vimeo", "id": "1218063888", "orientacao": "vertical" },
+    { "tipo": "vimeo", "id": "1218063889", "orientacao": "vertical" },
+    { "tipo": "vimeo", "id": "1218063890", "orientacao": "vertical" },
+    { "tipo": "vimeo", "id": "1218063891", "orientacao": "vertical" },
+    { "tipo": "vimeo", "id": "1218063910", "orientacao": "vertical" },
+    { "tipo": "vimeo", "id": "1218063906", "orientacao": "vertical" },
+    { "tipo": "imagem", "arquivo": "01.webp" },
+    { "tipo": "imagem", "arquivo": "02.webp" },
+    { "tipo": "imagem", "arquivo": "03.webp" },
+    { "tipo": "imagem", "arquivo": "04.webp" },
+    { "tipo": "imagem", "arquivo": "05.webp" },
+    { "tipo": "imagem", "arquivo": "06.webp" },
+    { "tipo": "imagem", "arquivo": "07.webp" }
+  ]
+}

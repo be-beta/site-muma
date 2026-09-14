@@ -1,0 +1,25 @@
+{
+  "url": "https://mumaestudio.com.br",
+  "email": "oi@mumaestudio.com.br",
+  "destaques": [
+    { "projeto": "verao-com-mikes", "imagem": "05.webp" },
+    { "projeto": "dia-do-koni", "imagem": "capa.webp" },
+    { "projeto": "colecao-de-pratos", "imagem": "04.webp" },
+    { "projeto": "minha-cabana-vidro", "imagem": "05.webp" },
+    { "projeto": "banco-de-imagens", "imagem": "15.webp" },
+    { "projeto": "gendai", "imagem": "capa.webp" }
+  ],
+  "projetos": [
+    "minha-cabana-vidro",
+    "banco-de-imagens",
+    "colecao-de-pratos",
+    "verao-com-mikes",
+    "tubing-ultimate-length",
+    "dia-do-koni",
+    "cimed-superpoderosa",
+    "granado",
+    "gendai",
+    "care-beauty",
+    "spoleto"
+  ]
+}

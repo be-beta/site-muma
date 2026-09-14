@@ -1,0 +1,32 @@
+{
+  "titulo": "Minha Cabana *Vidro*",
+  "cliente": "Minha Cabana",
+  "ano": "2025",
+  "categoria": "campanha · filme + still",
+  "subtitulo": "Julia apresenta a MCV.",
+  "servicos": ["Direção criativa", "Fotografia", "Vídeo", "Edição & pós"],
+  "creditos": [
+    { "funcao": "Direção criativa", "nome": "Vicky & Alinne" },
+    { "funcao": "Fotografia", "nome": "Alinne (Estúdio Muma)" },
+    { "funcao": "Filmagem", "nome": "Gabriel Moraes" }
+  ],
+  "descricao": [
+    "A Julia Ghilardi podia ter feito só mais uma hospedagem na serra, mas ao invés disso, ela resolveu transformar a Minha Cabana Vidro em um verdadeiro case de hospitalidade. Tudo pensado nos mínimos detalhes: desde a arquitetura integrada à natureza, até cada presente pros hóspedes (e o negócio ficou CHIQUE, viu?).",
+    "Já nós, contamos *o início dessa história em 3 episódios*."
+  ],
+  "capa": "capa.webp",
+  "card": "02.webp",
+  "bastidores": ["bts-01.webp", "bts-02.webp", "bts-03.webp"],
+  "midias": [
+    { "tipo": "vimeo", "id": "1094205487", "orientacao": "vertical", "player": true },
+    { "tipo": "vimeo", "id": "1094211254", "orientacao": "vertical", "player": true },
+    { "tipo": "vimeo", "id": "1094208876", "orientacao": "vertical", "player": true },
+    { "tipo": "imagem", "arquivo": "01.webp" },
+    { "tipo": "imagem", "arquivo": "02.webp" },
+    { "tipo": "imagem", "arquivo": "03.webp" },
+    { "tipo": "imagem", "arquivo": "04.webp" },
+    { "tipo": "imagem", "arquivo": "05.webp" },
+    { "tipo": "imagem", "arquivo": "06.webp" },
+    { "tipo": "imagem", "arquivo": "07.webp" }
+  ]
+}

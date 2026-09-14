@@ -1,0 +1,18 @@
+{
+  "titulo": "*Spoleto*",
+  "cliente": "Spoleto",
+  "ano": "2025",
+  "categoria": "conteúdo · still",
+  "subtitulo": "",
+  "servicos": ["Foto & vídeo", "Arte & cenografia"],
+  "creditos": [
+    { "funcao": "Direção criativa", "nome": "Alinne" },
+    { "funcao": "Fotografia", "nome": "Vicky (Estúdio Muma)" }
+  ],
+  "descricao": [
+    "Fotografia still de conteúdo para o Spoleto, com foco no frescor de cada ingrediente e em uma luz que realça as cores e a textura dos pratos."
+  ],
+  "capa": "capa.webp",
+  "bastidores": ["bts-01.webp"],
+  "midias": []
+}

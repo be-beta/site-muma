@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+{{> head}}
+</head>
+<body>
+{{> nav}}
+<main id="conteudo">
+  <article>
+    <header class="project-head wrap">
+      <a class="back-link" href="{{root}}./#projetos"><span aria-hidden="true">←</span> todos os projetos</a>
+      <div class="project-tags">
+        <span class="tag tag--solid">{{cliente}}</span>
+        <span class="tag">{{categoria}}</span>
+        <span class="tag">{{ano}}</span>
+      </div>
+      <h1 class="project-title">{{titulo}}</h1>
+      {{subtitulo}}
+    </header>
+
+    <figure class="project-cover wrap">
+      {{capa}}
+    </figure>
+
+    <section class="project-body wrap" aria-label="Sobre o projeto">
+      <div class="project-desc" data-reveal>
+          {{descricao}}
+      </div>
+      <dl class="ficha" data-reveal>
+            {{ficha}}
+      </dl>
+    </section>
+
+    {{videoBlock}}
+
+    {{galleryBlock}}
+
+    {{btsBlock}}
+
+    <nav class="next wrap" aria-label="Próximo projeto">
+      <a class="next-link" href="{{nextUrl}}">
+        <div class="next-text">
+          <span class="eyebrow eyebrow--light">(próximo projeto)</span>
+          <span class="next-title">{{nextTitulo}}</span>
+          <span class="next-client">{{nextCliente}} <span aria-hidden="true">→</span></span>
+        </div>
+        <div class="next-media">
+          {{nextImagem}}
+        </div>
+      </a>
+    </nav>
+  </article>
+</main>
+{{> contato}}
+</body>
+</html>

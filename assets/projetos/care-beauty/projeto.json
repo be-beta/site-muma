@@ -1,0 +1,18 @@
+{
+  "titulo": "*Care* Beauty",
+  "cliente": "CARE Natural Beauty",
+  "ano": "2025",
+  "categoria": "beauty · still",
+  "subtitulo": "",
+  "servicos": ["Direção criativa", "Beauty & styling", "Casting"],
+  "creditos": [
+    { "funcao": "Direção criativa", "nome": "Vicky" },
+    { "funcao": "Fotografia", "nome": "Alinne (Estúdio Muma)" }
+  ],
+  "descricao": [
+    "Campanha digital focada no viço da pele e na leveza da maquiagem limpa da Care Beauty. Uma estética editorial de luz suave combinada com texturas dos cosméticos em estúdio, com casting plural e próximo."
+  ],
+  "capa": "capa.webp",
+  "bastidores": ["bts-01.webp"],
+  "midias": []
+}

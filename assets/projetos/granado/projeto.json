@@ -1,0 +1,18 @@
+{
+  "titulo": "*Granado*",
+  "cliente": "Granado",
+  "ano": "2024",
+  "categoria": "produto · still",
+  "subtitulo": "",
+  "servicos": ["Produção executiva", "Foto & vídeo", "Arte & cenografia"],
+  "creditos": [
+    { "funcao": "Direção criativa", "nome": "Vicky & Alinne" },
+    { "funcao": "Fotografia", "nome": "Alinne (Estúdio Muma)" }
+  ],
+  "descricao": [
+    "Still de produto para a Granado Pharmácias. A cenografia trouxe elementos botânicos e reflexos em água para representar a herança e a alta perfumaria da marca, com composições que dialogam com os frascos clássicos."
+  ],
+  "capa": "capa.webp",
+  "bastidores": ["bts-01.webp"],
+  "midias": []
+}

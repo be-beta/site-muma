@@ -10,3 +10,9 @@ desktop.ini
 # Local backups
 *.bak
 *.tmp
+
+# Arquivos originais em alta resolução (não publicados)
+_originais/
+
+# Configuração local do editor/Claude
+.claude/

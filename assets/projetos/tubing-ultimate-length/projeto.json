@@ -1,0 +1,24 @@
+{
+  "titulo": "Tubing *Ultimate Length*",
+  "cliente": "CARE Natural Beauty",
+  "ano": "2025",
+  "categoria": "produção de arte · filme + still",
+  "subtitulo": "O estúdio branco virou a rotina de uma mulher em movimento.",
+  "servicos": ["Produção de arte", "Cenografia"],
+  "creditos": [],
+  "descricao": [
+    "Para o lançamento da Máscara de Cílios Tubing Ultimate Length, da CARE Natural Beauty, criamos a *produção de arte da campanha*, transformando o estúdio branco em diferentes recortes da rotina de uma mulher em movimento.",
+    "A partir de pequenas ambientações, construímos os cenários dos vídeos e também as composições dos stills de produto, explorando objetos, texturas e detalhes que ajudam a contar essa rotina de forma leve, dinâmica e visual."
+  ],
+  "capa": "capa.webp",
+  "card": "03.webp",
+  "bastidores": ["bts-01.webp"],
+  "midias": [
+    { "tipo": "vimeo", "id": "1217765278", "orientacao": "vertical" },
+    { "tipo": "vimeo", "id": "1217769389", "orientacao": "vertical" },
+    { "tipo": "vimeo", "id": "1217766555", "orientacao": "vertical" },
+    { "tipo": "imagem", "arquivo": "01.webp" },
+    { "tipo": "imagem", "arquivo": "02.webp" },
+    { "tipo": "imagem", "arquivo": "03.webp" }
+  ]
+}

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+{{> head}}
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Muma Estúdio Criativo","url":"https://mumaestudio.com.br/","logo":"https://mumaestudio.com.br/assets/logos/logo-muma.svg","address":{"@type":"PostalAddress","addressLocality":"Rio de Janeiro","addressCountry":"BR"},"sameAs":["https://www.instagram.com/mumaestudiocriativo/","https://www.behance.net/mumaestudiocriativo","https://www.linkedin.com/company/mumaestudiocriativo","https://www.tiktok.com/@mumaestudiocriativo"]}</script>
+</head>
+<body>
+{{> nav}}
+<main id="conteudo">
+
+  <section class="hero wrap" aria-labelledby="hero-title">
+    <h1 class="sr-only" id="hero-title">Muma Estúdio Criativo — do detalhe ao todo.</h1>
+    <div class="hero-grid">
+      {{heroColumns}}
+    </div>
+  </section>
+
+  <section class="intro wrap" aria-label="O estúdio">
+    <p class="intro-text" data-reveal>
+      <span class="intro-label">(o estúdio)</span>
+      A Muma é um estúdio criativo modular, fundado por duas mulheres no Rio de Janeiro.
+      <span class="is-muted">Transformamos ideias em histórias visuais autênticas, do início ao fim de um projeto ou só onde for preciso.</span>
+    </p>
+
+    <div class="facts">
+      <div class="fact" data-reveal>
+        <h2 class="fact-title">Nossa história</h2>
+        <p>Alinne Marques e Vicky Müller fundaram a Muma em 2024 com uma vontade clara: criar diferente. Sem fórmula de bolo, com método e brilho no olho.</p>
+      </div>
+      <div class="fact" data-reveal>
+        <h2 class="fact-title">Nosso propósito</h2>
+        <p>Conectar marcas e pessoas com soluções criativas que unem conteúdo, função e estética, e entregam resultados concretos.</p>
+      </div>
+      <div class="fact" data-reveal>
+        <h2 class="fact-title">Nosso jeito</h2>
+        <p>Modular de verdade: montamos times especialistas para cada demanda e orquestramos cada peça. Criar não é caótico, é orquestrado.</p>
+      </div>
+    </div>
+
+    <div class="services" data-reveal>
+      <h2 class="fact-title">Tudo, ou só a parte que faltar.</h2>
+      <ol class="services-list">
+        <li><span>01</span>Direção criativa</li>
+        <li><span>02</span>Produção executiva</li>
+        <li><span>03</span>Foto &amp; vídeo</li>
+        <li><span>04</span>Edição &amp; pós</li>
+        <li><span>05</span>Arte &amp; cenografia</li>
+        <li><span>06</span>Beauty &amp; styling</li>
+        <li><span>07</span>Casting</li>
+        <li><span>08</span>Catering</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="statement wrap" aria-label="Tagline">
+    <div class="statement-pill">
+      <p>Do detalhe<br>ao todo.</p>
+    </div>
+  </section>
+
+  <section class="projects wrap" id="projetos" aria-labelledby="projetos-title">
+    <div class="section-head" data-reveal>
+      <div>
+        <p class="eyebrow">(projetos)</p>
+        <h2 class="section-title" id="projetos-title">Histórias visuais<br>que <em>acontecem</em>.</h2>
+      </div>
+      <p class="section-note"><span class="only-hover">Passe o mouse nas imagens:</span><span class="only-touch">Toque em “ver bastidor”:</span> o backstage também é cena.</p>
+    </div>
+    <div class="cards">
+      {{cards}}
+    </div>
+  </section>
+
+  <section class="clients wrap" aria-labelledby="clientes-title">
+    <h2 class="eyebrow" id="clientes-title">(marcas que criam com a Muma)</h2>
+    <ul class="clients-list">
+      <li><img src="{{root}}assets/images/clientes/logos/spoleto.svg" alt="Spoleto" style="--h:20px" loading="lazy"></li>
+      <li><img src="{{root}}assets/images/clientes/logos/china-in-box.png" alt="China in Box" style="--h:40px" loading="lazy"></li>
+      <li><img src="{{root}}assets/images/clientes/logos/gendai.svg" alt="Gendai" style="--h:27px" loading="lazy"></li>
+      <li><img src="{{root}}assets/images/clientes/logos/koni.png" alt="Koni" style="--h:36px" loading="lazy"></li>
+      <li><img src="{{root}}assets/images/clientes/logos/cimed.svg" alt="CIMED" style="--h:28px" loading="lazy"></li>
+      <li><img src="{{root}}assets/images/clientes/logos/granado.png" alt="Granado" style="--h:21px" loading="lazy"></li>
+      <li><img src="{{root}}assets/images/clientes/logos/dryon.png" alt="DryOn" style="--h:30px" loading="lazy"></li>
+      <li><img src="{{root}}assets/images/clientes/logos/care-beauty.png" alt="CARE Natural Beauty" style="--h:46px" loading="lazy"></li>
+      <li><img src="{{root}}assets/images/clientes/logos/globo.svg" alt="Globo" style="--h:44px" loading="lazy"></li>
+      <li><img src="{{root}}assets/images/clientes/logos/sesc.png" alt="Sesc" style="--h:40px" loading="lazy"></li>
+      <li><img src="{{root}}assets/images/clientes/logos/ambev.png" alt="Ambev" style="--h:30px" loading="lazy"></li>
+      <li><img src="{{root}}assets/images/clientes/logos/mude.png" alt="Mude" style="--h:36px" loading="lazy"></li>
+      <li><img src="{{root}}assets/images/clientes/logos/exc-rio.png" alt="Exc Rio" style="--h:30px" loading="lazy"></li>
+    </ul>
+  </section>
+
+  <section class="studio wrap" id="estudio" aria-labelledby="estudio-title">
+    <div class="studio-grid">
+      <figure class="studio-photo" data-reveal>
+        <img src="{{root}}assets/estudio/fundadoras-sm.webp" srcset="{{root}}assets/estudio/fundadoras-sm.webp 900w, {{root}}assets/estudio/fundadoras.webp 1200w" sizes="(max-width: 860px) 100vw, 45vw" width="1200" height="1800" alt="As fundadoras da Muma no estúdio" loading="lazy">
+      </figure>
+      <div class="studio-copy">
+        <p class="eyebrow">(estúdio)</p>
+        <h2 class="section-title" id="estudio-title">Viciadas<br>em <em>criar</em>.</h2>
+        <p class="studio-lead" data-reveal>Fundada e dirigida por mulheres apaixonadas por orquestrar projetos com método e brilho no olho.</p>
+        <div class="manifesto" data-reveal>
+          <p>Somos um estúdio criativo modular: entramos do início ao fim de um projeto, ou apenas onde for preciso. Trabalhamos em rede, com especialistas que vibram com o que fazem.</p>
+          <p>Nosso jeito é claro e sofisticado, mas sempre próximo. Não prometemos fórmulas mágicas: entregamos resultados consistentes, com criatividade, método e colaboração.</p>
+          <p>Acreditamos que adaptabilidade não é bagunça, é inteligência. A Muma é mais que produção: é confiança, brilho no olho e impacto real.</p>
+        </div>
+        <ul class="team">
+          <li data-reveal>
+            <img src="{{root}}assets/estudio/alinne-sm.webp" width="900" height="1350" alt="Alinne Marques" loading="lazy">
+            <p class="team-name">Alinne Marques</p>
+            <p class="team-role">Fundadora</p>
+          </li>
+          <li data-reveal>
+            <img src="{{root}}assets/estudio/vicky-sm.webp" width="900" height="1350" alt="Vicky Müller" loading="lazy">
+            <p class="team-name">Vicky Müller</p>
+            <p class="team-role">Fundadora</p>
+          </li>
+          <li data-reveal>
+            <img src="{{root}}assets/estudio/maria-eduarda-sm.webp" width="900" height="1125" alt="Maria Eduarda" loading="lazy">
+            <p class="team-name">Maria Eduarda</p>
+            <p class="team-role">Social media &amp; designer</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+{{> contato}}
+</body>
+</html>

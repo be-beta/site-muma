@@ -20,9 +20,9 @@
 <link rel="icon" type="image/svg+xml" href="assets/icons/M.svg">
 <link rel="preload" href="assets/fonts/ws-paradose.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/twk-lausanne-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="css/site.css?v=a0cf211e">
+<link rel="stylesheet" href="css/site.css?v=d2e60d51">
 <script>document.documentElement.classList.add('js')</script>
-<script src="js/site.js?v=a0cf211e" defer></script>
+<script src="js/site.js?v=d2e60d51" defer></script>
 
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"Muma Estúdio Criativo","url":"https://mumaestudio.com.br/","logo":"https://mumaestudio.com.br/assets/logos/logo-muma.svg","address":{"@type":"PostalAddress","addressLocality":"Rio de Janeiro","addressCountry":"BR"},"sameAs":["https://www.instagram.com/mumaestudiocriativo/","https://www.behance.net/mumaestudiocriativo","https://www.linkedin.com/company/mumaestudiocriativo","https://www.tiktok.com/@mumaestudiocriativo"]}</script>
 </head>
@@ -110,9 +110,10 @@
     <div class="services-grid">
       <div class="services-intro" data-reveal>
         <p class="eyebrow">(serviços)</p>
-        <h2 class="section-title" id="servicos-title">Tudo, ou só a parte <em>que faltar</em>.</h2>
+        <h2 class="section-title services-title" id="servicos-title">Tudo, ou só a parte<br><em>que faltar</em>.</h2>
         <p class="services-lead">Cada serviço funciona como uma peça independente. Você contrata o projeto completo ou só o módulo que falta no seu time, e a gente orquestra o resto.</p>
         <button class="btn btn--navy" type="button" data-modal="orcamento">Montar meu orçamento <span aria-hidden="true">↗</span></button>
+        <div class="service-preview" aria-hidden="true"><img src="assets/projetos/minha-cabana-vidro/01-sm.webp" srcset="assets/projetos/minha-cabana-vidro/01-sm.webp 900w, assets/projetos/minha-cabana-vidro/01.webp 1333w" sizes="190px" width="1333" height="2000" alt="" decoding="async" draggable="false"></div>
       </div>
       <ol class="services-list">
         <li class="service" tabindex="0" style="--i:0" data-thumb="assets/projetos/minha-cabana-vidro/01-sm.webp" data-reveal>
@@ -181,7 +182,6 @@
         </li>
       </ol>
     </div>
-    <div class="service-float" aria-hidden="true"><div class="service-float-inner"><img alt="" draggable="false"></div></div>
   </section>
 
   <section class="projects wrap" id="projetos" aria-labelledby="projetos-title">
@@ -389,28 +389,36 @@
       <div class="studio-copy">
         <p class="eyebrow">(estúdio)</p>
         <h2 class="section-title" id="estudio-title">Viciadas<br>em <em>criar</em>.</h2>
-        <p class="studio-lead" data-reveal>Fundada e dirigida por mulheres apaixonadas por orquestrar projetos com método e brilho no olho.</p>
-        <div class="manifesto" data-reveal>
-          <p>Somos um estúdio criativo modular: entramos do início ao fim de um projeto, ou apenas onde for preciso. Trabalhamos em rede, com especialistas que vibram com o que fazem.</p>
-          <p>Nosso jeito é claro e sofisticado, mas sempre próximo. Não prometemos fórmulas mágicas: entregamos resultados consistentes, com criatividade, método e colaboração.</p>
-          <p>Acreditamos que adaptabilidade não é bagunça, é inteligência. A Muma é mais que produção: é confiança, brilho no olho e impacto real.</p>
-        </div>
+        <p class="studio-lead" data-reveal>Fundada e dirigida por mulheres apaixonadas por orquestrar projetos com método e brilho no olho. Criamos em rede, com especialistas que vibram com o que fazem.</p>
+        <p class="studio-hint" data-reveal><span class="only-hover">Clique</span><span class="only-touch">Toque</span> em cada uma para conhecer.</p>
         <ul class="team">
-          <li data-reveal>
-            <div class="team-photo"><img src="assets/estudio/alinne-sm.webp" width="900" height="1350" alt="Alinne Marques" loading="lazy" draggable="false"></div>
-            <p class="team-name">Alinne Marques</p>
-            <p class="team-role">Fundadora</p>
-          </li>
-          <li data-reveal>
-            <div class="team-photo"><img src="assets/estudio/vicky-sm.webp" width="900" height="1350" alt="Vicky Müller" loading="lazy" draggable="false"></div>
-            <p class="team-name">Vicky Müller</p>
-            <p class="team-role">Fundadora</p>
-          </li>
-          <li data-reveal>
-            <div class="team-photo"><img src="assets/estudio/maria-eduarda-sm.webp" width="900" height="1125" alt="Maria Eduarda" loading="lazy" draggable="false"></div>
-            <p class="team-name">Maria Eduarda</p>
-            <p class="team-role">Social media &amp; designer</p>
-          </li>
+        <li class="member" data-reveal>
+          <button class="member-head" type="button" aria-expanded="false" aria-controls="bio-1">
+            <span class="team-photo"><img src="assets/estudio/alinne-sm.webp" srcset="assets/estudio/alinne-sm.webp 900w, assets/estudio/alinne.webp 1200w" sizes="(max-width: 560px) 84px, (max-width: 860px) 33vw, 15vw" width="1200" height="1800" alt="Alinne Marques" loading="lazy" decoding="async" draggable="false"></span>
+            <span class="member-name">Alinne Marques</span>
+            <span class="member-role">Fundadora</span>
+            <span class="member-plus" aria-hidden="true"></span>
+          </button>
+          <div class="member-bio" id="bio-1"><p>Co-fundadora da Muma. Organiza os projetos com olhar clínico, unindo <em>método e estratégia</em> para tirar ideias do papel e transformá-las em narrativas visuais autênticas.</p></div>
+        </li>
+        <li class="member" data-reveal>
+          <button class="member-head" type="button" aria-expanded="false" aria-controls="bio-2">
+            <span class="team-photo"><img src="assets/estudio/vicky-sm.webp" srcset="assets/estudio/vicky-sm.webp 900w, assets/estudio/vicky.webp 1200w" sizes="(max-width: 560px) 84px, (max-width: 860px) 33vw, 15vw" width="1200" height="1800" alt="Vicky Müller" loading="lazy" decoding="async" draggable="false"></span>
+            <span class="member-name">Vicky Müller</span>
+            <span class="member-role">Fundadora</span>
+            <span class="member-plus" aria-hidden="true"></span>
+          </button>
+          <div class="member-bio" id="bio-2"><p>Co-fundadora da Muma, apaixonada pelo brilho no olho. Cuida da <em>direção criativa e da estética</em> do estúdio, conectando marcas e pessoas de forma autoral e com acabamento impecável.</p></div>
+        </li>
+        <li class="member" data-reveal>
+          <button class="member-head" type="button" aria-expanded="false" aria-controls="bio-3">
+            <span class="team-photo"><img src="assets/estudio/maria-eduarda-sm.webp" srcset="assets/estudio/maria-eduarda-sm.webp 900w, assets/estudio/maria-eduarda.webp 1200w" sizes="(max-width: 560px) 84px, (max-width: 860px) 33vw, 15vw" width="1200" height="1500" alt="Maria Eduarda" loading="lazy" decoding="async" draggable="false"></span>
+            <span class="member-name">Maria Eduarda</span>
+            <span class="member-role">Social media &amp; designer</span>
+            <span class="member-plus" aria-hidden="true"></span>
+          </button>
+          <div class="member-bio" id="bio-3"><p>Designer e social media da Muma. Com olhar contemporâneo, conecta a <em>identidade visual</em> do estúdio e dos clientes às conversas do dia a dia.</p></div>
+        </li>
         </ul>
       </div>
     </div>
@@ -423,7 +431,7 @@
       <div>
         <p class="eyebrow">(contato)</p>
         <h2 class="contact-title">Nos conte sua <span class="nowrap"><em>ideia</em><svg class="comma" viewBox="0 0 320.23 538.51" aria-hidden="true"><path d="M315.5,203.29L283.8,0H0v283.8h173.8c0,73.34-13.7,140.23-115.61,151.47v103.24c135.51-13.76,291.32-117.03,257.3-335.23Z"/></svg></span></h2>
-        <p class="contact-lead">Toda boa história visual começa com uma boa conversa. Respondemos em até 24h úteis.</p>
+        <p class="contact-lead">Toda boa história visual começa com uma boa conversa.</p>
         <div class="contact-actions">
           <button class="btn btn--navy" type="button" data-modal="orcamento">Enviar briefing <span aria-hidden="true">↗</span></button>
           <button class="btn btn--ghost" type="button" data-copy="&#111;&#105;&#64;&#109;&#117;&#109;&#97;&#101;&#115;&#116;&#117;&#100;&#105;&#111;&#46;&#99;&#111;&#109;&#46;&#98;&#114;" aria-label="Copiar e-mail">

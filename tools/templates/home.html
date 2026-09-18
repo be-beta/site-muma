@@ -42,15 +42,15 @@
     <div class="services-grid">
       <div class="services-intro" data-reveal>
         <p class="eyebrow">(serviços)</p>
-        <h2 class="section-title" id="servicos-title">Tudo, ou só a parte <em>que faltar</em>.</h2>
+        <h2 class="section-title services-title" id="servicos-title">Tudo, ou só a parte<br><em>que faltar</em>.</h2>
         <p class="services-lead">Cada serviço funciona como uma peça independente. Você contrata o projeto completo ou só o módulo que falta no seu time, e a gente orquestra o resto.</p>
         <button class="btn btn--navy" type="button" data-modal="orcamento">Montar meu orçamento <span aria-hidden="true">↗</span></button>
+        <div class="service-preview" aria-hidden="true">{{servicoPreview}}</div>
       </div>
       <ol class="services-list">
         {{servicos}}
       </ol>
     </div>
-    <div class="service-float" aria-hidden="true"><div class="service-float-inner"><img alt="" draggable="false"></div></div>
   </section>
 
   <section class="projects wrap" id="projetos" aria-labelledby="projetos-title">
@@ -94,28 +94,10 @@
       <div class="studio-copy">
         <p class="eyebrow">(estúdio)</p>
         <h2 class="section-title" id="estudio-title">Viciadas<br>em <em>criar</em>.</h2>
-        <p class="studio-lead" data-reveal>Fundada e dirigida por mulheres apaixonadas por orquestrar projetos com método e brilho no olho.</p>
-        <div class="manifesto" data-reveal>
-          <p>Somos um estúdio criativo modular: entramos do início ao fim de um projeto, ou apenas onde for preciso. Trabalhamos em rede, com especialistas que vibram com o que fazem.</p>
-          <p>Nosso jeito é claro e sofisticado, mas sempre próximo. Não prometemos fórmulas mágicas: entregamos resultados consistentes, com criatividade, método e colaboração.</p>
-          <p>Acreditamos que adaptabilidade não é bagunça, é inteligência. A Muma é mais que produção: é confiança, brilho no olho e impacto real.</p>
-        </div>
+        <p class="studio-lead" data-reveal>Fundada e dirigida por mulheres apaixonadas por orquestrar projetos com método e brilho no olho. Criamos em rede, com especialistas que vibram com o que fazem.</p>
+        <p class="studio-hint" data-reveal><span class="only-hover">Clique</span><span class="only-touch">Toque</span> em cada uma para conhecer.</p>
         <ul class="team">
-          <li data-reveal>
-            <div class="team-photo"><img src="{{root}}assets/estudio/alinne-sm.webp" width="900" height="1350" alt="Alinne Marques" loading="lazy" draggable="false"></div>
-            <p class="team-name">Alinne Marques</p>
-            <p class="team-role">Fundadora</p>
-          </li>
-          <li data-reveal>
-            <div class="team-photo"><img src="{{root}}assets/estudio/vicky-sm.webp" width="900" height="1350" alt="Vicky Müller" loading="lazy" draggable="false"></div>
-            <p class="team-name">Vicky Müller</p>
-            <p class="team-role">Fundadora</p>
-          </li>
-          <li data-reveal>
-            <div class="team-photo"><img src="{{root}}assets/estudio/maria-eduarda-sm.webp" width="900" height="1125" alt="Maria Eduarda" loading="lazy" draggable="false"></div>
-            <p class="team-name">Maria Eduarda</p>
-            <p class="team-role">Social media &amp; designer</p>
-          </li>
+        {{equipe}}
         </ul>
       </div>
     </div>

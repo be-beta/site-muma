@@ -61,7 +61,7 @@ function lightSrc(dir, file) {
 }
 
 // Gera <img> com srcset quando existe a versão -sm.webp ao lado do arquivo
-function imageTag(dir, file, { alt = '', sizes = '100vw', cls = '', eager = false } = {}) {
+function imageTag(dir, file, { alt = '', sizes = '100vw', cls = '', eager = false, lazy = true } = {}) {
   const path = assertImage(dir, file);
   const info = webpInfo(path);
   const smFile = file.replace(/\.webp$/, '-sm.webp');
@@ -74,7 +74,7 @@ function imageTag(dir, file, { alt = '', sizes = '100vw', cls = '', eager = fals
     useSm && `sizes="${sizes}"`,
     `width="${info.w}" height="${info.h}"`,
     `alt="${esc(alt)}"`,
-    eager ? 'fetchpriority="high"' : 'loading="lazy"',
+    eager ? 'fetchpriority="high"' : lazy && 'loading="lazy"',
     'decoding="async"',
     'draggable="false"',
   ];
@@ -170,6 +170,27 @@ const servicos = site.servicos
   })
   .join('\n        ');
 
+// foto que aparece ao lado da lista de serviços (a primeira já vem carregada)
+const primeiroServico = site.servicos.find((s) => s.projeto && s.imagem);
+const servicoPreview = primeiroServico
+  ? imageTag(bySlug[primeiroServico.projeto].dir, primeiroServico.imagem, { alt: '', sizes: '190px', lazy: false })
+  : '';
+
+const equipe = (site.equipe || [])
+  .map((pessoa, i) => {
+    const id = `bio-${i + 1}`;
+    return `<li class="member" data-reveal>
+          <button class="member-head" type="button" aria-expanded="false" aria-controls="${id}">
+            <span class="team-photo">${imageTag('assets/estudio/', pessoa.imagem, { alt: esc(pessoa.nome), sizes: '(max-width: 560px) 84px, (max-width: 860px) 33vw, 15vw' })}</span>
+            <span class="member-name">${esc(pessoa.nome)}</span>
+            <span class="member-role">${esc(pessoa.cargo)}</span>
+            <span class="member-plus" aria-hidden="true"></span>
+          </button>
+          <div class="member-bio" id="${id}"><p>${inline(pessoa.bio)}</p></div>
+        </li>`;
+  })
+  .join('\n        ');
+
 const cards = projects.map((p, i) => renderCard(p, { image, wide: i === 0 })).join('\n      ');
 
 const firstHero = bySlug[site.destaques[0].projeto];
@@ -185,6 +206,8 @@ write(
     image: `${site.url}/${firstHero.dir}${site.destaques[0].imagem}`,
     heroColumns,
     servicos,
+    servicoPreview,
+    equipe,
     cards,
   }),
 );

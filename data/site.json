@@ -3,12 +3,30 @@
   "email": "oi@mumaestudio.com.br",
   "formulario": "https://script.google.com/macros/s/AKfycbzZKen3ADAac2vw6M_DezO42ssfonpElMNmUh7lCSEsd2rtY50UNQlrd8vv9BvQv-T2YQ/exec",
   "destaques": [
-    { "projeto": "verao-com-mikes", "imagem": "05.webp" },
-    { "projeto": "dia-do-koni", "imagem": "capa.webp" },
-    { "projeto": "colecao-de-pratos", "imagem": "04.webp" },
-    { "projeto": "minha-cabana-vidro", "imagem": "05.webp" },
-    { "projeto": "banco-de-imagens", "imagem": "15.webp" },
-    { "projeto": "gendai", "imagem": "capa.webp" }
+    {
+      "projeto": "verao-com-mikes",
+      "imagem": "05.webp"
+    },
+    {
+      "projeto": "dia-do-koni",
+      "imagem": "capa.webp"
+    },
+    {
+      "projeto": "colecao-de-pratos",
+      "imagem": "04.webp"
+    },
+    {
+      "projeto": "minha-cabana-vidro",
+      "imagem": "05.webp"
+    },
+    {
+      "projeto": "banco-de-imagens",
+      "imagem": "15.webp"
+    },
+    {
+      "projeto": "gendai",
+      "imagem": "capa.webp"
+    }
   ],
   "servicos": [
     {
@@ -72,5 +90,25 @@
     "gendai",
     "care-beauty",
     "spoleto"
+  ],
+  "equipe": [
+    {
+      "nome": "Alinne Marques",
+      "cargo": "Fundadora",
+      "imagem": "alinne.webp",
+      "bio": "Co-fundadora da Muma. Organiza os projetos com olhar clínico, unindo *método e estratégia* para tirar ideias do papel e transformá-las em narrativas visuais autênticas."
+    },
+    {
+      "nome": "Vicky Müller",
+      "cargo": "Fundadora",
+      "imagem": "vicky.webp",
+      "bio": "Co-fundadora da Muma, apaixonada pelo brilho no olho. Cuida da *direção criativa e da estética* do estúdio, conectando marcas e pessoas de forma autoral e com acabamento impecável."
+    },
+    {
+      "nome": "Maria Eduarda",
+      "cargo": "Social media & designer",
+      "imagem": "maria-eduarda.webp",
+      "bio": "Designer e social media da Muma. Com olhar contemporâneo, conecta a *identidade visual* do estúdio e dos clientes às conversas do dia a dia."
+    }
   ]
 }

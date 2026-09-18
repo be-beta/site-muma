@@ -5,6 +5,7 @@
 @font-face { font-family: "WS Paradose"; src: url("../assets/fonts/ws-paradose.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: "TWK Lausanne"; src: url("../assets/fonts/twk-lausanne-400.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
 @font-face { font-family: "TWK Lausanne"; src: url("../assets/fonts/twk-lausanne-500.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "TWK Lausanne"; src: url("../assets/fonts/twk-lausanne-700.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
 
 /* raio da lente de bastidor (animável) */
 @property --r { syntax: "<length>"; inherits: false; initial-value: 0px; }
@@ -61,7 +62,7 @@ em { font-style: normal; color: var(--purple); }
 /* proteção das imagens: sem arrastar, selecionar ou "salvar imagem" no toque longo */
 img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
 .tile::after, .card-media::after, .gallery-item::after, .bts-item::after,
-.project-cover::after, .studio-photo::after, .team-photo::after, .next-media::after {
+.project-cover::after, .studio-photo::after, .team-photo::after, .next-media::after, .service-preview::after {
   content: ""; position: absolute; inset: 0; z-index: 1;
 }
 
@@ -200,7 +201,7 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
 
 /* — Introdução — */
 .intro { padding-top: var(--section); }
-.intro-text { max-width: 17.5em; font: 400 clamp(30px, 4.3vw, 72px)/1.04 var(--serif); letter-spacing: -.012em; }
+.intro-text { max-width: 40ch; font: 500 clamp(23px, 2.9vw, 44px)/1.24 var(--sans); letter-spacing: -.015em; }
 .intro-label { color: var(--purple); }
 .is-muted { color: var(--muted); }
 
@@ -217,6 +218,7 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
 .services { padding-top: var(--section); }
 .services-grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: start; gap: clamp(32px, 6vw, 120px); }
 .services-intro { position: sticky; top: 110px; }
+.services-title { font-size: clamp(33px, 3.6vw, 60px); line-height: .9; letter-spacing: -.03em; }
 .services-lead { max-width: 38ch; margin-top: 24px; font-size: clamp(16px, 1.2vw, 19px); color: rgba(12, 9, 51, .8); }
 .services-intro .btn { margin-top: 32px; }
 
@@ -263,18 +265,15 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
   .service { grid-template-columns: clamp(36px, 4vw, 64px) minmax(0, 1fr); }
 }
 
-/* imagem de um projeto que acompanha o cursor */
-.service-float { position: fixed; left: 0; top: 0; z-index: 50; pointer-events: none; will-change: transform; }
-.service-float-inner {
-  width: clamp(180px, 15vw, 250px); aspect-ratio: 4 / 5; margin: -62% 0 0 32px; overflow: hidden;
+/* foto do projeto em posicao fixa na coluna da esquerda, trocada ao passar pela lista */
+.service-preview {
+  position: relative; width: clamp(130px, 12.5vw, 185px); aspect-ratio: 4 / 5;
+  margin-top: clamp(28px, 3vw, 44px); overflow: hidden;
   border-radius: var(--radius); background: var(--placeholder);
-  box-shadow: 0 24px 48px -20px rgba(12, 9, 51, .45);
-  opacity: 0; transform: scale(.7) rotate(-6deg);
-  transition: opacity .35s var(--ease), transform .6s var(--ease);
 }
-.service-float-inner img { width: 100%; height: 100%; object-fit: cover; }
-.service-float.is-on .service-float-inner { opacity: 1; transform: scale(1) rotate(var(--rot, -3deg)); }
-@media (hover: none), (max-width: 900px) { .service-float { display: none; } }
+.service-preview img { width: 100%; height: 100%; object-fit: cover; transition: opacity .3s var(--ease), transform .7s var(--ease); }
+.service-preview.is-changing img { opacity: 0; transform: scale(1.03); }
+@media (max-width: 900px) { .service-preview { display: none; } }
 
 @media (max-width: 900px) {
   .services-grid { grid-template-columns: 1fr; }
@@ -374,12 +373,37 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
 .studio-photo { position: sticky; top: 88px; overflow: hidden; border-radius: var(--radius); background: var(--placeholder); }
 .studio-photo img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; }
 .studio-lead { max-width: 26ch; margin-top: 28px; font: 400 clamp(22px, 2vw, 32px)/1.2 var(--serif); }
-.manifesto { display: grid; gap: 14px; max-width: 56ch; margin-top: 24px; font-size: clamp(16px, 1.15vw, 18px); color: rgba(12, 9, 51, .82); }
-.team { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); margin-top: clamp(40px, 5vw, 72px); }
+.studio-hint { margin-top: 20px; font-size: 14px; color: var(--muted); }
+.team { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(10px, 1.4vw, 20px); margin-top: clamp(28px, 3.5vw, 52px); }
+.member { min-width: 0; }
+.member-head { display: grid; width: 100%; padding: 0; border: 0; background: none; text-align: left; }
 .team-photo { position: relative; overflow: hidden; border-radius: calc(var(--radius) * .75); background: var(--placeholder); }
-.team-photo img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
-.team-name { margin-top: 12px; font: 400 clamp(19px, 1.6vw, 26px)/1.1 var(--serif); }
-.team-role { font-size: 14px; color: var(--muted); }
+.team-photo img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; transition: transform .8s var(--ease); }
+.member-head:hover .team-photo img { transform: scale(1.04); }
+.member-name { margin-top: 12px; font: 400 clamp(18px, 1.5vw, 24px)/1.1 var(--serif); }
+.member-role { font-size: 13.5px; color: var(--muted); }
+.member-plus { position: relative; width: 16px; height: 16px; margin-top: 8px; }
+.member-plus::before, .member-plus::after {
+  content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1.5px; margin-top: -.75px;
+  background: var(--purple); transition: transform .45s var(--ease);
+}
+.member-plus::after { transform: rotate(90deg); }
+.member.is-open .member-plus::after { transform: rotate(0deg); }
+.member.is-open .team-photo { outline: 2px solid var(--purple); outline-offset: 2px; }
+.member-bio { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .55s var(--ease); }
+.member-bio p { min-height: 0; overflow: hidden; max-width: 34ch; font-size: 14.5px; line-height: 1.5; color: rgba(12, 9, 51, .75); transition: padding .55s var(--ease); }
+.member.is-open .member-bio { grid-template-rows: 1fr; }
+.member.is-open .member-bio p { padding-top: 10px; }
+@media (max-width: 560px) {
+  .team { grid-template-columns: 1fr; gap: 6px; }
+  .member { padding-top: 10px; border-top: 1px solid var(--line); }
+  .member-head { grid-template-areas: "foto nome mais" "foto cargo mais"; grid-template-columns: 84px minmax(0, 1fr) 16px; align-items: center; column-gap: 14px; }
+  .member-head .team-photo { grid-area: foto; }
+  .member-name { grid-area: nome; margin-top: 0; }
+  .member-role { grid-area: cargo; }
+  .member-plus { grid-area: mais; margin-top: 0; }
+  .member-bio p { max-width: none; }
+}
 @media (max-width: 860px) {
   .studio-grid { grid-template-columns: 1fr; }
   .studio-photo { position: relative; top: auto; }
@@ -397,9 +421,9 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
 .contact-title em { color: var(--purple); }
 /* a vírgula não pode ficar sozinha na linha */
 .contact-title .nowrap { white-space: nowrap; }
-/* a vírgula da marca fica elevada, como no logotipo reduzido */
-.comma { display: inline-block; width: auto; height: .46em; margin-left: .06em; fill: var(--purple); vertical-align: .34em; }
-.contact-lead { max-width: 40ch; margin-top: 20px; font-size: clamp(16px, 1.2vw, 19px); opacity: .85; }
+/* a vírgula da marca apoiada na base da palavra */
+.comma { display: inline-block; width: auto; height: .34em; margin-left: .04em; fill: var(--purple); vertical-align: -.06em; }
+.contact-lead { max-width: 62ch; margin-top: 20px; font-size: clamp(16px, 1.2vw, 19px); opacity: .85; }
 .contact-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
 .contact-side { display: flex; flex-direction: column; align-items: flex-end; justify-content: flex-start; gap: 18px; text-align: right; }
 .contact-links a { display: inline-block; font: 500 clamp(20px, 1.8vw, 28px)/1.4 var(--sans); transition: color .25s; }

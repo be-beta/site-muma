@@ -49,7 +49,7 @@
   reveal();
 
   // ——— Proteção das imagens: sem menu de contexto nem arrastar ———
-  const PROTECTED = 'img, .tile, .card-media, .gallery-item, .bts-item, .project-cover, .studio-photo, .team-photo, .next-media, .video, .service-float';
+  const PROTECTED = 'img, .tile, .card-media, .gallery-item, .bts-item, .project-cover, .studio-photo, .team-photo, .next-media, .video, .service-preview';
   ['contextmenu', 'dragstart'].forEach((type) => {
     document.addEventListener(type, (event) => {
       if (event.target.closest(PROTECTED)) event.preventDefault();
@@ -77,47 +77,51 @@
     });
   });
 
-  // ——— Serviços: imagem de projeto acompanha o cursor ———
-  const float = document.querySelector('.service-float');
+  // ——— Serviços: a foto troca no painel ao lado da lista ———
+  const preview = document.querySelector('.service-preview');
   const serviceList = document.querySelector('.services-list');
-  if (float && serviceList && window.matchMedia('(hover: hover) and (min-width: 901px)').matches) {
-    const floatImg = float.querySelector('img');
+  if (preview && serviceList) {
+    const previewImg = preview.querySelector('img');
     const items = [...serviceList.querySelectorAll('.service[data-thumb]')];
-    let x = 0, y = 0, cx = 0, cy = 0, frame = 0, active = false, preloaded = false;
-
-    const move = () => {
-      cx += (x - cx) * 0.16;
-      cy += (y - cy) * 0.16;
-      float.style.transform = `translate3d(${cx.toFixed(1)}px, ${cy.toFixed(1)}px, 0)`;
-      frame = active || Math.abs(x - cx) + Math.abs(y - cy) > 0.5 ? requestAnimationFrame(move) : 0;
+    let preloaded = false;
+    let timer = 0;
+    const show = (thumb) => {
+      if (!thumb || previewImg.dataset.atual === thumb) return;
+      previewImg.dataset.atual = thumb;
+      preview.classList.add('is-changing');
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        previewImg.removeAttribute('srcset');
+        previewImg.src = thumb;
+        preview.classList.remove('is-changing');
+      }, 140);
     };
-
-    serviceList.addEventListener('pointerenter', (event) => {
-      if (!preloaded) {
-        items.forEach((item) => { new Image().src = item.dataset.thumb; });
-        preloaded = true;
-      }
-      cx = x = event.clientX;
-      cy = y = event.clientY;
-    });
-    serviceList.addEventListener('pointermove', (event) => {
-      x = event.clientX;
-      y = event.clientY;
-    });
-    items.forEach((item, i) => {
-      item.addEventListener('pointerenter', () => {
-        floatImg.src = item.dataset.thumb;
-        float.style.setProperty('--rot', `${i % 2 ? 3 : -3}deg`);
-        float.classList.add('is-on');
-        active = true;
-        if (!frame) frame = requestAnimationFrame(move);
-      });
-    });
-    serviceList.addEventListener('pointerleave', () => {
-      active = false;
-      float.classList.remove('is-on');
+    items.forEach((item) => {
+      const activate = () => {
+        if (!preloaded) {
+          items.forEach((other) => { new Image().src = other.dataset.thumb; });
+          preloaded = true;
+        }
+        show(item.dataset.thumb);
+      };
+      item.addEventListener('pointerenter', activate);
+      item.addEventListener('focus', activate);
     });
   }
+
+  // ——— Estúdio: abre a bio de cada integrante ———
+  document.querySelectorAll('.member-head').forEach((head) => {
+    head.addEventListener('click', () => {
+      const member = head.closest('.member');
+      const open = !member.classList.contains('is-open');
+      document.querySelectorAll('.member.is-open').forEach((other) => {
+        other.classList.remove('is-open');
+        other.querySelector('.member-head').setAttribute('aria-expanded', 'false');
+      });
+      member.classList.toggle('is-open', open);
+      head.setAttribute('aria-expanded', String(open));
+    });
+  });
 
   // ——— Galeria justificada: mantém as proporções e equilibra as linhas ———
   // Divide a sequência de proporções em k linhas com somas o mais parecidas possível

@@ -25,13 +25,14 @@ function doPost(e) {
     if (enviados >= LIMITE_POR_HORA) return responder({ success: false, message: 'Limite de envios atingido.' });
     cache.put('envios', String(enviados + 1), 3600);
 
-    const assunto = String(data._subject || '[Site Muma] Contato').slice(0, 180);
+    // assunto sem quebras de linha e campos com tamanho limitado
+    const assunto = String(data._subject || '[Site Muma] Contato').replace(/[\r\n]+/g, ' ').slice(0, 180);
     const responderPara = String(data._replyto || '').trim();
     const linhas = Object.keys(data)
       .filter((campo) => campo.charAt(0) !== '_')
       .map((campo) =>
         '<tr><td style="padding:8px 16px 8px 0;color:#6b6883;vertical-align:top;white-space:nowrap">' + escapar(campo) +
-        '</td><td style="padding:8px 0;color:#0c0933">' + escapar(data[campo]).replace(/\n/g, '<br>') + '</td></tr>')
+        '</td><td style="padding:8px 0;color:#0c0933">' + escapar(String(data[campo]).slice(0, 4000)).replace(/\n/g, '<br>') + '</td></tr>')
       .join('');
 
     const opcoes = {

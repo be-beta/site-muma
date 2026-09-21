@@ -170,12 +170,6 @@ const servicos = site.servicos
   })
   .join('\n        ');
 
-// foto que aparece ao lado da lista de serviços (a primeira já vem carregada)
-const primeiroServico = site.servicos.find((s) => s.projeto && s.imagem);
-const servicoPreview = primeiroServico
-  ? imageTag(bySlug[primeiroServico.projeto].dir, primeiroServico.imagem, { alt: '', sizes: '190px', lazy: false })
-  : '';
-
 const equipe = (site.equipe || [])
   .map((pessoa, i) => {
     const id = `bio-${i + 1}`;
@@ -206,7 +200,6 @@ write(
     image: `${site.url}/${firstHero.dir}${site.destaques[0].imagem}`,
     heroColumns,
     servicos,
-    servicoPreview,
     equipe,
     cards,
   }),

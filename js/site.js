@@ -49,7 +49,7 @@
   reveal();
 
   // ——— Proteção das imagens: sem menu de contexto nem arrastar ———
-  const PROTECTED = 'img, .tile, .card-media, .gallery-item, .bts-item, .project-cover, .studio-photo, .team-photo, .next-media, .video, .service-preview';
+  const PROTECTED = 'img, .tile, .card-media, .gallery-item, .bts-item, .project-cover, .studio-photo, .team-photo, .next-media, .video, .service-float';
   ['contextmenu', 'dragstart'].forEach((type) => {
     document.addEventListener(type, (event) => {
       if (event.target.closest(PROTECTED)) event.preventDefault();
@@ -77,35 +77,33 @@
     });
   });
 
-  // ——— Serviços: a foto troca no painel ao lado da lista ———
-  const preview = document.querySelector('.service-preview');
+  // ——— Serviços: a foto aparece à direita da linha, sem seguir o mouse ———
+  const float = document.querySelector('.service-float');
   const serviceList = document.querySelector('.services-list');
-  if (preview && serviceList) {
-    const previewImg = preview.querySelector('img');
+  if (float && serviceList) {
+    const floatImg = float.querySelector('img');
     const items = [...serviceList.querySelectorAll('.service[data-thumb]')];
     let preloaded = false;
-    let timer = 0;
-    const show = (thumb) => {
-      if (!thumb || previewImg.dataset.atual === thumb) return;
-      previewImg.dataset.atual = thumb;
-      preview.classList.add('is-changing');
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        previewImg.removeAttribute('srcset');
-        previewImg.src = thumb;
-        preview.classList.remove('is-changing');
-      }, 140);
-    };
-    items.forEach((item) => {
-      const activate = () => {
+    items.forEach((item, i) => {
+      const show = () => {
         if (!preloaded) {
           items.forEach((other) => { new Image().src = other.dataset.thumb; });
           preloaded = true;
         }
-        show(item.dataset.thumb);
+        if (floatImg.dataset.atual !== item.dataset.thumb) {
+          floatImg.dataset.atual = item.dataset.thumb;
+          floatImg.src = item.dataset.thumb;
+        }
+        float.style.setProperty('--y', `${item.offsetTop + item.offsetHeight / 2}px`);
+        float.style.setProperty('--rot', `${i % 2 ? 3.5 : -3.5}deg`);
+        float.classList.add('is-on');
       };
-      item.addEventListener('pointerenter', activate);
-      item.addEventListener('focus', activate);
+      item.addEventListener('pointerenter', show);
+      item.addEventListener('focus', show);
+    });
+    serviceList.addEventListener('pointerleave', () => float.classList.remove('is-on'));
+    serviceList.addEventListener('focusout', (event) => {
+      if (!serviceList.contains(event.relatedTarget)) float.classList.remove('is-on');
     });
   }
 

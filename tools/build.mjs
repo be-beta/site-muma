@@ -141,7 +141,7 @@ const common = {
 };
 
 // ——— Home ———
-const heroSizes = '(max-width: 760px) 50vw, 33vw';
+const heroSizes = '(max-width: 760px) 74vw, 33vw';
 const heroTiles = site.destaques.map((d, i) => {
   const p = bySlug[d.projeto];
   if (!p) throw new Error(`data/site.json: destaque aponta para projeto inexistente "${d.projeto}"`);

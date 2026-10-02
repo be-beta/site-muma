@@ -129,8 +129,8 @@ img { -webkit-user-drag: none; user-select: none; -webkit-user-select: none; -we
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .nav-pill { background: rgba(237, 236, 234, .95); }
 }
-.nav-logo { display: flex; align-items: center; height: 40px; padding: 0 14px 0 12px; color: var(--navy); }
-.nav-logo svg { width: 92px; height: 19px; fill: currentColor; overflow: visible; }
+.nav-logo { display: flex; flex: none; align-items: center; height: 40px; padding: 0 14px 0 12px; color: var(--navy); }
+.nav-logo svg { flex: none; width: 92px; min-width: 92px; max-width: none; height: 19px; fill: currentColor; overflow: visible; }
 /* logotipo com variações: cada letra alterna com a versão alternativa */
 .nav-logo .lp { transform-box: fill-box; transform-origin: center; }
 .nav-logo path { transition: opacity .3s var(--ease); }

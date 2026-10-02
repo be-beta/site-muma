@@ -25,8 +25,12 @@ export const paragraphs = (text = '') =>
 
 // ——— Templates ———
 export function fillTemplate(html, vars, partial = () => '') {
-  const filled = html
-    .replace(/\{\{>\s*([\w-]+)\s*\}\}/g, (_, name) => partial(name))
+  // partials podem incluir outros partials (até 4 níveis)
+  let expanded = html;
+  for (let depth = 0; depth < 4 && /\{\{>/.test(expanded); depth++) {
+    expanded = expanded.replace(/\{\{>\s*([\w-]+)\s*\}\}/g, (_, name) => partial(name));
+  }
+  const filled = expanded
     .replace(/\{\{\s*(\w+)\s*\}\}/g, (match, key) => {
       if (key === 'root') return match;
       if (!(key in vars)) throw new Error(`Variável "${key}" ausente no template`);

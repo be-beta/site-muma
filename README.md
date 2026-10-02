@@ -89,6 +89,8 @@ Os popups enviam para o endereço em `data/site.json` → `formulario`.
 3. **Implantar → Nova implantação → App da Web**, executar como **Eu**, acesso **Qualquer pessoa**. Autorize o Gmail.
 4. Copie a URL terminada em `/exec` para `formulario` em `data/site.json`, rode o build e publique.
 
+**Anexos (clipe):** os dois formulários aceitam até 3 arquivos, 8 MB no total (PDF, Word, PowerPoint, Keynote, Pages, Excel, CSV, TXT, MD, RTF, ODT, JPG, PNG, WebP). Eles seguem em base64 dentro do envio e o script os anexa ao e-mail; a lista de formatos e o limite existem no site (`js/site.js`) **e** no script (`EXTENSOES`, `MAX_BYTES`), e o script revalida tudo. Sempre que o `.gs` mudar, é preciso **Implantar → Gerenciar implantações → editar (lápis) → Versão: Nova versão → Implantar**; a URL `/exec` continua a mesma. Se o script publicado for antigo, o site avisa quem enviou que os arquivos não chegaram.
+
 **FormSubmit (em uso até a troca)** — endereço `https://formsubmit.co/ajax/oi@mumaestudio.com.br`, sem conta:
 
 - **Ativação:** no primeiro envio, o FormSubmit manda um e-mail de confirmação para `oi@mumaestudio.com.br`. É preciso clicar em "Activate Form"; só depois disso as mensagens passam a chegar.

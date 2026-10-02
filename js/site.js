@@ -78,6 +78,7 @@
   });
 
   // ——— Serviços: a foto aparece à direita da linha, sem seguir o mouse ———
+  const canHover = window.matchMedia('(hover: hover)').matches;
   const float = document.querySelector('.service-float');
   const serviceList = document.querySelector('.services-list');
   if (float && serviceList) {
@@ -86,6 +87,7 @@
     let preloaded = false;
     items.forEach((item, i) => {
       const show = () => {
+        if (!canHover) return; // no toque a foto não aparece: nada de baixar as miniaturas
         if (!preloaded) {
           items.forEach((other) => { new Image().src = other.dataset.thumb; });
           preloaded = true;
@@ -104,6 +106,29 @@
     serviceList.addEventListener('pointerleave', () => float.classList.remove('is-on'));
     serviceList.addEventListener('focusout', (event) => {
       if (!serviceList.contains(event.relatedTarget)) float.classList.remove('is-on');
+    });
+  }
+
+  // ——— Serviços no toque: sanfona (um aberto por vez) ———
+  if (!canHover && serviceList) {
+    const services = [...serviceList.querySelectorAll('.service')];
+    services.forEach((item) => {
+      item.setAttribute('role', 'button');
+      item.setAttribute('aria-expanded', 'false');
+      const toggle = () => {
+        const open = !item.classList.contains('is-open');
+        services.forEach((other) => {
+          other.classList.toggle('is-open', other === item && open);
+          other.setAttribute('aria-expanded', String(other === item && open));
+        });
+      };
+      item.addEventListener('click', toggle);
+      item.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          toggle();
+        }
+      });
     });
   }
 
@@ -308,6 +333,8 @@
     status.textContent = '';
     status.classList.remove('is-error');
     dialog.querySelector('.modal-done').hidden = true;
+    const note = dialog.querySelector('.done-note');
+    if (note) note.hidden = true;
     dialog.dataset.openedAt = String(Date.now());
     dialog.showModal();
     return true;
@@ -346,10 +373,88 @@
       status.textContent = message;
       status.classList.add('is-error');
     };
-    const finish = () => {
+    const finish = (note) => {
       form.hidden = true;
-      dialog.querySelector('.modal-done').hidden = false;
+      const done = dialog.querySelector('.modal-done');
+      const noteEl = done.querySelector('.done-note');
+      if (noteEl) {
+        noteEl.textContent = note || '';
+        noteEl.hidden = !note;
+      }
+      done.hidden = false;
     };
+
+    // — Anexos (clipe): lista, limites e leitura em base64 —
+    const MAX_FILES = 3;
+    const MAX_BYTES = 8 * 1024 * 1024;
+    const EXTENSIONS = ['pdf', 'doc', 'docx', 'ppt', 'pptx', 'key', 'pages', 'xls', 'xlsx', 'csv', 'txt', 'md', 'rtf', 'odt', 'jpg', 'jpeg', 'png', 'webp'];
+    const attachBox = form.querySelector('[data-attach]');
+    const attachList = attachBox?.querySelector('.attach-list');
+    let files = [];
+    const sizeLabel = (n) => (n >= 1048576 ? `${(n / 1048576).toFixed(1).replace('.', ',')} MB` : `${Math.max(1, Math.round(n / 1024))} KB`);
+    const renderFiles = () => {
+      if (!attachList) return;
+      attachList.replaceChildren(...files.map((file, index) => {
+        const item = document.createElement('li');
+        const name = document.createElement('span');
+        name.className = 'attach-name';
+        name.textContent = file.name;
+        const size = document.createElement('span');
+        size.className = 'attach-size';
+        size.textContent = sizeLabel(file.size);
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className = 'attach-remove';
+        remove.setAttribute('aria-label', `Remover ${file.name}`);
+        remove.textContent = '✕';
+        remove.addEventListener('click', () => {
+          files.splice(index, 1);
+          renderFiles();
+        });
+        item.append(name, size, remove);
+        return item;
+      }));
+    };
+    const addFiles = (incoming) => {
+      status.classList.remove('is-error');
+      status.textContent = '';
+      for (const file of incoming) {
+        const ext = file.name.includes('.') ? file.name.split('.').pop().toLowerCase() : '';
+        if (!EXTENSIONS.includes(ext)) return fail(`"${file.name}" não é um formato aceito. Use PDF, Word, PowerPoint, MD, TXT ou imagem.`);
+        if (files.some((f) => f.name === file.name && f.size === file.size)) continue;
+        if (files.length >= MAX_FILES) return fail(`Você pode anexar até ${MAX_FILES} arquivos.`);
+        if (files.reduce((sum, f) => sum + f.size, file.size) > MAX_BYTES) return fail('Os anexos passam de 8 MB. Envie links (Drive, WeTransfer) para arquivos maiores.');
+        files.push(file);
+      }
+      renderFiles();
+    };
+    const toBase64 = (file) => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result).split(',')[1] || '');
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+    if (attachBox) {
+      const input = attachBox.querySelector('input[type="file"]');
+      const drop = attachBox.querySelector('.attach-drop');
+      input.addEventListener('change', () => {
+        addFiles([...input.files]);
+        input.value = '';
+      });
+      ['dragenter', 'dragover'].forEach((type) => drop.addEventListener(type, (event) => {
+        event.preventDefault();
+        drop.classList.add('is-over');
+      }));
+      ['dragleave', 'drop'].forEach((type) => drop.addEventListener(type, () => drop.classList.remove('is-over')));
+      drop.addEventListener('drop', (event) => {
+        event.preventDefault();
+        addFiles([...event.dataTransfer.files]);
+      });
+      form.addEventListener('reset', () => {
+        files = [];
+        renderFiles();
+      });
+    }
 
     form.addEventListener('input', (event) => event.target.closest('.field')?.classList.remove('is-invalid'));
 
@@ -360,7 +465,7 @@
       let firstInvalid = null;
       form.querySelectorAll('[required]').forEach((el) => {
         const value = el.value.trim();
-        const valid = el.type === 'email' ? EMAIL_RE.test(value) : value !== '';
+        const valid = el.type === 'email' ? EMAIL_RE.test(value) : value !== '' || (el.dataset.ouAnexo !== undefined && files.length > 0);
         el.closest('.field').classList.toggle('is-invalid', !valid);
         if (!valid && !firstInvalid) firstInvalid = el;
       });
@@ -390,10 +495,13 @@
       payload._captcha = 'false';
 
       submit.disabled = true;
-      status.textContent = 'Enviando…';
+      status.textContent = files.length ? 'Enviando arquivos…' : 'Enviando…';
       try {
         // Google Apps Script recebe texto simples (evita a checagem de CORS); FormSubmit recebe JSON
         const google = form.dataset.endpoint.includes('script.google.com');
+        if (google && files.length) {
+          payload._anexos = await Promise.all(files.map(async (file) => ({ nome: file.name, tipo: file.type || 'application/octet-stream', dados: await toBase64(file) })));
+        }
         const response = await fetch(form.dataset.endpoint, {
           method: 'POST',
           headers: google ? { 'Content-Type': 'text/plain;charset=utf-8' } : { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -403,7 +511,9 @@
         if (!response.ok || String(result.success) !== 'true') throw new Error(result.message || response.status);
         sends.push(Date.now());
         try { localStorage.setItem(SENT_KEY, JSON.stringify(sends)); } catch { /* sem armazenamento */ }
-        finish();
+        const email = document.querySelector('[data-copy]')?.dataset.copy || '';
+        // se o script do Google ainda não aceita anexos, avisa em vez de fingir que chegaram
+        finish(files.length && Number(result.anexos) !== files.length ? `Os arquivos não chegaram junto. Envie para ${email}.` : '');
       } catch (error) {
         console.error('Falha no envio do formulário', error);
         const email = document.querySelector('[data-copy]')?.dataset.copy || '';

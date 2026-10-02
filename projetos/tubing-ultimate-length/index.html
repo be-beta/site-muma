@@ -20,9 +20,9 @@
 <link rel="icon" type="image/svg+xml" href="../../assets/icons/M.svg">
 <link rel="preload" href="../../assets/fonts/ws-paradose.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="../../assets/fonts/twk-lausanne-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="../../css/site.css?v=e15d9df2">
+<link rel="stylesheet" href="../../css/site.css?v=3e2b8dc8">
 <script>document.documentElement.classList.add('js')</script>
-<script src="../../js/site.js?v=e15d9df2" defer></script>
+<script src="../../js/site.js?v=3e2b8dc8" defer></script>
 
 </head>
 <body>
@@ -202,7 +202,7 @@
     <form class="modal-form" data-form data-endpoint="&#104;&#116;&#116;&#112;&#115;&#58;&#47;&#47;&#115;&#99;&#114;&#105;&#112;&#116;&#46;&#103;&#111;&#111;&#103;&#108;&#101;&#46;&#99;&#111;&#109;&#47;&#109;&#97;&#99;&#114;&#111;&#115;&#47;&#115;&#47;&#65;&#75;&#102;&#121;&#99;&#98;&#122;&#90;&#75;&#101;&#110;&#51;&#65;&#68;&#65;&#97;&#99;&#50;&#118;&#119;&#54;&#77;&#95;&#68;&#101;&#122;&#79;&#52;&#50;&#115;&#115;&#102;&#111;&#110;&#112;&#69;&#108;&#77;&#78;&#109;&#85;&#104;&#55;&#108;&#67;&#83;&#69;&#115;&#100;&#50;&#114;&#116;&#89;&#53;&#48;&#85;&#78;&#81;&#108;&#114;&#100;&#56;&#118;&#118;&#57;&#66;&#118;&#81;&#118;&#45;&#84;&#50;&#89;&#81;&#47;&#101;&#120;&#101;&#99;" data-subject="[Site Muma] Orçamento · {tipo} · {nome}" novalidate>
       <p class="eyebrow">(orçamento)</p>
       <h2 class="modal-title" id="orcamento-title">Nos conte sua <em>ideia</em>.</h2>
-      <p class="modal-lead">Quanto mais detalhes, melhor. Respondemos em até 24h úteis.</p>
+      <p class="modal-lead">Quanto mais detalhes, melhor.</p>
       <div class="fields">
         <label class="field"><span>Nome *</span><input name="nome" required autocomplete="name" data-label="Nome"></label>
         <label class="field"><span>E-mail *</span><input type="email" name="email" required autocomplete="email" data-label="E-mail"></label>
@@ -231,8 +231,18 @@
           <label class="chip"><input type="checkbox" name="servicos" value="Casting" data-label="Serviços de interesse"><span>Casting</span></label>
           <label class="chip"><input type="checkbox" name="servicos" value="Catering" data-label="Serviços de interesse"><span>Catering</span></label>
         </fieldset>
-        <label class="field field--full"><span>Prazo ou data prevista</span><input name="prazo" placeholder="Ex: gravação na primeira semana de março" data-label="Prazo"></label>
+        <label class="field field--full"><span>Prazo ou data prevista</span><input name="prazo" placeholder="Ex: gravação em março" data-label="Prazo"></label>
         <label class="field field--full"><span>Conte sobre o projeto *</span><textarea name="mensagem" rows="4" required data-label="Mensagem"></textarea></label>
+        <div class="field field--full attach" data-attach>
+          <span class="attach-label">Referências ou briefing (opcional)</span>
+          <label class="attach-drop">
+            <input class="attach-input" type="file" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.key,.pages,.xls,.xlsx,.csv,.txt,.md,.rtf,.odt,.jpg,.jpeg,.png,.webp" data-anexo>
+            <svg class="clip" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.4 11.6 12.2 20.8a5.5 5.5 0 0 1-7.8-7.8l9.2-9.2a3.7 3.7 0 0 1 5.2 5.2l-9.2 9.2a1.8 1.8 0 0 1-2.6-2.6l8.5-8.5"/></svg>
+            <span class="attach-text"><strong>Anexar arquivos</strong><small>PDF, Word, PowerPoint, MD, TXT ou imagem · até 3 arquivos, 8 MB no total</small></span>
+          </label>
+          <ul class="attach-list" aria-live="polite"></ul>
+        </div>
+
       </div>
       <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="modal-actions">
@@ -243,7 +253,8 @@
     <div class="modal-done" hidden>
       <span class="done-icon" aria-hidden="true">✓</span>
       <h2 class="modal-title">Briefing <em>recebido</em>.</h2>
-      <p class="modal-lead">Obrigada por contar sua ideia. Retornamos em até 24h úteis.</p>
+      <p class="modal-lead">Obrigada por contar sua ideia. Em breve retornamos.</p>
+      <p class="done-note" hidden></p>
       <button class="btn btn--navy" type="button" data-close>Fechar</button>
     </div>
   </div>
@@ -275,8 +286,18 @@
           </select>
         </label>
         <label class="field"><span>Cidade</span><input name="cidade" autocomplete="address-level2" data-label="Cidade"></label>
-        <label class="field field--full"><span>Portfólio ou perfil *</span><input name="portfolio" required inputmode="url" placeholder="Link do site, Behance, Instagram, Drive…" data-label="Portfólio"></label>
+        <label class="field field--full"><span>Portfólio ou perfil *</span><input name="portfolio" required data-ou-anexo inputmode="url" placeholder="Link do site, Behance, Instagram, Drive… (ou anexe abaixo)" data-label="Portfólio"></label>
         <label class="field field--full"><span>Conte um pouco sobre você</span><textarea name="mensagem" rows="4" data-label="Mensagem"></textarea></label>
+        <div class="field field--full attach" data-attach>
+          <span class="attach-label">Currículo ou portfólio em arquivo (opcional)</span>
+          <label class="attach-drop">
+            <input class="attach-input" type="file" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.key,.pages,.xls,.xlsx,.csv,.txt,.md,.rtf,.odt,.jpg,.jpeg,.png,.webp" data-anexo>
+            <svg class="clip" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.4 11.6 12.2 20.8a5.5 5.5 0 0 1-7.8-7.8l9.2-9.2a3.7 3.7 0 0 1 5.2 5.2l-9.2 9.2a1.8 1.8 0 0 1-2.6-2.6l8.5-8.5"/></svg>
+            <span class="attach-text"><strong>Anexar arquivos</strong><small>PDF, Word, PowerPoint, MD, TXT ou imagem · até 3 arquivos, 8 MB no total</small></span>
+          </label>
+          <ul class="attach-list" aria-live="polite"></ul>
+        </div>
+
       </div>
       <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="modal-actions">
@@ -288,6 +309,7 @@
       <span class="done-icon" aria-hidden="true">✓</span>
       <h2 class="modal-title">Recebemos o seu <em>portfólio</em>.</h2>
       <p class="modal-lead">Obrigada pelo interesse! Ele fica no nosso radar para os próximos projetos.</p>
+      <p class="done-note" hidden></p>
       <button class="btn btn--navy" type="button" data-close>Fechar</button>
     </div>
   </div>

@@ -4,7 +4,7 @@
     <form class="modal-form" data-form data-endpoint="{{formEndpoint}}" data-subject="[Site Muma] Orçamento · {tipo} · {nome}" novalidate>
       <p class="eyebrow">(orçamento)</p>
       <h2 class="modal-title" id="orcamento-title">Nos conte sua <em>ideia</em>.</h2>
-      <p class="modal-lead">Quanto mais detalhes, melhor. Respondemos em até 24h úteis.</p>
+      <p class="modal-lead">Quanto mais detalhes, melhor.</p>
       <div class="fields">
         <label class="field"><span>Nome *</span><input name="nome" required autocomplete="name" data-label="Nome"></label>
         <label class="field"><span>E-mail *</span><input type="email" name="email" required autocomplete="email" data-label="E-mail"></label>
@@ -26,8 +26,9 @@
           <legend>Do que você precisa?</legend>
           {{servicosChips}}
         </fieldset>
-        <label class="field field--full"><span>Prazo ou data prevista</span><input name="prazo" placeholder="Ex: gravação na primeira semana de março" data-label="Prazo"></label>
+        <label class="field field--full"><span>Prazo ou data prevista</span><input name="prazo" placeholder="Ex: gravação em março" data-label="Prazo"></label>
         <label class="field field--full"><span>Conte sobre o projeto *</span><textarea name="mensagem" rows="4" required data-label="Mensagem"></textarea></label>
+        {{> anexo_orcamento}}
       </div>
       <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="modal-actions">
@@ -38,7 +39,8 @@
     <div class="modal-done" hidden>
       <span class="done-icon" aria-hidden="true">✓</span>
       <h2 class="modal-title">Briefing <em>recebido</em>.</h2>
-      <p class="modal-lead">Obrigada por contar sua ideia. Retornamos em até 24h úteis.</p>
+      <p class="modal-lead">Obrigada por contar sua ideia. Em breve retornamos.</p>
+      <p class="done-note" hidden></p>
       <button class="btn btn--navy" type="button" data-close>Fechar</button>
     </div>
   </div>
@@ -70,8 +72,9 @@
           </select>
         </label>
         <label class="field"><span>Cidade</span><input name="cidade" autocomplete="address-level2" data-label="Cidade"></label>
-        <label class="field field--full"><span>Portfólio ou perfil *</span><input name="portfolio" required inputmode="url" placeholder="Link do site, Behance, Instagram, Drive…" data-label="Portfólio"></label>
+        <label class="field field--full"><span>Portfólio ou perfil *</span><input name="portfolio" required data-ou-anexo inputmode="url" placeholder="Link do site, Behance, Instagram, Drive… (ou anexe abaixo)" data-label="Portfólio"></label>
         <label class="field field--full"><span>Conte um pouco sobre você</span><textarea name="mensagem" rows="4" data-label="Mensagem"></textarea></label>
+        {{> anexo_trabalhe}}
       </div>
       <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
       <div class="modal-actions">
@@ -83,6 +86,7 @@
       <span class="done-icon" aria-hidden="true">✓</span>
       <h2 class="modal-title">Recebemos o seu <em>portfólio</em>.</h2>
       <p class="modal-lead">Obrigada pelo interesse! Ele fica no nosso radar para os próximos projetos.</p>
+      <p class="done-note" hidden></p>
       <button class="btn btn--navy" type="button" data-close>Fechar</button>
     </div>
   </div>
